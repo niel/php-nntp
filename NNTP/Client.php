@@ -269,14 +269,14 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     	switch ($_ret) {
     	    case -1:
     	    	return array('Number' => (int) $response[0], 'Message-ID' =>  (string) $response[1]);
-    	    	break;
-    	    case 0:
+    	    
+			case 0:
     	        return (int) $response[0];
-    	    	break;
-    	    case 1:
+
+			case 1:
     	        return (string) $response[1];
-    	    	break;
-    	    default:
+    	    
+			default:
 				throw new \InvalidArgumentException('ERROR');
 	}
     }
@@ -308,13 +308,11 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     	    case -1:
     	    	return array('Number' => (int) $response[0], 'Message-ID' =>  (string) $response[1]);
     	    	break;
-    	    case 0:
     	        return (int) $response[0];
-    	    	break;
     	    case 1:
     	        return (string) $response[1];
-    	    	break;
-    	    default:
+    	    
+			default:
 				throw new \InvalidArgumentException('ERROR');
 	}
     }
@@ -345,14 +343,14 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     	switch ($_ret) {
     	    case -1:
     	    	return array('Number' => (int) $response[0], 'Message-ID' =>  (string) $response[1]);
-    	    	break;
-    	    case 0:
+    	    
+			case 0:
     	        return (int) $response[0];
-    	    	break;
-    	    case 1:
+    	    
+			case 1:
     	        return (string) $response[1];
-    	    	break;
-    	    default:
+    	    
+			default:
 				throw new \InvalidArgumentException('ERROR');
 	}
     }
@@ -563,16 +561,16 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     	switch ($format) {
     	    case 0:
     	        return $date;
-    	        break;
-    	    case 1:
-    		return strtotime(substr($date, 0, 8).' '.substr($date, 8, 2).':'.substr($date, 10, 2).':'.substr($date, 12, 2));
-    	        break;
-    	    case 2:
+    	    
+			case 1:
+    			return strtotime(substr($date, 0, 8).' '.substr($date, 8, 2).':'.substr($date, 10, 2).':'.substr($date, 12, 2));
+    	    
+			case 2:
     	        return array('y' => substr($date, 0, 4),
     	                     'm' => substr($date, 4, 2),
     	                     'd' => substr($date, 6, 2));
-    	        break;
-    	    default:
+    	    
+			default:
 				throw new \InvalidArgumentException('ERROR');
     	}
     }
@@ -598,14 +596,17 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     public function getNewGroups($time, $distributions = null)
     {
     	switch (true) {
+				
     	    case is_integer($time):
     	    	break;
+				
     	    case is_string($time):
     	    	$time = strtotime($time);
     	    	if ($time === false) {
     	    	    throw new \InvalidArgumentException('$time could not be converted into a timestamp!', null);
     	    	}
     	    	break;
+				
     	    default:
     	    	throw new \InvalidArgumentException('$time must be either a string or an integer/timestamp!', null);
     	}
@@ -635,15 +636,18 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     public function getNewArticles($time, $groups = '*', $distribution = null)
     {
     	switch (true) {
+				
     	    case is_integer($time):
     	    	break;
+				
     	    case is_string($time):
     	    	$time = strtotime($time);
 				if ($time === false) {
 
-		}
     	    	    throw new \InvalidArgumentException('$time could not be converted into a timestamp!', null);
+				}
     	    	break;
+				
     	    default:
     	    	throw new \InvalidArgumentException('$time must be either a string or an integer/timestamp!', null);
     	}
@@ -685,7 +689,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     	    	    throw $e;
     	    }
     	}
-
+		
     	// 
     	if ($backup == true) {
 
@@ -1163,4 +1167,3 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
         return parent::isConnected();
     }
 }
-
