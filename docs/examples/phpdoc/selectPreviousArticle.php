@@ -1,10 +1,8 @@
-$article = $nntp->selectPreviousArticle();
-if (PEAR::isError($article)) {
-    // handle error
-}
+try {
+	$article = $nntp->selectPreviousArticle();
 
-if ($article === false) {
-    // article does not exist
-} else {
     // success
+
+} catch (\Exception $e) {
+    // handle error
 }

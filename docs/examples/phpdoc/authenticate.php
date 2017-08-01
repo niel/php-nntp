@@ -1,10 +1,8 @@
-$authenticated = $nntp->authenticate('somebody', 'secret');
-if (PEAR::isError($authenticated)) {
-    // handle error
-}
+try {
+	$nntp->authenticate('somebody', 'secret');
 
-if ($authenticated) {
     // success
-} else {
-    // failure
+
+} catch (\Exception $e) {
+    // handle error
 }

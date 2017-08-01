@@ -1,15 +1,8 @@
-$groupsummary = $nntp->selectGroup('php.pear.general');
-if (PEAR::isError($groupsummary)) {
-    // handle error
-}
+try {
+	$article = $nntp->selectArticle(5);
 
-$article = $nntp->selectArticle(5);
-if (PEAR::isError($article)) {
-    // handle error
-}
+	// success
 
-if ($article === false) {
-    // article does not exist
-} else {
-    // success
+} catch (\Exception $e) {
+    // handle error
 }
