@@ -440,4 +440,3 @@ if ($format == 'html') {
     include 'footer.inc.php';
 }
 
-?>

@@ -2210,4 +2210,3 @@ class Net_NNTP_Protocol_Client extends PEAR
 
 // }}}
 
-?>

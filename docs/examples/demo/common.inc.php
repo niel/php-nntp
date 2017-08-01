@@ -374,4 +374,3 @@ function query($query = null)
     return $full;
 }
 
-?>

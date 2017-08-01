@@ -401,4 +401,3 @@ outputBody();
  */
 include 'footer.inc.php';
 
-?>

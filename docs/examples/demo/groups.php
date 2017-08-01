@@ -188,4 +188,3 @@ groups();
  */
 include 'footer.inc.php';
 
-?>
