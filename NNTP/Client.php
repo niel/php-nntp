@@ -186,7 +186,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     {
         // Username is a must...
         if ($user == null) {
-            return $this->throwError('No username supplied', null);
+            throw new \InvalidArgumentException('No username supplied', null);
         }
 
         return $this->cmdAuthinfo($user, $pass);
@@ -287,7 +287,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     	        return (string) $response[1];
     	    	break;
     	    default:
-				return $this->throwError("ERROR");
+				throw new \InvalidArgumentException('ERROR');
 	}
     }
 
@@ -329,7 +329,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     	        return (string) $response[1];
     	    	break;
     	    default:
-				return $this->throwError("ERROR");
+				throw new \InvalidArgumentException('ERROR');
 	}
     }
 
@@ -371,7 +371,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     	        return (string) $response[1];
     	    	break;
     	    default:
-				return $this->throwError("ERROR");
+				throw new \InvalidArgumentException('ERROR');
 	}
     }
 
@@ -509,7 +509,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     {
     	// Only accept $article if array or string
     	if (!is_array($article) && !is_string($article)) {
-    	    return $this->throwError('Ups', null, 0);
+    	    throw new \InvalidArgumentException('$article is not a string or array', null);
     	}
 
     	// Check if server will receive an article
@@ -610,7 +610,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     	                     'd' => substr($date, 6, 2));
     	        break;
     	    default:
-				return $this->throwError("ERROR");
+				throw new \InvalidArgumentException('ERROR');
     	}
     }
 
@@ -640,11 +640,11 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     	    case is_string($time):
     	    	$time = strtotime($time);
     	    	if ($time === false || ($time === -1 && version_compare(phpversion(), '5.1.0', '<'))) {
-    	    	    return $this->throwError('$time could not be converted into a timestamp!', null, 0);
+    	    	    throw new \InvalidArgumentException('$time could not be converted into a timestamp!', null);
     	    	}
     	    	break;
     	    default:
-    	    	trigger_error('$time must be either a string or an integer/timestamp!', E_USER_ERROR);
+    	    	throw new \InvalidArgumentException('$time must be either a string or an integer/timestamp!', null);
     	}
 
     	return $this->cmdNewgroups($time, $distributions);
@@ -679,11 +679,11 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     	    	$time = strtotime($time);
 				if ($time === false || ($time === -1 && version_compare(phpversion(), '5.1.0', '<'))) {
 
-    	    	    return $this->throwError('$time could not be converted into a timestamp!', null, 0);
 		}
+    	    	    throw new \InvalidArgumentException('$time could not be converted into a timestamp!', null);
     	    	break;
     	    default:
-    	    	trigger_error('$time must be either a string or an integer/timestamp!', E_USER_ERROR);
+    	    	throw new \InvalidArgumentException('$time must be either a string or an integer/timestamp!', null);
     	}
 
     	return $this->cmdNewnews($time, $groups, $distribution);
@@ -726,7 +726,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
 
     	    // 
     	    if (!is_null($wildmat)) {
-    	    	return $this->throwError("The server does not support the 'LIST ACTIVE' command, and the 'LIST' command does not support the wildmat parameter!", null, null);
+    	    	throw new \Exception("The server does not support the 'LIST ACTIVE' command, and the 'LIST' command does not support the wildmat parameter!", null, null);
     	    }
 	    
     	    // 
@@ -1238,8 +1238,8 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      */
     function getArticleRaw($article, $implode = false)
     {
-    	trigger_error('You are using deprecated API v1.0 in Net_NNTP_Client: getArticleRaw() !', E_USER_NOTICE);
-    	return $this->getArticle($article, $implode);
+//	throw new \Exception('You are using deprecated API v1.0 in Net_NNTP_Client: isConnected() !', null);
+        return parent::isConnected();
     }
 
     /**
