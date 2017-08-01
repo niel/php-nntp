@@ -877,7 +877,6 @@ class Net_NNTP_Protocol_Client
     	    	return array($response_arr[0], (string) $response_arr[1]);
     	    	break;
     	    	break;
-    	    	break;
     	    default:
     	    
 			case Net_NNTP_Protocol_Responsecode::NO_GROUP_SELECTED: // 412, RFC977: 'no newsgroup selected'

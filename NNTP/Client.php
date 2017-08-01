@@ -307,9 +307,11 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     	switch ($_ret) {
     	    case -1:
     	    	return array('Number' => (int) $response[0], 'Message-ID' =>  (string) $response[1]);
-    	    	break;
+    	    
+			case 0:
     	        return (int) $response[0];
-    	    case 1:
+    	    
+			case 1:
     	        return (string) $response[1];
     	    
 			default:
