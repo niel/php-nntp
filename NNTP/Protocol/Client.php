@@ -67,7 +67,6 @@
  *
  */
 require_once 'PEAR.php';
-//require_once 'Net/NNTP/Error.php';
 require_once 'Net/NNTP/Protocol/Responsecode.php';
 
 
