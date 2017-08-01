@@ -179,8 +179,9 @@ class Net_NNTP_Protocol_Client
      *
      * @param string $cmd The command to launch, ie: "ARTICLE 1004853"
      *
-     * @return mixed (int) response code on success or (object) pear_error on failure
+     * @return int response code
      * @access private
+	 * @throws
      */
     function _sendCommand($cmd)
     {
@@ -229,8 +230,9 @@ class Net_NNTP_Protocol_Client
     /**
      * Get servers status response after a command.
      *
-     * @return mixed (int) statuscode on success or (object) pear_error on failure
+     * @return int Status code
      * @access private
+	 * @throws
      */
     function _getStatusResponse()
     {
@@ -271,8 +273,9 @@ class Net_NNTP_Protocol_Client
      *
      * Get data until a line with only a '.' in it is read and return data.
      *
-     * @return mixed (array) text response on success or (object) pear_error on failure
+     * @return array Text response
      * @access private
+	 * @throws
      */
     function _getTextResponse()
     {
@@ -367,6 +370,7 @@ class Net_NNTP_Protocol_Client
      *
      *
      * @access private
+	 * @throws
      */
     function _sendArticle($article)
     {
@@ -441,7 +445,7 @@ class Net_NNTP_Protocol_Client
     /**
      *
      *
-     * @return string status text
+     * @return string Status text
      * @access private
      */
     function _currentStatusResponse()
@@ -457,6 +461,7 @@ class Net_NNTP_Protocol_Client
      *
      * @return mixed
      * @access private
+	 * @throws
      */
     function _handleUnexpectedResponse($code = null, $text = null)
     {
@@ -487,8 +492,9 @@ class Net_NNTP_Protocol_Client
      * @param int	$port	(optional) The port number to connect to, defaults to 119.
      * @param int	$timeout	(optional)
      *
-     * @return mixed (bool) on success (true when posting allowed, otherwise false) or (object) pear_error on failure
+     * @return bool True when posting allowed, otherwise false
      * @access protected
+	 * @throws
      */
     function connect($host = null, $encryption = null, $port = null, $timeout = null)
     {
@@ -588,6 +594,7 @@ class Net_NNTP_Protocol_Client
      * alias for cmdQuit()
      *
      * @access protected
+	 * @throws
      */
     function disconnect()
     {
@@ -597,8 +604,9 @@ class Net_NNTP_Protocol_Client
     /**
      * Returns servers capabilities
      *
-     * @return mixed (array) list of capabilities on success or (object) pear_error on failure
+     * @return array List of capabilities
      * @access protected
+	 * @throws
      */
     function cmdCapabilities()
     {
@@ -624,8 +632,9 @@ class Net_NNTP_Protocol_Client
     /**
      *
      *
-     * @return mixed (bool) true when posting allowed, false when postind disallowed or (object) pear_error on failure
+     * @return bool True when posting allowed, false when posting disallowed
      * @access protected
+	 * @throws
      */
     function cmdModeReader()
     {
@@ -662,8 +671,9 @@ class Net_NNTP_Protocol_Client
     /**
      * Disconnect from the NNTP server
      *
-     * @return mixed (bool) true on success or (object) pear_error on failure
+     * @return bool true
      * @access protected
+	 * @throws
      */
     function cmdQuit()
     {
@@ -696,8 +706,9 @@ class Net_NNTP_Protocol_Client
     /**
      *
      *
-     * @return mixed (bool) on success or (object) pear_error on failure
+     * @return bool
      * @access protected
+	 * @throws
      */
     function cmdStartTLS()
     {
@@ -746,8 +757,9 @@ class Net_NNTP_Protocol_Client
      *
      * @param string $newsgroup The newsgroup name
      *
-     * @return mixed (array) groupinfo on success or (object) pear_error on failure
+     * @return array Group info
      * @access protected
+	 * @throws
      */
     function cmdGroup($newsgroup)
     {
@@ -783,8 +795,9 @@ class Net_NNTP_Protocol_Client
      * @param optional string $newsgroup
      * @param optional mixed $range
      *
-     * @return mixed (array) on success or (object) pear_error on failure
+     * @return array
      * @access protected
+	 * @throws
      */
     function cmdListgroup($newsgroup = null, $range = null)
     {
@@ -842,8 +855,9 @@ class Net_NNTP_Protocol_Client
     /**
      *
      *
-     * @return mixed (array) or (string) or (int) or (object) pear_error on failure
+     * @return mixed (array) or (string) or (int)
      * @access protected
+	 * @throws
      */
     function cmdLast()
     {
@@ -880,8 +894,9 @@ class Net_NNTP_Protocol_Client
     /**
      *
      *
-     * @return mixed (array) or (string) or (int) or (object) pear_error on failure
+     * @return mixed (array) or (string) or (int)
      * @access protected
+	 * @throws
      */
     function cmdNext()
     {
@@ -922,8 +937,9 @@ class Net_NNTP_Protocol_Client
      *
      * @param mixed $article Either a message-id or a message-number of the article to fetch. If null or '', then use current article.
      *
-     * @return mixed (array) article on success or (object) pear_error on failure
+     * @return array Article
      * @access protected
+	 * @throws
      */
     function cmdArticle($article = null)
     {
@@ -973,8 +989,9 @@ class Net_NNTP_Protocol_Client
      *
      * @param mixed $article Either a message-id or a message-number of the article to fetch the headers from. If null or '', then use current article.
      *
-     * @return mixed (array) headers on success or (object) pear_error on failure
+     * @return array Headers
      * @access protected
+	 * @throws
      */
     function cmdHead($article = null)
     {
@@ -1025,8 +1042,9 @@ class Net_NNTP_Protocol_Client
      *
      * @param mixed $article Either a message-id or a message-number of the article to fetch the body from. If null or '', then use current article.
      *
-     * @return mixed (array) body on success or (object) pear_error on failure
+     * @return array Body
      * @access protected
+	 * @throws
      */
     function cmdBody($article = null)
     {
@@ -1077,8 +1095,9 @@ class Net_NNTP_Protocol_Client
      *
      * @param mixed $article
      *
-     * @return mixed (array) or (string) or (int) or (object) pear_error on failure
+     * @return mixed (array) or (string) or (int)
      * @access protected
+	 * @throws
      */
     function cmdStat($article = null)
     {
@@ -1123,8 +1142,9 @@ class Net_NNTP_Protocol_Client
     /**
      * Post an article to a newsgroup.
      *
-     * @return mixed (bool) true on success or (object) pear_error on failure
+     * @return bool True
      * @access protected
+	 * @throws
      */
     function cmdPost()
     {
@@ -1152,8 +1172,9 @@ class Net_NNTP_Protocol_Client
      *
      * @param mixed $article (string/array)
      *
-     * @return mixed (bool) true on success or (object) pear_error on failure
+     * @return bool True
      * @access protected
+	 * @throws
      */
     function cmdPost2($article)
     {
@@ -1185,8 +1206,9 @@ class Net_NNTP_Protocol_Client
      *
      * @param string $id
      *
-     * @return mixed (bool) true on success or (object) pear_error on failure
+     * @return bool True
      * @access protected
+	 * @throws
      */
     function cmdIhave($id)
     {
@@ -1216,8 +1238,9 @@ class Net_NNTP_Protocol_Client
      *
      * @param mixed $article (string/array)
      *
-     * @return mixed (bool) true on success or (object) pear_error on failure
+     * @return bool True
      * @access protected
+	 * @throws
      */
     function cmdIhave2($article)
     {
@@ -1252,8 +1275,9 @@ class Net_NNTP_Protocol_Client
     /**
      * Get the date from the newsserver format of returned date
      *
-     * @return mixed (string) 'YYYYMMDDhhmmss' / (int) timestamp on success or (object) pear_error on failure
+     * @return mixed (string) 'YYYYMMDDhhmmss' / (int) timestamp
      * @access protected
+	 * @throws
      */
     function cmdDate()
     {
@@ -1274,8 +1298,9 @@ class Net_NNTP_Protocol_Client
     /**
      * Returns the server's help text
      *
-     * @return mixed (array) help text on success or (object) pear_error on failure
+     * @return array Help text
      * @access protected
+	 * @throws
      */
     function cmdHelp()
     {
@@ -1304,8 +1329,9 @@ class Net_NNTP_Protocol_Client
      * @param int $time Last time you checked for groups (timestamp).
      * @param optional string $distributions (deprecaded in rfc draft)
      *
-     * @return mixed (array) nested array with informations about existing newsgroups on success or (object) pear_error on failure
+     * @return array Nested array with informations about existing newsgroups
      * @access protected
+	 * @throws
      */
     function cmdNewgroups($time, $distributions = null)
     {
@@ -1358,8 +1384,9 @@ class Net_NNTP_Protocol_Client
      *
      * @return mixed
      * @access protected
+	 * @throws
      */
-    function cmdNewnews($time, $newsgroups, $distribution = null)
+    protected function cmdNewnews($time, $newsgroups, $distribution = null)
     {
         $date = gmdate('ymd His', $time);
 
@@ -1402,8 +1429,9 @@ class Net_NNTP_Protocol_Client
     /**
      * Fetches a list of all avaible newsgroups
      *
-     * @return mixed (array) nested array with informations about existing newsgroups on success or (object) pear_error on failure
+     * @return array Nested array with informations about existing newsgroups
      * @access protected
+	 * @throws
      */
     function cmdList()
     {
@@ -1442,8 +1470,9 @@ class Net_NNTP_Protocol_Client
      *
      * @param string $wildmat
      *
-     * @return mixed (array) nested array with informations about existing newsgroups on success or (object) pear_error on failure
+     * @return array Nested array with informations about existing newsgroups
      * @access protected
+	 * @throws
      */
     function cmdListActive($wildmat = null)
     {
@@ -1493,8 +1522,9 @@ class Net_NNTP_Protocol_Client
      *
      * @param string $wildmat Wildmat of the groups, that is to be listed, defaults to null;
      *
-     * @return mixed (array) nested array with description of existing newsgroups on success or (object) pear_error on failure
+     * @return array Nested array with description of existing newsgroups
      * @access protected
+	 * @throws
      */
     function cmdListNewsgroups($wildmat = null)
     {
@@ -1552,8 +1582,9 @@ class Net_NNTP_Protocol_Client
      *
      * @param optional string $range articles to fetch
      *
-     * @return mixed (array) nested array of message and there headers on success or (object) pear_error on failure
+     * @return array Nested array of message and there headers
      * @access protected
+	 * @throws
      */
     function cmdOver($range = null)
     {
@@ -1610,8 +1641,9 @@ class Net_NNTP_Protocol_Client
      *
      * @param optional string $range articles to fetch
      *
-     * @return mixed (array) nested array of message and there headers on success or (object) pear_error on failure
+     * @return array Nested array of message and there headers
      * @access protected
+	 * @throws
      */
     function cmdXOver($range = null)
     {
@@ -1665,8 +1697,9 @@ class Net_NNTP_Protocol_Client
     /**
      * Returns a list of avaible headers which are send from newsserver to client for every news message
      *
-     * @return mixed (array) of header names on success or (object) pear_error on failure
+     * @return array Header names
      * @access protected
+	 * @throws
      */
     function cmdListOverviewFmt()
     {
@@ -1718,8 +1751,9 @@ class Net_NNTP_Protocol_Client
      * @param optional string $field
      * @param optional string $range articles to fetch
      *
-     * @return mixed (array) nested array of message and there headers on success or (object) pear_error on failure
+     * @return array Nested array of message and there headers on success
      * @access protected
+	 * @throws
      */
     function cmdXHdr($field, $range = null)
     {
@@ -1790,8 +1824,9 @@ class Net_NNTP_Protocol_Client
      *
      * @param string $wildmat Wildmat of the groups, that is to be listed, defaults to '*';
      *
-     * @return mixed (array) nested array with description of existing newsgroups on success or (object) pear_error on failure
+     * @return array Nested array with description of existing newsgroups
      * @access protected
+	 * @throws
      */
     function cmdXGTitle($wildmat = '*')
     {
@@ -1830,8 +1865,9 @@ class Net_NNTP_Protocol_Client
      *
      * @param optional string $range articles to fetch
      *
-     * @return mixed (array) assoc. array of message references on success or (object) pear_error on failure
+     * @return array Assoc. array of message references
      * @access protected
+	 * @throws
      */
     function cmdXROver($range = null)
     {
@@ -1890,8 +1926,9 @@ class Net_NNTP_Protocol_Client
      * @param string $range
      * @param mixed $wildmat
      *
-     * @return mixed (array) nested array of message and there headers on success or (object) pear_error on failure
+     * @return array Nested array of message and there headers
      * @access protected
+	 * @throws
      */
     function cmdXPat($field, $range, $wildmat)
     {
@@ -1936,8 +1973,9 @@ class Net_NNTP_Protocol_Client
      * @param string $user The username to authenticate as.
      * @param string $pass The password to authenticate with.
      *
-     * @return mixed (bool) true on success or (object) pear_error on failure
+     * @return bool True
      * @access protected
+	 * @throws
      */
     function cmdAuthinfo($user, $pass)
     {
@@ -1990,8 +2028,8 @@ class Net_NNTP_Protocol_Client
      * @param string $user The username to authenticate as.
      * @param string $pass The password to authenticate with.
      *
-     * @return mixed (bool) true on success or (object) pear_error on failure
      * @access protected
+	 * @throws
      */
     function cmdAuthinfoSimple($user, $pass)
     {
@@ -2006,6 +2044,7 @@ class Net_NNTP_Protocol_Client
      *
      * @return mixed (bool) true on success or (object) pear_error on failure
      * @access protected
+	 * @throws
      */
     function cmdAuthinfoGeneric($user, $pass)
     {
