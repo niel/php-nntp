@@ -154,8 +154,6 @@ class Net_NNTP_Protocol_Client
      * @param object $logger
      *
      * @access protected
-     */
-    function setLogger($logger)
     {
     }
 
@@ -163,6 +161,8 @@ class Net_NNTP_Protocol_Client
      * @deprecated
      */
     function setDebug($debug = true)
+	 */
+    public function setLogger($logger)
     {
 		if (! $logger instanceof \Log) {
 			throw new \InvalidArgumentException("Logger must be extend PEAR's Log class.");
@@ -1892,7 +1892,7 @@ class Net_NNTP_Protocol_Client
      * @access protected
 	 * @throws
      */
-    function cmdAuthinfoGeneric($user, $pass)
+    protected function cmdAuthinfoGeneric($user, $pass)
     {
         throw new \Exception("The auth mode: 'generic' is has not been implemented yet", null);
     }

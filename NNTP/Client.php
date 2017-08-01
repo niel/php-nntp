@@ -258,7 +258,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      * @see Net_NNTP_Client::selectNextArticle()
 	 * @throws
      */
-    function selectPreviousArticle($_ret = 0)
+    public function selectPreviousArticle($_ret = 0)
     {
         $response = $this->cmdLast();
 
