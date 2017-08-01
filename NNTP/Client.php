@@ -88,7 +88,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      * @var array
      * @access private
      */
-    var $_selectedGroupSummary = null;
+    protected $selectedGroupSummary = null;
 
     /**
      * 
@@ -97,8 +97,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      * @access private
      * @since 1.3.0
      */
-    var $_overviewFormatCache = null;
-
+    protected $overviewFormatCache = null;
 
     /**
      * Constructor
@@ -224,7 +223,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     	}
 
     	// Store group info in the object
-    	$this->_selectedGroupSummary = $summary;
+    	$this->selectedGroupSummary = $summary;
 
 	// 
     	if ($articles !== false) {
@@ -826,7 +825,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     	if ($_names) {
 
     	    // Already cached?
-    	    if (is_null($this->_overviewFormatCache)) {
+    	    if (is_null($this->overviewFormatCache)) {
     	    	// Fetch overview format
     	        $format = $this->getOverviewFormat($_forceNames, true);
     	        if (PEAR::isError($format)){
@@ -837,11 +836,11 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     	    	$format = array_merge(array('Number' => false), $format);
 
     	    	// Cache format
-    	        $this->_overviewFormatCache = $format;
+    	        $this->overviewFormatCache = $format;
 
     	    // 
     	    } else {
-    	        $format = $this->_overviewFormatCache;
+    	        $format = $this->overviewFormatCache;
     	    }
 
     	    // Loop through all articles
@@ -1018,7 +1017,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
 
     	// Update summary cache if group was also 'selected'
     	if ($summary['group'] !== null) {
-    	    $this->_selectedGroupSummary = $summary;
+    	    $this->selectedGroupSummary = $summary;
     	}
 	
     	//
@@ -1131,7 +1130,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      */
     function count()
     {
-        return $this->_selectedGroupSummary['count'];
+        return $this->selectedGroupSummary['count'];
     }
 
     /**
@@ -1150,7 +1149,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      */
     function last()
     {
-    	return $this->_selectedGroupSummary['last'];
+    	return $this->selectedGroupSummary['last'];
     }
 
     /**
@@ -1169,7 +1168,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      */
     function first()
     {
-    	return $this->_selectedGroupSummary['first'];
+    	return $this->selectedGroupSummary['first'];
     }
 
     /**
@@ -1188,7 +1187,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      */
     function group()
     {
-    	return $this->_selectedGroupSummary['group'];
+    	return $this->selectedGroupSummary['group'];
     }
 
 
