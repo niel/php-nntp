@@ -1009,11 +1009,11 @@ class Net_NNTP_Protocol_Client
         $response = $this->sendCommand($command);
 
     	switch ($response) {
-    	    	$data = $this->_getTextResponse();
     	    	if (PEAR::isError($data)) {
     	    	    return $data;
     	    	}
     	    case Net_NNTP_Protocol_Responsecode::BODY_FOLLOWS:     // 222, RFC977: 'n <a> article retrieved - body follows'
+    	    	$data = $this->getTextResponse();
 
     	    	if ($this->logger) {
     	    	    $this->logger->info(($article == null ? 'Fetched current article body' : 'Fetched article body for article: '.$article));
