@@ -498,9 +498,8 @@ class Net_NNTP_Protocol_Client
     protected function connect($host = null, $encryption = null, $port = null, $timeout = null)
     {
     	//
-    	    return $this->throwError('Already connected, disconnect first!', null);
-    	}
         if ($this->isConnected()) {
+    	    throw new \Exception('Already connected, disconnect first!', null);
     	}
 
     	//
