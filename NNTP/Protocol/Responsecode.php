@@ -110,8 +110,7 @@ define('NET_NNTP_PROTOCOL_RESPONSECODE_SLAVE_RECOGNIZED', 202);
 
 
 
-// }}}
-// {{{ Constants: Common errors
+/* Constants: Common errors */
 
 
 
@@ -145,8 +144,7 @@ define('NET_NNTP_PROTOCOL_RESPONSECODE_NOT_SUPPORTED', 503);
 
 
 
-// }}}
-// {{{ Constants: Group selection
+/* Constants: Group selection */
 
 
 
@@ -166,8 +164,7 @@ define('NET_NNTP_PROTOCOL_RESPONSECODE_NO_SUCH_GROUP', 411);
 
 
 
-// }}}
-// {{{ Constants: Article retrieval
+/* Constants: Article retrieval */
 
 
 
@@ -251,8 +248,7 @@ define('NET_NNTP_PROTOCOL_RESPONSECODE_NO_SUCH_ARTICLE_ID', 430);
 
 
 
-// }}}
-// {{{ Constants: Transferring
+/* Constants: Transferring */
 
 
 
@@ -293,8 +289,7 @@ define('NET_NNTP_PROTOCOL_RESPONSECODE_TRANSFER_REJECTED', 437);
 
 
 
-// }}}
-// {{{ Constants: Posting
+/* Constants: Posting */
 
 
 
@@ -329,8 +324,7 @@ define('NET_NNTP_PROTOCOL_RESPONSECODE_POSTING_FAILURE', 441);
 
 
 
-// }}}
-// {{{ Constants: Authorization
+/* Constants: Authorization */
 
 
 
@@ -365,8 +359,7 @@ define('NET_NNTP_PROTOCOL_RESPONSECODE_AUTHORIZATION_REJECTED', 452);
 
 
 
-// }}}
-// {{{ Constants: Authentication
+/* Constants: Authentication */
 
 
 
@@ -399,8 +392,8 @@ define('NET_NNTP_PROTOCOL_RESPONSECODE_AUTHENTICATION_ACCEPTED', 281);
 define('NET_NNTP_PROTOCOL_RESPONSECODE_AUTHENTICATION_REJECTED', 482);
     
 
-// }}}
-// {{{ Constants: Misc
+
+/* Constants: Misc */
 
 
 
@@ -492,5 +485,4 @@ define('NET_NNTP_PROTOCOL_RESPONSECODE_INTERNAL_FAULT', 403);
  */
 define('NET_NNTP_PROTOCOL_RESPONSECODE_BASE64_ENCODING_ERROR', 504);
 
-// }}}
 

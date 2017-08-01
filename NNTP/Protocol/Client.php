@@ -76,8 +76,6 @@ require_once 'PEAR.php';
 require_once 'Net/NNTP/Protocol/Responsecode.php';
 
 
-// {{{ constants
-
 /**
  * Default host
  *
@@ -93,9 +91,6 @@ define('NET_NNTP_PROTOCOL_CLIENT_DEFAULT_HOST', 'localhost');
  * @ignore
  */
 define('NET_NNTP_PROTOCOL_CLIENT_DEFAULT_PORT', '119');
-
-// }}}
-// {{{ Net_NNTP_Protocol_Client
 
 /**
  * Low level NNTP Client
@@ -126,8 +121,6 @@ define('NET_NNTP_PROTOCOL_CLIENT_DEFAULT_PORT', '119');
  */
 class Net_NNTP_Protocol_Client extends PEAR
 {
-    // {{{ properties
-
     /**
      * The socket resource being used to connect to the NNTP server.
      *
@@ -152,8 +145,6 @@ class Net_NNTP_Protocol_Client extends PEAR
      */
     var $_logger = null;
 
-    // }}}
-    // {{{ constructor
 
     /**
      * Constructor
@@ -169,8 +160,6 @@ class Net_NNTP_Protocol_Client extends PEAR
 	{
 		$this->__construct();
 	}
-    // }}}
-    // {{{ getPackageVersion()
 
     /**
      *
@@ -181,9 +170,6 @@ class Net_NNTP_Protocol_Client extends PEAR
 	return '@package_version@';
     }
 
-    // }}}
-    // {{{ getApiVersion()
-
     /**
      *
      *
@@ -192,9 +178,6 @@ class Net_NNTP_Protocol_Client extends PEAR
     function getApiVersion() {
 	return '@api_version@';
     }
-
-    // }}}
-    // {{{ setLogger()
 
     /**
      *
@@ -208,9 +191,6 @@ class Net_NNTP_Protocol_Client extends PEAR
         $this->_logger = $logger;
     }
 
-    // }}}
-    // {{{ setDebug()
-
     /**
      * @deprecated
      */
@@ -218,9 +198,6 @@ class Net_NNTP_Protocol_Client extends PEAR
     {
     	trigger_error('You are using deprecated API v1.0 in Net_NNTP_Protocol_Client: setDebug() ! Debugging in now automatically handled when a logger is given.', E_USER_NOTICE);
     }
-
-    // }}}
-    // {{{ _sendCommand()
 
     /**
      * Send command
@@ -277,9 +254,6 @@ class Net_NNTP_Protocol_Client extends PEAR
     	return $this->_getStatusResponse();
     }
 
-    // }}}
-    // {{{ _getStatusResponse()
-
     /**
      * Get servers status response after a command.
      *
@@ -319,9 +293,6 @@ class Net_NNTP_Protocol_Client extends PEAR
     	//
     	return $this->_currentStatusResponse[0];
     }
-
-    // }}}
-    // {{{ _getTextResponse()
 
     /**
      * Retrieve textural data
@@ -420,9 +391,6 @@ class Net_NNTP_Protocol_Client extends PEAR
     	return $this->throwError('End of stream! Connection lost?', null);
     }
 
-    // }}}
-    // {{{ _sendText()
-
     /**
      *
      *
@@ -498,9 +466,6 @@ class Net_NNTP_Protocol_Client extends PEAR
 	return true;
     }
 
-    // }}}
-    // {{{ _currentStatusResponse()
-
     /**
      *
      *
@@ -511,9 +476,6 @@ class Net_NNTP_Protocol_Client extends PEAR
     {
     	return $this->_currentStatusResponse[1];
     }
-
-    // }}}
-    // {{{ _handleUnexpectedResponse()
 
     /**
      *
@@ -543,11 +505,7 @@ class Net_NNTP_Protocol_Client extends PEAR
     	}
     }
 
-    // }}}
-
 /* Session administration commands */
-
-    // {{{ Connect()
 
     /**
      * Connect to a NNTP server
@@ -652,9 +610,6 @@ class Net_NNTP_Protocol_Client extends PEAR
     	}
     }
 
-    // }}}
-    // {{{ disconnect()
-
     /**
      * alias for cmdQuit()
      *
@@ -664,9 +619,6 @@ class Net_NNTP_Protocol_Client extends PEAR
     {
     	return $this->cmdQuit();
     }
-
-    // }}}
-    // {{{ cmdCapabilities()
 
     /**
      * Returns servers capabilities
@@ -694,9 +646,6 @@ class Net_NNTP_Protocol_Client extends PEAR
     	    	return $this->_handleUnexpectedResponse($response);
     	}
     }
-
-    // }}}
-    // {{{ cmdModeReader()
 
     /**
      *
@@ -736,9 +685,6 @@ class Net_NNTP_Protocol_Client extends PEAR
     	}
     }
 
-    // }}}
-    // {{{ cmdQuit()
-
     /**
      * Disconnect from the NNTP server
      *
@@ -771,11 +717,7 @@ class Net_NNTP_Protocol_Client extends PEAR
     	}
     }
 
-    // }}}
-
 /* */
-
-    // {{{ cmdStartTLS()
 
     /**
      *
@@ -821,13 +763,9 @@ class Net_NNTP_Protocol_Client extends PEAR
     	}
     }
 
-    // }}}
-
 /* Article posting and retrieval */
 
     /* Group and article selection */
-
-    // {{{ cmdGroup()
 
     /**
      * Selects a news group (issue a GROUP command to the server)
@@ -864,9 +802,6 @@ class Net_NNTP_Protocol_Client extends PEAR
     	    	return $this->_handleUnexpectedResponse($response);
     	}
     }
-
-    // }}}
-    // {{{ cmdListgroup()
 
     /**
      *
@@ -930,9 +865,6 @@ class Net_NNTP_Protocol_Client extends PEAR
     	}
     }
 
-    // }}}
-    // {{{ cmdLast()
-
     /**
      *
      *
@@ -970,9 +902,6 @@ class Net_NNTP_Protocol_Client extends PEAR
     	    	return $this->_handleUnexpectedResponse($response);
     	}
     }
-
-    // }}}
-    // {{{ cmdNext()
 
     /**
      *
@@ -1012,11 +941,7 @@ class Net_NNTP_Protocol_Client extends PEAR
     	}
     }
 
-    // }}}
-
     /* Retrieval of articles and article sections */
-
-    // {{{ cmdArticle()
 
     /**
      * Get an article from the currently open connection.
@@ -1068,9 +993,6 @@ class Net_NNTP_Protocol_Client extends PEAR
     	    	return $this->_handleUnexpectedResponse($response);
     	}
     }
-
-    // }}}
-    // {{{ cmdHead()
 
     /**
      * Get the headers of an article from the currently open connection.
@@ -1124,9 +1046,6 @@ class Net_NNTP_Protocol_Client extends PEAR
     	}
     }
 
-    // }}}
-    // {{{ cmdBody()
-
     /**
      * Get the body of an article from the currently open connection.
      *
@@ -1179,9 +1098,6 @@ class Net_NNTP_Protocol_Client extends PEAR
     	}
     }
 
-    // }}}
-    // {{{ cmdStat
-
     /**
      *
      *
@@ -1228,11 +1144,7 @@ class Net_NNTP_Protocol_Client extends PEAR
     	}
     }
 
-    // }}}
-
     /* Article posting */
-
-    // {{{ cmdPost()
 
     /**
      * Post an article to a newsgroup.
@@ -1260,9 +1172,6 @@ class Net_NNTP_Protocol_Client extends PEAR
     	}
 
     }
-
-    // }}}
-    // {{{ cmdPost2()
 
     /**
      * Post an article to a newsgroup.
@@ -1297,9 +1206,6 @@ class Net_NNTP_Protocol_Client extends PEAR
     	}
     }
 
-    // }}}
-    // {{{ cmdIhave()
-
     /**
      *
      *
@@ -1330,9 +1236,6 @@ class Net_NNTP_Protocol_Client extends PEAR
     	    	return $this->_handleUnexpectedResponse($response);
     	}
     }
-
-    // }}}
-    // {{{ cmdIhave2()
 
     /**
      *
@@ -1370,11 +1273,7 @@ class Net_NNTP_Protocol_Client extends PEAR
     	}
     }
 
-    // }}}
-
 /* Information commands */
-
-    // {{{ cmdDate()
 
     /**
      * Get the date from the newsserver format of returned date
@@ -1397,8 +1296,6 @@ class Net_NNTP_Protocol_Client extends PEAR
     	    	return $this->_handleUnexpectedResponse($response);
     	}
     }
-    // }}}
-    // {{{ cmdHelp()
 
     /**
      * Returns the server's help text
@@ -1426,9 +1323,6 @@ class Net_NNTP_Protocol_Client extends PEAR
     	    	return $this->_handleUnexpectedResponse($response);
     	}
     }
-
-    // }}}
-    // {{{ cmdNewgroups()
 
     /**
      * Fetches a list of all newsgroups created since a specified date.
@@ -1481,9 +1375,6 @@ class Net_NNTP_Protocol_Client extends PEAR
     	}
     }
 
-    // }}}
-    // {{{ cmdNewnews()
-
     /**
      *
      *
@@ -1532,11 +1423,7 @@ class Net_NNTP_Protocol_Client extends PEAR
     	}
     }
 
-    // }}}
-
     /* The LIST commands */
-
-    // {{{ cmdList()
 
     /**
      * Fetches a list of all avaible newsgroups
@@ -1575,9 +1462,6 @@ class Net_NNTP_Protocol_Client extends PEAR
     	    	return $this->_handleUnexpectedResponse($response);
     	}
     }
-
-    // }}}
-    // {{{ cmdListActive()
 
     /**
      * Fetches a list of all avaible newsgroups
@@ -1629,9 +1513,6 @@ class Net_NNTP_Protocol_Client extends PEAR
     	    	return $this->_handleUnexpectedResponse($response);
     	}
     }
-
-    // }}}
-    // {{{ cmdListNewsgroups()
 
     /**
      * Fetches a list of (all) avaible newsgroup descriptions.
@@ -1687,11 +1568,7 @@ class Net_NNTP_Protocol_Client extends PEAR
     	}
     }
 
-    // }}}
-
 /* Article field access commands */
-
-    // {{{ cmdOver()
 
     /**
      * Fetch message header from message number $first until $last
@@ -1750,9 +1627,6 @@ class Net_NNTP_Protocol_Client extends PEAR
     	    	return $this->_handleUnexpectedResponse($response);
     	}
     }
-
-    // }}}
-    // {{{ cmdXOver()
 
     /**
      * Fetch message header from message number $first until $last
@@ -1814,9 +1688,6 @@ class Net_NNTP_Protocol_Client extends PEAR
     	}
     }
 
-    // }}}
-    // {{{ cmdListOverviewFmt()
-
     /**
      * Returns a list of avaible headers which are send from newsserver to client for every news message
      *
@@ -1863,9 +1734,6 @@ class Net_NNTP_Protocol_Client extends PEAR
     	    	return $this->_handleUnexpectedResponse($response);
     	}
     }
-
-    // }}}
-    // {{{ cmdXHdr()
 
     /**
      *
@@ -1924,7 +1792,6 @@ class Net_NNTP_Protocol_Client extends PEAR
     	}
     }
 
-    // }}}
 
 
 
@@ -1984,9 +1851,6 @@ class Net_NNTP_Protocol_Client extends PEAR
     	}
     }
 
-    // }}}
-    // {{{ cmdXROver()
-
     /**
      * Fetch message references from message number $first to $last
      *
@@ -2041,12 +1905,9 @@ class Net_NNTP_Protocol_Client extends PEAR
     	}
     }
 
-    // }}}
 
 
 
-
-    // {{{ cmdXPat()
 
     /**
      *
@@ -2094,9 +1955,6 @@ class Net_NNTP_Protocol_Client extends PEAR
     	    	return $this->_handleUnexpectedResponse($response);
     	}
     }
-
-    // }}}
-    // {{{ cmdAuthinfo()
 
     /**
      * Authenticate using 'original' method
@@ -2152,9 +2010,6 @@ class Net_NNTP_Protocol_Client extends PEAR
     	}
     }
 
-    // }}}
-    // {{{ cmdAuthinfoSimple()
-
     /**
      * Authenticate using 'simple' method
      *
@@ -2168,9 +2023,6 @@ class Net_NNTP_Protocol_Client extends PEAR
     {
         return $this->throwError("The auth mode: 'simple' is has not been implemented yet", null);
     }
-
-    // }}}
-    // {{{ cmdAuthinfoGeneric()
 
     /**
      * Authenticate using 'generic' method
@@ -2186,9 +2038,6 @@ class Net_NNTP_Protocol_Client extends PEAR
         return $this->throwError("The auth mode: 'generic' is has not been implemented yet", null);
     }
 
-    // }}}
-    // {{{ _isConnected()
-
     /**
      * Test whether we are connected or not.
      *
@@ -2199,10 +2048,4 @@ class Net_NNTP_Protocol_Client extends PEAR
     {
         return (is_resource($this->_socket) && (!feof($this->_socket)));
     }
-
-    // }}}
-
 }
-
-// }}}
-

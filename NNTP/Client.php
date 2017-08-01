@@ -71,8 +71,6 @@
 require_once 'Net/NNTP/Protocol/Client.php';
 
 
-// {{{ Net_NNTP_Client
-
 /**
  * Implementation of the client side of NNTP (Network News Transfer Protocol)
  *
@@ -86,8 +84,6 @@ require_once 'Net/NNTP/Protocol/Client.php';
  */
 class Net_NNTP_Client extends Net_NNTP_Protocol_Client
 {
-    // {{{ properties
-
     /**
      * Information summary about the currently selected group.
      *
@@ -105,8 +101,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      */
     var $_overviewFormatCache = null;
 
-    // }}}
-    // {{{ constructor
 
     /**
      * Constructor
@@ -124,9 +118,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     {
     	$this->__construct();
     }
-
-    // }}}
-    // {{{ connect()
 
     /**
      * Connect to a server.
@@ -160,9 +151,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     	return parent::connect($host, $encryption, $port, $timeout);
     }
 
-    // }}}
-    // {{{ disconnect()
-
     /**
      * Disconnect from server.
      *
@@ -177,9 +165,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
         return parent::disconnect();
     }
 
-    // }}}
-    // {{{ quit()
-
     /**
      * Deprecated alias for disconnect().
      *
@@ -191,9 +176,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     {
         return $this->disconnect();
     }
-
-    // }}}
-    // {{{ authenticate()
 
     /**
      * Authenticate.
@@ -225,9 +207,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
 
         return $this->cmdAuthinfo($user, $pass);
     }
-
-    // }}}
-    // {{{ selectGroup()
 
     /**
      * Selects a group.
@@ -287,9 +266,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     	return $summary;
     }
 
-    // }}}
-    // {{{ selectPreviousArticle()
-
     /**
      * Select the previous article.
      *
@@ -332,9 +308,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
 				return $this->throwError("ERROR");
 	}
     }
-
-    // }}}
-    // {{{ selectNextArticle()
 
     /**
      * Select the next article.
@@ -379,9 +352,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
 	}
     }
 
-    // }}}
-    // {{{ selectArticle()
-
     /**
      * Selects an article by article message-number.
      *
@@ -424,9 +394,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
 				return $this->throwError("ERROR");
 	}
     }
-
-    // }}}
-    // {{{ getArticle()
 
     /**
      * Fetch article into transfer object.
@@ -484,9 +451,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     	return $data;
     }
 
-    // }}}
-    // {{{ getHeader()
-
     /**
      * Fetch article header.
      *
@@ -542,9 +506,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     	//
     	return $data;
     }
-
-    // }}}
-    // {{{ getBody()
 
     /**
      * Fetch article body.
@@ -602,9 +563,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     	return $data;
     }
 
-    // }}}
-    // {{{ post()
-
     /**
      * Post a raw article to a number of groups.
      *
@@ -660,9 +618,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     	return $this->cmdPost2($article);
     }
 
-    // }}}
-    // {{{ mail()
-
     /**
      * Post an article to a number of groups - using same parameters as PHP's mail() function.
      *
@@ -708,9 +663,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     	return $this->cmdPost2(array($header, $body));
     }
 
-    // }}}
-    // {{{ getDate()
-
     /**
      * Get the server's internal date
      *
@@ -755,9 +707,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     	}
     }
 
-    // }}}
-    // {{{ getNewGroups()
-
     /**
      * Get new groups since a date.
      *
@@ -794,9 +743,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
 
     	return $this->cmdNewgroups($time, $distributions);
     }
-
-    // }}}
-    // {{{ getNewArticles()
 
     /**
      * Get new articles since a date.
@@ -837,9 +783,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
 
     	return $this->cmdNewnews($time, $groups, $distribution);
     }
-
-    // }}}
-    // {{{ getGroups()
 
     /**
      * Fetch valid groups.
@@ -898,9 +841,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     	return $groups;
     }
 
-    // }}}
-    // {{{ getDescriptions()
-
     /**
      * Fetch all known group descriptions.
      *
@@ -938,9 +878,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
 	
     	return $descriptions;
     }
-
-    // }}}
-    // {{{ getOverview()
 
     /**
      * Fetch an overview of article(s) in the currently selected group.
@@ -1092,9 +1029,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     	}
     }
 
-    // }}}
-    // {{{ getOverviewFormat()
-
     /**
      * Fetch names of fields in overview database
      *
@@ -1138,9 +1072,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     	    return array_keys($format);
     	}
     }
-
-    // }}}
-    // {{{ getHeaderField()
 
     /**
      * Fetch content of a header field from message(s).
@@ -1197,15 +1128,12 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     	}
     }
 
-    // }}}
 
 
 
 
 
 
-
-    // {{{ getGroupArticles()
 
     /**
      *
@@ -1240,9 +1168,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     	//
     	return $summary['articles'];
     }
-
-    // }}}
-    // {{{ getReferences()
 
     /**
      * Fetch reference header field of message(s).
@@ -1331,13 +1256,10 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     	}
     }
 
-    // }}}
 
 
 
 
-
-    // {{{ count()
 
     /**
      * Number of articles in currently selected group
@@ -1360,9 +1282,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
         return $this->_selectedGroupSummary['count'];
     }
 
-    // }}}
-    // {{{ last()
-
     /**
      * Maximum article number in currently selected group
      *
@@ -1383,9 +1302,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     {
     	return $this->_selectedGroupSummary['last'];
     }
-
-    // }}}
-    // {{{ first()
 
     /**
      * Minimum article number in currently selected group
@@ -1408,9 +1324,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     	return $this->_selectedGroupSummary['first'];
     }
 
-    // }}}
-    // {{{ group()
-
     /**
      * Currently selected group
      *
@@ -1432,15 +1345,12 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     	return $this->_selectedGroupSummary['group'];
     }
 
-    // }}}
 
 
 
 
 
 
-
-    // {{{ isConnected()
 
     /**
      * Test whether a connection is currently open or closed.
@@ -1458,9 +1368,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
         return parent::_isConnected();
     }
 
-    // }}}
-    // {{{ getArticleRaw()
-
     /**
      * Deprecated alias for getArticle()
      *
@@ -1472,9 +1379,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     	trigger_error('You are using deprecated API v1.0 in Net_NNTP_Client: getArticleRaw() !', E_USER_NOTICE);
     	return $this->getArticle($article, $implode);
     }
-
-    // }}}
-    // {{{ getHeaderRaw()
 
     /**
      * Deprecated alias for getHeader()
@@ -1488,9 +1392,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     	return $this->getHeader($article, $implode);
     }
 
-    // }}}
-    // {{{ getBodyRaw()
-
     /**
      * Deprecated alias for getBody()
      *
@@ -1502,9 +1403,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     	trigger_error('You are using deprecated API v1.0 in Net_NNTP_Client: getBodyRaw() !', E_USER_NOTICE);
         return $this->getBody($article, $implode);
     }
-
-    // }}}
-    // {{{ getNewNews()
 
     /**
      * Deprecated alias for getNewArticles()
@@ -1518,9 +1416,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     	return $this->getNewArticles($time, $groups, $distribution);
     }
 
-    // }}}
-    // {{{ getReferencesOverview()
-
     /**
      * Deprecated alias for getReferences()
      *
@@ -1533,9 +1428,5 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     	return $this->getReferences($first . '-' . $last);
     }
 
-    // }}}
-
 }
-
-// }}}
 
