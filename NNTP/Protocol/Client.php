@@ -187,7 +187,7 @@ class Net_NNTP_Protocol_Client
     {
         // NNTP/RFC977 only allows command up to 512 (-2) chars.
         if (!strlen($cmd) > 510) {
-            return $this->throwError('Failed writing to socket! (Command to long - max 510 chars)');
+            throw new \Exception('Failed writing to socket! (Command to long - max 510 chars)');
         }
 
 /***************************************************************************************/
