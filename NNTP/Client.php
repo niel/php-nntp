@@ -103,8 +103,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     /**
      * Constructor
      *
-     * <b>Usage example:</b>
-     * {@example docs/examples/phpdoc/constructor.php}
+     * @example docs/examples/phpdoc/constructor.php
      *
      * @access public
      */
@@ -122,8 +121,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      *
      * xxx
      * 
-     * <b>Usage example:</b>
-     * {@example docs/examples/phpdoc/connect.php}
+     * @example docs/examples/phpdoc/connect.php
      *
      * @param string	$host	(optional) The hostname og IP-address of the NNTP-server to connect to, defaults to localhost.
      * @param mixed	$encryption	(optional) false|'tls'|'ssl', defaults to false.
@@ -184,8 +182,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      * This method uses non-standard commands, which is not part
      * of the original RFC977, but has been formalized in RFC2890.
      *
-     * <b>Usage example:</b>
-     * {@example docs/examples/phpdoc/authenticate.php}
+     * @example docs/examples/phpdoc/authenticate.php
      *
      * @param string	$user	The username
      * @param string	$pass	The password
@@ -217,8 +214,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      * This method uses non-standard commands, which is not part
      * of the original RFC977, but has been formalized in RFC2890.
      *
-     * <b>Usage example:</b>
-     * {@example docs/examples/phpdoc/selectGroup.php}
+     * @example docs/examples/phpdoc/selectGroup.php
      *
      * @param string	$group	Name of the group to select
      * @param mixed	$articles	(optional) experimental! When true the article numbers is returned in 'articles'
@@ -269,8 +265,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      *
      * Select the previous article in current group.
      *
-     * <b>Usage example:</b>
-     * {@example docs/examples/phpdoc/selectPreviousArticle.php}
+     * @example docs/examples/phpdoc/selectPreviousArticle.php
      *
      * @param int	$_ret	(optional) Experimental
      *
@@ -312,8 +307,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      *
      * Select the next article in current group.
      *
-     * <b>Usage example:</b>
-     * {@example docs/examples/phpdoc/selectNextArticle.php}
+     * @example docs/examples/phpdoc/selectNextArticle.php
      *
      * @param int	$_ret	(optional) Experimental
      *
@@ -355,8 +349,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      *
      * xxx
      *
-     * <b>Usage example:</b>
-     * {@example docs/examples/phpdoc/selectArticle.php}
+     * @example docs/examples/phpdoc/selectArticle.php
      *
      * @param mixed	$article	The message-number (on the server) of
      *                                  the article to select as current article.
@@ -399,8 +392,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      * Select an article based on the arguments, and return the entire
      * article (raw data).
      *
-     * <b>Usage example:</b>
-     * {@example docs/examples/phpdoc/getArticle.php}
+     * @example docs/examples/phpdoc/getArticle.php
      *
      * @param mixed	$article	(optional) Either the message-id or the
      *                                  message-number on the server of the
@@ -455,8 +447,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      * Select an article based on the arguments, and return the article
      * header (raw data).
      *
-     * <b>Usage example:</b>
-     * {@example docs/examples/phpdoc/getHeader.php}
+     * @example docs/examples/phpdoc/getHeader.php
      *
      * @param mixed	$article	(optional) Either message-id or message
      *                                  number of the article to fetch.
@@ -511,8 +502,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      * Select an article based on the arguments, and return the article
      * body (raw data).
      *
-     * <b>Usage example:</b>
-     * {@example docs/examples/phpdoc/getBody.php}
+     * @example docs/examples/phpdoc/getBody.php
      *
      * @param mixed	$article	(optional) Either the message-id or the
      *                                  message-number on the server of the
@@ -564,8 +554,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     /**
      * Post a raw article to a number of groups.
      *
-     * <b>Usage example:</b>
-     * {@example docs/examples/phpdoc/post.php}
+     * @example docs/examples/phpdoc/post.php
      *
      * @param mixed	$article	<br>
      *  - (string) Complete article in a ready to send format (lines terminated by LFCR etc.)
@@ -627,8 +616,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      * Or "NNTP-Posting-Host: <ip-of-author>", which should contain the IP-address
      * of the author of the post, so the message can be traced back to him.
      *
-     * <b>Usage example:</b>
-     * {@example docs/examples/phpdoc/mail.php}
+     * @example docs/examples/phpdoc/mail.php
      *
      * @param string	$groups	The groups to post to.
      * @param string	$subject	The subject of the article.
@@ -668,8 +656,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      * This method uses non-standard commands, which is not part
      * of the original RFC977, but has been formalized in RFC2890.
      *
-     * <b>Usage example:</b>
-     * {@example docs/examples/phpdoc/getDate.php}
+     * @example docs/examples/phpdoc/getDate.php
      *
      * @param int	$format	(optional) Determines the format of returned date:
      *                           - 0: return string
@@ -711,8 +698,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      * Returns a list of groups created on the server since the specified date
      * and time.
      *
-     * <b>Usage example:</b>
-     * {@example docs/examples/phpdoc/getNewGroups.php}
+     * @example docs/examples/phpdoc/getNewGroups.php
      *
      * @param mixed	$time	<br>
      *  - (integer)	A timestamp
@@ -748,8 +734,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      * Returns a list of message-ids of new articles (since the specified date
      * and time) in the groups whose names match the wildmat
      *
-     * <b>Usage example:</b>
-     * {@example docs/examples/phpdoc/getNewArticles.php}
+     * @example docs/examples/phpdoc/getNewArticles.php
      *
      * @param mixed	$time	<br>
      *  - (integer)	A timestamp
@@ -788,8 +773,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      * Returns a list of valid groups (that the client is permitted to select)
      * and associated information.
      *
-     * <b>Usage example:</b>
-     * {@example docs/examples/phpdoc/getGroups.php}
+     * @example docs/examples/phpdoc/getGroups.php
      *
      * @return mixed <br>
      *  - (array)	Nested array with information about every valid group
@@ -849,8 +833,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      * This method uses non-standard commands, which is not part
      * of the original RFC977, but has been formalized in RFC2890.
      *
-     * <b>Usage example:</b>
-     * {@example docs/examples/phpdoc/getDescriptions.php}
+     * @example docs/examples/phpdoc/getDescriptions.php
      *
      * @param mixed	$wildmat	(optional) 
      *
@@ -900,8 +883,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      * This method uses non-standard commands, which is not part
      * of the original RFC977, but has been formalized in RFC2890.
      *
-     * <b>Usage example:</b>
-     * {@example docs/examples/phpdoc/getOverview.php}
+     * @example docs/examples/phpdoc/getOverview.php
      *
      * @param mixed	$range	(optional)
      *                          - '<message number>'
@@ -1036,8 +1018,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      * This method uses non-standard commands, which is not part
      * of the original RFC977, but has been formalized in RFC2890.
      *
-     * <b>Usage example:</b>
-     * {@example docs/examples/phpdoc/getOveriewFormat.php}
+     * @example docs/examples/phpdoc/getOveriewFormat.php
      *
      * @return mixed <br>
      *  - (array)	Overview field names
@@ -1080,8 +1061,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      * This method uses non-standard commands, which is not part
      * of the original RFC977, but has been formalized in RFC2890.
      *
-     * <b>Usage example:</b>
-     * {@example docs/examples/phpdoc/getHeaderField.php}
+     * @example docs/examples/phpdoc/getHeaderField.php
      *
      * @param string	$field	The name of the header field to retreive
      * @param mixed	$range	(optional)
@@ -1140,8 +1120,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      * This method uses non-standard commands, which is not part
      * of the original RFC977, but has been formalized in RFC2890.
      *
-     * <b>Usage example:</b>
-     * {@example docs/examples/phpdoc/getGroupArticles.php}
+     * @example docs/examples/phpdoc/getGroupArticles.php
      *
      * @param mixed	$range	(optional) Experimental!
      *
@@ -1179,8 +1158,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      * This method uses non-standard commands, which is not part
      * of the original RFC977, but has been formalized in RFC2890.
      *
-     * <b>Usage example:</b>
-     * {@example docs/examples/phpdoc/getReferences.php}
+     * @example docs/examples/phpdoc/getReferences.php
      *
      * @param mixed	$range	(optional)
      *                            '<message number>'
@@ -1262,8 +1240,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     /**
      * Number of articles in currently selected group
      *
-     * <b>Usage example:</b>
-     * {@example docs/examples/phpdoc/count.php}
+     * @example docs/examples/phpdoc/count.php
      *
      * @return mixed <br>
      *  - (string)	the number of article in group
@@ -1283,8 +1260,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     /**
      * Maximum article number in currently selected group
      *
-     * <b>Usage example:</b>
-     * {@example docs/examples/phpdoc/last.php}
+     * @example docs/examples/phpdoc/last.php
      *
      * @return mixed <br>
      *  - (string)	the last article's number
@@ -1304,8 +1280,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     /**
      * Minimum article number in currently selected group
      *
-     * <b>Usage example:</b>
-     * {@example docs/examples/phpdoc/first.php}
+     * @example docs/examples/phpdoc/first.php
      *
      * @return mixed <br>
      *  - (string)	the first article's number
@@ -1325,8 +1300,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     /**
      * Currently selected group
      *
-     * <b>Usage example:</b>
-     * {@example docs/examples/phpdoc/group.php}
+     * @example docs/examples/phpdoc/group.php
      *
      * @return mixed <br>
      *  - (string)	group name
