@@ -504,17 +504,20 @@ class Net_NNTP_Protocol_Client
 
     	// Choose transport based on encryption, and if no port is given, use default for that encryption
     	switch ($encryption) {
-	    case null:
+	    
+		case null:
 	    case false:
-		$transport = 'tcp';
-    	    	$port = is_null($port) ? 119 : $port;
-		break;
-	    case 'ssl':
+			$transport = 'tcp';
+    	    $port = is_null($port) ? 119 : $port;
+			break;
+	    
+		case 'ssl':
 	    case 'tls':
-		$transport = $encryption;
-    	    	$port = is_null($port) ? 563 : $port;
-		break;
-	    default:
+			$transport = $encryption;
+    	    $port = is_null($port) ? 563 : $port;
+			break;
+	    
+		default:
     	    	throw new \InvalidArgumentException('$encryption parameter must be either tcp, tls or ssl.', null);
     	}
 
