@@ -571,12 +571,12 @@ class Net_NNTP_Protocol_Client
     	    	break;
     	    	break;
     	    default:
-    	    	return $this->_handleUnexpectedResponse($response);
 //    	    	throw new \Exception('Server refused connection', $response, new \Exception($this->currentStatusResponse()));
     	    	throw new \Exception("Server refused connection: '".$this->currentStatusResponse()."'", $response);
 			case Net_NNTP_Protocol_Responsecode::NOT_PERMITTED: // 502, 'access restriction or permission denied' / service permanently unavailable
 //    	    	throw new \Exception('Server refused connection', $response, new \Exception($this->currentStatusResponse()));
     	    	throw new \Exception("Server refused connection: '".$this->currentStatusResponse()."'", $response);
+    	    	return $this->handleUnexpectedResponse($response);
     	}
     }
 
@@ -609,7 +609,7 @@ class Net_NNTP_Protocol_Client
     	    	return $data;
     	        break;
     	    default:
-    	    	return $this->_handleUnexpectedResponse($response);
+    	    	return $this->handleUnexpectedResponse($response);
     	}
     }
 
@@ -643,9 +643,9 @@ class Net_NNTP_Protocol_Client
     	    	break;
     	    	break;
     	    default:
-    	    	return $this->_handleUnexpectedResponse($response);
 			case Net_NNTP_Protocol_Responsecode::NOT_PERMITTED: // 502, 'access restriction or permission denied' / service permanently unavailable
     	    	throw new \Exception('Connection being closed, since service so permanently unavailable', $response, new \Exception($this->currentStatusResponse()));
+    	    	return $this->handleUnexpectedResponse($response);
     	}
     }
 
@@ -659,7 +659,7 @@ class Net_NNTP_Protocol_Client
     protected function cmdQuit()
     {
     	// Tell the server to close the connection
-    	$response = $this->_sendCommand('QUIT');
+    	$response = $this->sendCommand('QUIT');
 
         switch ($response) {
     	    case 205: // RFC977: 'closing connection - goodbye!'
@@ -788,7 +788,7 @@ class Net_NNTP_Protocol_Client
     	switch ($response) {
     	    case Net_NNTP_Protocol_Responsecode::GROUP_SELECTED: // 211, RFC2980: 'list of article numbers follow'
 
-    	    	$articles = $this->_getTextResponse();
+    	    	$articles = $this->getTextResponse();
 
     	        $response_arr = explode(' ', trim($this->currentStatusResponse()), 4);
 
@@ -844,13 +844,13 @@ class Net_NNTP_Protocol_Client
     	    	break;
     	    	break;
     	    default:
-    	    	return $this->_handleUnexpectedResponse($response);
 			case Net_NNTP_Protocol_Responsecode::NO_GROUP_SELECTED: // 412, RFC977: 'no newsgroup selected'
     	    	throw new \Exception('No newsgroup has been selected', $response, new \Exception($this->currentStatusResponse()));
 			case Net_NNTP_Protocol_Responsecode::NO_ARTICLE_SELECTED: // 420, RFC977: 'no current article has been selected'
     	    	throw new \Exception('No current article has been selected', $response, new \Exception($this->currentStatusResponse()));
 			case Net_NNTP_Protocol_Responsecode::NO_PREVIOUS_ARTICLE: // 422, RFC977: 'no previous article in this group'
     	    	throw new \Exception('No previous article in this group', $response, new \Exception($this->currentStatusResponse()));
+    	    	return $this->handleUnexpectedResponse($response);
     	}
     }
 
