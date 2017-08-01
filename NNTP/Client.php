@@ -1016,12 +1016,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     	}
 
     	if ($backup == true) {
-    	    $references2 = $this->cmdXROver($range);
-    	    if (PEAR::isError($references2)) {
-    		// Ignore...
-    	    } else {
-    	    	$references = $references2;
-    	    }
+    	    $references = $this->cmdXROver($range);
 	}
 
     	if (is_array($references)) {
