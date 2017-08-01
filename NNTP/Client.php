@@ -1168,54 +1168,5 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
 //	throw new \Exception('You are using deprecated API v1.0 in Net_NNTP_Client: isConnected() !', null);
         return parent::isConnected();
     }
-
-    /**
-     * Deprecated alias for getHeader()
-     *
-     * @deprecated
-     * @ignore
-     */
-    function getHeaderRaw($article = null, $implode = false)
-    {
-    	trigger_error('You are using deprecated API v1.0 in Net_NNTP_Client: getHeaderRaw() !', E_USER_NOTICE);
-    	return $this->getHeader($article, $implode);
-    }
-
-    /**
-     * Deprecated alias for getBody()
-     *
-     * @deprecated
-     * @ignore
-     */
-    function getBodyRaw($article = null, $implode = false)
-    {
-    	trigger_error('You are using deprecated API v1.0 in Net_NNTP_Client: getBodyRaw() !', E_USER_NOTICE);
-        return $this->getBody($article, $implode);
-    }
-
-    /**
-     * Deprecated alias for getNewArticles()
-     *
-     * @deprecated
-     * @ignore
-     */
-    function getNewNews($time, $groups = '*', $distribution = null)
-    {
-    	trigger_error('You are using deprecated API v1.1 in Net_NNTP_Client: getNewNews() !', E_USER_NOTICE);
-    	return $this->getNewArticles($time, $groups, $distribution);
-    }
-
-    /**
-     * Deprecated alias for getReferences()
-     *
-     * @deprecated
-     * @ignore
-     */
-    function getReferencesOverview($first, $last)
-    {
-	trigger_error('You are using deprecated API v1.0 in Net_NNTP_Client: getReferencesOverview() !', E_USER_NOTICE);
-    	return $this->getReferences($first . '-' . $last);
-    }
-
 }
 
