@@ -459,7 +459,7 @@ class Net_NNTP_Protocol_Client
      * @param int $code Status code number
      * @param string $text Status text
      *
-     * @return mixed
+     * @return void
      * @access private
 	 * @throws
      */
@@ -1885,7 +1885,6 @@ class Net_NNTP_Protocol_Client
      * @param string $user The username to authenticate as.
      * @param string $pass The password to authenticate with.
      *
-     * @return mixed (bool) true on success or (object) pear_error on failure
      * @access protected
 	 * @throws
      */
@@ -1897,8 +1896,9 @@ class Net_NNTP_Protocol_Client
     /**
      * Test whether we are connected or not.
      *
-     * @return bool true or false
+     * @return bool True or false
      * @access protected
+	 * @throws
      */
     protected function isConnected()
     {
