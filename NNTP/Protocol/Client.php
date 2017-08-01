@@ -166,7 +166,9 @@ class Net_NNTP_Protocol_Client
      */
     function setDebug($debug = true)
     {
-    	trigger_error('You are using deprecated API v1.0 in Net_NNTP_Protocol_Client: setDebug() ! Debugging in now automatically handled when a logger is given.', E_USER_NOTICE);
+		if (! $logger instanceof \Log) {
+			throw new \InvalidArgumentException("Logger must be extend PEAR's Log class.");
+		}
     }
 
     /**
@@ -201,18 +203,18 @@ class Net_NNTP_Protocol_Client
             foreach ($matches[0] as $key => $match) {
                 $this->_logger->debug("Illegal character in command: ". htmlentities(str_replace(array("\r","\n"), array("'Carriage Return'", "'New Line'"), $match)));
             }
-            return $this->throwError("Illegal character(s) in NNTP command!");
+            throw new \Exception("Illegal character(s) in NNTP command!", null);
         }
 
     	// Check if connected
     	if (!$this->_isConnected()) {
-            return $this->throwError('Failed to write to socket! (connection lost!)');
+            throw new \Exception('Failed to write to socket! (connection lost!)', null);
         }
 
     	// Send the command
     	$R = @fwrite($this->_socket, $cmd . "\r\n");
         if ($R === false) {
-            return $this->throwError('Failed to write to socket!');
+            throw new \Exception('Failed to write to socket!', null);
         }
 
     	//
@@ -240,11 +242,11 @@ class Net_NNTP_Protocol_Client
 			//
 			$meta = stream_get_meta_data($this->_socket);
 			if ($meta['timed_out']) {
-				return $this->throwError('Connection timed out', null);
+				throw new \Exception('Connection timed out', null);
 			}
 
 			//
-            return $this->throwError('Failed to read from socket...!', null);
+            throw new \Exception('Failed to read from socket...!', null);
         }
 
     	//
@@ -291,11 +293,11 @@ class Net_NNTP_Protocol_Client
 				//
 				$meta = stream_get_meta_data($this->_socket);
 				if ($meta['timed_out']) {
-					return $this->throwError('Connection timed out', null);
+					throw new \Exception('Connection timed out', null);
 				}
 
 				//
-                return $this->throwError('Failed to read line from socket.', null);
+                throw new \Exception('Failed to read line from socket.', null);
     	    }
 
 			//
@@ -311,14 +313,14 @@ class Net_NNTP_Protocol_Client
                 continue;
             }
 
-            // Validate recieved line
+            // Validate received line
             if (false) {
                 // Lines should/may not be longer than 998+2 chars (RFC2822 2.3)
                 if (strlen($line) > 1000) {
     	    	    if ($this->_logger) {
     	    	    	$this->_logger->notice('Max line length...');
     	    	    }
-                    return $this->throwError('Invalid line recieved!', null);
+                    throw new \Exception('Invalid line received!', null);
                 }
             }
 
@@ -358,7 +360,7 @@ class Net_NNTP_Protocol_Client
     	}
 
     	//
-    	return $this->throwError('End of stream! Connection lost?', null);
+    	throw new \Exception('End of stream! Connection lost?', null);
     }
 
     /**
@@ -430,7 +432,7 @@ class Net_NNTP_Protocol_Client
 	    break;
 
 	default:
-    	    return $this->throwError('Ups...', null, null);
+    		throw new \InvalidArgumentException('Ups...', null);
     	}
 
 	return true;
@@ -468,10 +470,10 @@ class Net_NNTP_Protocol_Client
 
     	switch ($code) {
     	    case NET_NNTP_PROTOCOL_RESPONSECODE_NOT_PERMITTED: // 502, 'access restriction or permission denied' / service permanently unavailable
-    	    	return $this->throwError('Command not permitted / Access restriction / Permission denied', $code, $text);
     	    	break;
     	    default:
-    	    	return $this->throwError("Unexpected response: '$text'", $code, $text);
+				throw new \Exception('Command not permitted / Access restriction / Permission denied', $code, new \Exception($text));
+    	    	throw new \UnexpectedValueException("Unexpected response: '$text'", $code, new \Exception($text));
     	}
     }
 
@@ -520,7 +522,7 @@ class Net_NNTP_Protocol_Client
     	    	$port = is_null($port) ? 563 : $port;
 		break;
 	    default:
-    	    	trigger_error('$encryption parameter must be either tcp, tls or ssl.', E_USER_ERROR);
+    	    	throw new \InvalidArgumentException('$encryption parameter must be either tcp, tls or ssl.', null);
     	}
 
     	//
@@ -570,13 +572,15 @@ class Net_NNTP_Protocol_Client
     	    	return false;
     	        break;
     	    case 400:
-    	    	return $this->throwError('Server refused connection', $response, $this->_currentStatusResponse());
     	    	break;
     	    case NET_NNTP_PROTOCOL_RESPONSECODE_NOT_PERMITTED: // 502, 'access restriction or permission denied' / service permanently unavailable
-    	    	return $this->throwError('Server refused connection', $response, $this->_currentStatusResponse());
     	    	break;
     	    default:
     	    	return $this->_handleUnexpectedResponse($response);
+//    	    	throw new \Exception('Server refused connection', $response, new \Exception($this->currentStatusResponse()));
+    	    	throw new \Exception("Server refused connection: '".$this->currentStatusResponse()."'", $response);
+//    	    	throw new \Exception('Server refused connection', $response, new \Exception($this->currentStatusResponse()));
+    	    	throw new \Exception("Server refused connection: '".$this->currentStatusResponse()."'", $response);
     	}
     }
 
@@ -648,10 +652,10 @@ class Net_NNTP_Protocol_Client
     	    	return false;
     	    	break;
     	    case NET_NNTP_PROTOCOL_RESPONSECODE_NOT_PERMITTED: // 502, 'access restriction or permission denied' / service permanently unavailable
-    	    	return $this->throwError('Connection being closed, since service so permanently unavailable', $response, $this->_currentStatusResponse());
     	    	break;
     	    default:
     	    	return $this->_handleUnexpectedResponse($response);
+    	    	throw new \Exception('Connection being closed, since service so permanently unavailable', $response, new \Exception($this->currentStatusResponse()));
     	}
     }
 
@@ -716,20 +720,20 @@ class Net_NNTP_Protocol_Client
     	    	    	if ($this->_logger) {
     	    	    	    $this->_logger->info('TLS encryption failed.');
     	    	    	}
-    	    	    	return $this->throwError('Could not initiate TLS negotiation', $response, $this->_currentStatusResponse());
     	    	    	break;
     	    	    case is_int($encrypted):
-    	    	    	return $this->throwError('', $response, $this->_currentStatusResponse());
     	    	    	break;
     	    	    default:
-    	    	    	return $this->throwError('Internal error - unknown response from stream_socket_enable_crypto()', $response, $this->_currentStatusResponse());
+    	    	    	throw new \Exception('Could not initiate TLS negotiation', $response, new \Exception($this->currentStatusResponse()));
+    	    	    	throw new \Exception('', $response, new \Exception($this->currentStatusResponse()));
+    	    	    	throw new \Exception('Internal error - unknown response from stream_socket_enable_crypto()', $response, new \Exception($this->currentStatusResponse()));
     	    	}
     	    	break;
     	    case 580: // RFC4642: 'can not initiate TLS negotiation'
-    	    	return $this->throwError('', $response, $this->_currentStatusResponse());
     	    	break;
     	    default:
     	    	return $this->_handleUnexpectedResponse($response);
+    	    	throw new \Exception('', $response, new \Exception($this->currentStatusResponse()));
     	}
     }
 
@@ -766,10 +770,10 @@ class Net_NNTP_Protocol_Client
     	                     'count' => $response_arr[0]);
     	    	break;
     	    case NET_NNTP_PROTOCOL_RESPONSECODE_NO_SUCH_GROUP: // 411, RFC977: 'no such news group'
-    	    	return $this->throwError('No such news group', $response, $this->_currentStatusResponse());
     	    	break;
     	    default:
     	    	return $this->_handleUnexpectedResponse($response);
+    	    	throw new \Exception('No such news group', $response, new \Exception($this->currentStatusResponse()));
     	}
     }
 
@@ -825,13 +829,13 @@ class Net_NNTP_Protocol_Client
     	    	             'articles' => $articles);
     	    	break;
     	    case NET_NNTP_PROTOCOL_RESPONSECODE_NO_GROUP_SELECTED: // 412, RFC2980: 'Not currently in newsgroup'
-    	    	return $this->throwError('Not currently in newsgroup', $response, $this->_currentStatusResponse());
     	    	break;
     	    case 502: // RFC2980: 'no permission'
-    	    	return $this->throwError('No permission', $response, $this->_currentStatusResponse());
     	    	break;
     	    default:
     	    	return $this->_handleUnexpectedResponse($response);
+    	    	throw new \Exception('Not currently in newsgroup', $response, new \Exception($this->currentStatusResponse()));
+    	    	throw new \Exception('No permission', $response, new \Exception($this->currentStatusResponse()));
     	}
     }
 
@@ -860,16 +864,16 @@ class Net_NNTP_Protocol_Client
     	    	return array($response_arr[0], (string) $response_arr[1]);
     	    	break;
     	    case NET_NNTP_PROTOCOL_RESPONSECODE_NO_GROUP_SELECTED: // 412, RFC977: 'no newsgroup selected'
-    	    	return $this->throwError('No newsgroup has been selected', $response, $this->_currentStatusResponse());
     	    	break;
     	    case NET_NNTP_PROTOCOL_RESPONSECODE_NO_ARTICLE_SELECTED: // 420, RFC977: 'no current article has been selected'
-    	    	return $this->throwError('No current article has been selected', $response, $this->_currentStatusResponse());
     	    	break;
     	    case NET_NNTP_PROTOCOL_RESPONSECODE_NO_PREVIOUS_ARTICLE: // 422, RFC977: 'no previous article in this group'
-    	    	return $this->throwError('No previous article in this group', $response, $this->_currentStatusResponse());
     	    	break;
     	    default:
     	    	return $this->_handleUnexpectedResponse($response);
+    	    	throw new \Exception('No newsgroup has been selected', $response, new \Exception($this->currentStatusResponse()));
+    	    	throw new \Exception('No current article has been selected', $response, new \Exception($this->currentStatusResponse()));
+    	    	throw new \Exception('No previous article in this group', $response, new \Exception($this->currentStatusResponse()));
     	}
     }
 
@@ -898,16 +902,16 @@ class Net_NNTP_Protocol_Client
     	    	return array($response_arr[0], (string) $response_arr[1]);
     	    	break;
     	    case NET_NNTP_PROTOCOL_RESPONSECODE_NO_GROUP_SELECTED: // 412, RFC977: 'no newsgroup selected'
-    	    	return $this->throwError('No newsgroup has been selected', $response, $this->_currentStatusResponse());
     	    	break;
     	    case NET_NNTP_PROTOCOL_RESPONSECODE_NO_ARTICLE_SELECTED: // 420, RFC977: 'no current article has been selected'
-    	    	return $this->throwError('No current article has been selected', $response, $this->_currentStatusResponse());
     	    	break;
     	    case NET_NNTP_PROTOCOL_RESPONSECODE_NO_NEXT_ARTICLE: // 421, RFC977: 'no next article in this group'
-    	    	return $this->throwError('No next article in this group', $response, $this->_currentStatusResponse());
     	    	break;
     	    default:
     	    	return $this->_handleUnexpectedResponse($response);
+    	    	throw new \Exception('No newsgroup has been selected', $response, new \Exception($this->currentStatusResponse()));
+    	    	throw new \Exception('No current article has been selected', $response, new \Exception($this->currentStatusResponse()));
+    	    	throw new \Exception('No next article in this group', $response, new \Exception($this->currentStatusResponse()));
     	}
     }
 
@@ -948,19 +952,19 @@ class Net_NNTP_Protocol_Client
     	    	return $data;
     	    	break;
     	    case NET_NNTP_PROTOCOL_RESPONSECODE_NO_GROUP_SELECTED: // 412, RFC977: 'no newsgroup has been selected'
-    	    	return $this->throwError('No newsgroup has been selected', $response, $this->_currentStatusResponse());
     	    	break;
     	    case NET_NNTP_PROTOCOL_RESPONSECODE_NO_ARTICLE_SELECTED: // 420, RFC977: 'no current article has been selected'
-    	    	return $this->throwError('No current article has been selected', $response, $this->_currentStatusResponse());
     	    	break;
     	    case NET_NNTP_PROTOCOL_RESPONSECODE_NO_SUCH_ARTICLE_NUMBER: // 423, RFC977: 'no such article number in this group'
-    	    	return $this->throwError('No such article number in this group', $response, $this->_currentStatusResponse());
     	    	break;
     	    case NET_NNTP_PROTOCOL_RESPONSECODE_NO_SUCH_ARTICLE_ID: // 430, RFC977: 'no such article found'
-    	    	return $this->throwError('No such article found', $response, $this->_currentStatusResponse());
     	    	break;
     	    default:
     	    	return $this->_handleUnexpectedResponse($response);
+    	    	throw new \Exception('No newsgroup has been selected', $response, new \Exception($this->currentStatusResponse()));
+    	    	throw new \Exception('No current article has been selected', $response, new \Exception($this->currentStatusResponse()));
+    	    	throw new \Exception('No such article number in this group', $response, new \Exception($this->currentStatusResponse()));
+    	    	throw new \Exception('No such article found', $response, new \Exception($this->currentStatusResponse()));
     	}
     }
 
@@ -1000,19 +1004,19 @@ class Net_NNTP_Protocol_Client
     	        return $data;
     	    	break;
     	    case NET_NNTP_PROTOCOL_RESPONSECODE_NO_GROUP_SELECTED: // 412, RFC977: 'no newsgroup has been selected'
-    	    	return $this->throwError('No newsgroup has been selected', $response, $this->_currentStatusResponse());
     	    	break;
     	    case NET_NNTP_PROTOCOL_RESPONSECODE_NO_ARTICLE_SELECTED: // 420, RFC977: 'no current article has been selected'
-    	    	return $this->throwError('No current article has been selected', $response, $this->_currentStatusResponse());
     	    	break;
     	    case NET_NNTP_PROTOCOL_RESPONSECODE_NO_SUCH_ARTICLE_NUMBER: // 423, RFC977: 'no such article number in this group'
-    	    	return $this->throwError('No such article number in this group', $response, $this->_currentStatusResponse());
     	    	break;
     	    case NET_NNTP_PROTOCOL_RESPONSECODE_NO_SUCH_ARTICLE_ID: // 430, RFC977: 'no such article found'
-    	    	return $this->throwError('No such article found', $response, $this->_currentStatusResponse());
     	    	break;
     	    default:
     	    	return $this->_handleUnexpectedResponse($response);
+    	    	throw new \Exception('No newsgroup has been selected', $response, new \Exception($this->currentStatusResponse()));
+    	    	throw new \Exception('No current article has been selected', $response, new \Exception($this->currentStatusResponse()));
+    	    	throw new \Exception('No such article number in this group', $response, new \Exception($this->currentStatusResponse()));
+    	    	throw new \Exception('No such article found', $response, new \Exception($this->currentStatusResponse()));
     	}
     }
 
@@ -1052,19 +1056,19 @@ class Net_NNTP_Protocol_Client
     	        return $data;
     	    	break;
     	    case NET_NNTP_PROTOCOL_RESPONSECODE_NO_GROUP_SELECTED: // 412, RFC977: 'no newsgroup has been selected'
-    	    	return $this->throwError('No newsgroup has been selected', $response, $this->_currentStatusResponse());
     	    	break;
     	    case NET_NNTP_PROTOCOL_RESPONSECODE_NO_ARTICLE_SELECTED: // 420, RFC977: 'no current article has been selected'
-    	    	return $this->throwError('No current article has been selected', $response, $this->_currentStatusResponse());
     	    	break;
     	    case NET_NNTP_PROTOCOL_RESPONSECODE_NO_SUCH_ARTICLE_NUMBER: // 423, RFC977: 'no such article number in this group'
-    	    	return $this->throwError('No such article number in this group', $response, $this->_currentStatusResponse());
     	    	break;
     	    case NET_NNTP_PROTOCOL_RESPONSECODE_NO_SUCH_ARTICLE_ID: // 430, RFC977: 'no such article found'
-    	    	return $this->throwError('No such article found', $response, $this->_currentStatusResponse());
     	    	break;
     	    default:
     	    	return $this->_handleUnexpectedResponse($response);
+    	    	throw new \Exception('No newsgroup has been selected', $response, new \Exception($this->currentStatusResponse()));
+    	    	throw new \Exception('No current article has been selected', $response, new \Exception($this->currentStatusResponse()));
+    	    	throw new \Exception('No such article number in this group', $response, new \Exception($this->currentStatusResponse()));
+    	    	throw new \Exception('No such article found', $response, new \Exception($this->currentStatusResponse()));
     	}
     }
 
@@ -1101,16 +1105,16 @@ class Net_NNTP_Protocol_Client
     	    	return array($response_arr[0], (string) $response_arr[1]);
     	    	break;
     	    case NET_NNTP_PROTOCOL_RESPONSECODE_NO_GROUP_SELECTED: // 412, RFC977: 'no newsgroup has been selected' (actually not documented, but copied from the ARTICLE command)
-    	    	return $this->throwError('No newsgroup has been selected', $response, $this->_currentStatusResponse());
     	    	break;
     	    case NET_NNTP_PROTOCOL_RESPONSECODE_NO_SUCH_ARTICLE_NUMBER: // 423, RFC977: 'no such article number in this group' (actually not documented, but copied from the ARTICLE command)
-    	    	return $this->throwError('No such article number in this group', $response, $this->_currentStatusResponse());
     	    	break;
     	    case NET_NNTP_PROTOCOL_RESPONSECODE_NO_SUCH_ARTICLE_ID: // 430, RFC977: 'no such article found' (actually not documented, but copied from the ARTICLE command)
-    	    	return $this->throwError('No such article found', $response, $this->_currentStatusResponse());
     	    	break;
     	    default:
     	    	return $this->_handleUnexpectedResponse($response);
+    	    	throw new \Exception('No newsgroup has been selected', $response, new \Exception($this->currentStatusResponse()));
+    	    	throw new \Exception('No such article number in this group', $response, new \Exception($this->currentStatusResponse()));
+    	    	throw new \Exception('No such article found', $response, new \Exception($this->currentStatusResponse()));
     	}
     }
 
@@ -1135,10 +1139,10 @@ class Net_NNTP_Protocol_Client
     	    	return true;
     	    	break;
     	    case NET_NNTP_PROTOCOL_RESPONSECODE_POSTING_PROHIBITED: // 440, RFC977: 'posting not allowed'
-    	    	return $this->throwError('Posting not allowed', $response, $this->_currentStatusResponse());
     	    	break;
     	    default:
     	    	return $this->_handleUnexpectedResponse($response);
+    	    	throw new \Exception('Posting not allowed', $response, new \Exception($this->currentStatusResponse()));
     	}
 
     }
@@ -1169,10 +1173,10 @@ class Net_NNTP_Protocol_Client
     	    	return true;
     	    	break;
     	    case NET_NNTP_PROTOCOL_RESPONSECODE_POSTING_FAILURE: // 441, RFC977: 'posting failed'
-    	    	return $this->throwError('Posting failed', $response, $this->_currentStatusResponse());
     	    	break;
     	    default:
     	    	return $this->_handleUnexpectedResponse($response);
+    	    	throw new \Exception('Posting failed', $response, new \Exception($this->currentStatusResponse()));
     	}
     }
 
@@ -1197,13 +1201,13 @@ class Net_NNTP_Protocol_Client
     	    	return true;
     	    	break;
     	    case NET_NNTP_PROTOCOL_RESPONSECODE_TRANSFER_UNWANTED: // 435
-    	    	return $this->throwError('Article not wanted', $response, $this->_currentStatusResponse());
     	    	break;
     	    case NET_NNTP_PROTOCOL_RESPONSECODE_TRANSFER_FAILURE: // 436
-    	    	return $this->throwError('Transfer not possible; try again later', $response, $this->_currentStatusResponse());
     	    	break;
     	    default:
     	    	return $this->_handleUnexpectedResponse($response);
+    	    	throw new \Exception('Article not wanted', $response, new \Exception($this->currentStatusResponse()));
+    	    	throw new \Exception('Transfer not possible; try again later', $response, new \Exception($this->currentStatusResponse()));
     	}
     }
 
@@ -1233,13 +1237,13 @@ class Net_NNTP_Protocol_Client
     	    	return true;
     	    	break;
     	    case NET_NNTP_PROTOCOL_RESPONSECODE_TRANSFER_FAILURE: // 436
-    	    	return $this->throwError('Transfer not possible; try again later', $response, $this->_currentStatusResponse());
     	    	break;
     	    case NET_NNTP_PROTOCOL_RESPONSECODE_TRANSFER_REJECTED: // 437
-    	    	return $this->throwError('Transfer rejected; do not retry', $response, $this->_currentStatusResponse());
     	    	break;
     	    default:
     	    	return $this->_handleUnexpectedResponse($response);
+    	    	throw new \Exception('Transfer not possible; try again later', $response, new \Exception($this->currentStatusResponse()));
+    	    	throw new \Exception('Transfer rejected; do not retry', $response, new \Exception($this->currentStatusResponse()));
     	}
     }
 
@@ -1531,10 +1535,10 @@ class Net_NNTP_Protocol_Client
     	        return $groups;
     		break;
     	    case 503: // RFC2980: 'program error, function not performed'
-    	    	return $this->throwError('Internal server error, function not performed', $response, $this->_currentStatusResponse());
     	    	break;
     	    default:
     	    	return $this->_handleUnexpectedResponse($response);
+    	    	throw new \Exception('Internal server error, function not performed', $response, new \Exception($this->currentStatusResponse()));
     	}
     }
 
@@ -1582,19 +1586,19 @@ class Net_NNTP_Protocol_Client
     	    	return $data;
     	    	break;
     	    case NET_NNTP_PROTOCOL_RESPONSECODE_NO_GROUP_SELECTED: // 412, RFC2980: 'No news group current selected'
-    	    	return $this->throwError('No news group current selected', $response, $this->_currentStatusResponse());
     	    	break;
     	    case NET_NNTP_PROTOCOL_RESPONSECODE_NO_ARTICLE_SELECTED: // 420, RFC2980: 'No article(s) selected'
-    	    	return $this->throwError('No article(s) selected', $response, $this->_currentStatusResponse());
     	    	break;
     	    case NET_NNTP_PROTOCOL_RESPONSECODE_NO_SUCH_ARTICLE_NUMBER: // 423:, Draft27: 'No articles in that range'
-    	    	return $this->throwError('No articles in that range', $response, $this->_currentStatusResponse());
     	    	break;
     	    case 502: // RFC2980: 'no permission'
-    	    	return $this->throwError('No permission', $response, $this->_currentStatusResponse());
     	    	break;
     	    default:
     	    	return $this->_handleUnexpectedResponse($response);
+    	    	throw new \Exception('No news group current selected', $response, new \Exception($this->currentStatusResponse()));
+    	    	throw new \Exception('No article(s) selected', $response, new \Exception($this->currentStatusResponse()));
+    	    	throw new \Exception('No articles in that range', $response, new \Exception($this->currentStatusResponse()));
+    	    	throw new \Exception('No permission', $response, new \Exception($this->currentStatusResponse()));
     	}
     }
 
@@ -1645,16 +1649,16 @@ class Net_NNTP_Protocol_Client
     	    	return $data;
     	    	break;
     	    case NET_NNTP_PROTOCOL_RESPONSECODE_NO_GROUP_SELECTED: // 412, RFC2980: 'No news group current selected'
-    	    	return $this->throwError('No news group current selected', $response, $this->_currentStatusResponse());
     	    	break;
     	    case NET_NNTP_PROTOCOL_RESPONSECODE_NO_ARTICLE_SELECTED: // 420, RFC2980: 'No article(s) selected'
-    	    	return $this->throwError('No article(s) selected', $response, $this->_currentStatusResponse());
     	    	break;
     	    case 502: // RFC2980: 'no permission'
-    	    	return $this->throwError('No permission', $response, $this->_currentStatusResponse());
     	    	break;
     	    default:
     	    	return $this->_handleUnexpectedResponse($response);
+    	    	throw new \Exception('No news group current selected', $response, new \Exception($this->currentStatusResponse()));
+    	    	throw new \Exception('No article(s) selected', $response, new \Exception($this->currentStatusResponse()));
+    	    	throw new \Exception('No permission', $response, new \Exception($this->currentStatusResponse()));
     	}
     }
 
@@ -1698,10 +1702,10 @@ class Net_NNTP_Protocol_Client
     	        return $format;
     	    	break;
     	    case 503: // RFC2980: 'program error, function not performed'
-    	    	return $this->throwError('Internal server error, function not performed', $response, $this->_currentStatusResponse());
     	    	break;
     	    default:
     	    	return $this->_handleUnexpectedResponse($response);
+    	    	throw new \Exception('Internal server error, function not performed', $response, new \Exception($this->currentStatusResponse()));
     	}
     }
 
@@ -1746,19 +1750,19 @@ class Net_NNTP_Protocol_Client
     	    	return $return;
     	    	break;
     	    case NET_NNTP_PROTOCOL_RESPONSECODE_NO_GROUP_SELECTED: // 412, RFC2980: 'No news group current selected'
-    	    	return $this->throwError('No news group current selected', $response, $this->_currentStatusResponse());
     	    	break;
     	    case NET_NNTP_PROTOCOL_RESPONSECODE_NO_ARTICLE_SELECTED: // 420, RFC2980: 'No current article selected'
-    	    	return $this->throwError('No current article selected', $response, $this->_currentStatusResponse());
     	    	break;
     	    case 430: // 430, RFC2980: 'No such article'
-    	    	return $this->throwError('No such article', $response, $this->_currentStatusResponse());
     	    	break;
     	    case 502: // RFC2980: 'no permission'
-    	    	return $this->throwError('No permission', $response, $this->_currentStatusResponse());
     	    	break;
     	    default:
     	    	return $this->_handleUnexpectedResponse($response);
+    	    	throw new \Exception('No news group current selected', $response, new \Exception($this->currentStatusResponse()));
+    	    	throw new \Exception('No current article selected', $response, new \Exception($this->currentStatusResponse()));
+    	    	throw new \Exception('No such article', $response, new \Exception($this->currentStatusResponse()));
+    	    	throw new \Exception('No permission', $response, new \Exception($this->currentStatusResponse()));
     	}
     }
 
@@ -1814,10 +1818,10 @@ class Net_NNTP_Protocol_Client
     	    	break;
 
     	    case 481: // RFC2980: 'Groups and descriptions unavailable'
-    	    	return $this->throwError('Groups and descriptions unavailable', $response, $this->_currentStatusResponse());
     	    	break;
     	    default:
     	    	return $this->_handleUnexpectedResponse($response);
+    	    	throw new \Exception('Groups and descriptions unavailable', $response, new \Exception($this->currentStatusResponse()));
     	}
     }
 
@@ -1862,16 +1866,16 @@ class Net_NNTP_Protocol_Client
     	    	return $return;
     	    	break;
     	    case NET_NNTP_PROTOCOL_RESPONSECODE_NO_GROUP_SELECTED: // 412, RFC2980: 'No news group current selected'
-    	    	return $this->throwError('No news group current selected', $response, $this->_currentStatusResponse());
     	    	break;
     	    case NET_NNTP_PROTOCOL_RESPONSECODE_NO_ARTICLE_SELECTED: // 420, RFC2980: 'No article(s) selected'
-    	    	return $this->throwError('No article(s) selected', $response, $this->_currentStatusResponse());
     	    	break;
     	    case 502: // RFC2980: 'no permission'
-    	    	return $this->throwError('No permission', $response, $this->_currentStatusResponse());
     	    	break;
     	    default:
     	    	return $this->_handleUnexpectedResponse($response);
+    	    	throw new \Exception('No news group current selected', $response, new \Exception($this->currentStatusResponse()));
+    	    	throw new \Exception('No article(s) selected', $response, new \Exception($this->currentStatusResponse()));
+    	    	throw new \Exception('No permission', $response, new \Exception($this->currentStatusResponse()));
     	}
     }
 
@@ -1916,13 +1920,13 @@ class Net_NNTP_Protocol_Client
     	    	return $return;
     	    	break;
     	    case 430: // 430, RFC2980: 'No such article'
-    	    	return $this->throwError('No current article selected', $response, $this->_currentStatusResponse());
     	    	break;
     	    case 502: // RFC2980: 'no permission'
-    	    	return $this->throwError('No permission', $response, $this->_currentStatusResponse());
     	    	break;
     	    default:
     	    	return $this->_handleUnexpectedResponse($response);
+    	    	throw new \Exception('No current article selected', $response, new \Exception($this->currentStatusResponse()));
+    	    	throw new \Exception('No permission', $response, new \Exception($this->currentStatusResponse()));
     	}
     }
 
@@ -1963,20 +1967,20 @@ class Net_NNTP_Protocol_Client
     	        return true;
     	        break;
     	    case 381: // RFC2980: 'More authentication information required'
-    	        return $this->throwError('Authentication uncompleted', $response, $this->_currentStatusResponse());
     	        break;
     	    case 482: // RFC2980: 'Authentication rejected'
-    	    	return $this->throwError('Authentication rejected', $response, $this->_currentStatusResponse());
     	    	break;
     	    case 502: // RFC2980: 'No permission'
-    	    	return $this->throwError('Authentication rejected', $response, $this->_currentStatusResponse());
     	    	break;
 //    	    case 500:
+    	        throw new \Exception('Authentication uncompleted', $response, new \Exception($this->currentStatusResponse()));
+    	    	throw new \Exception('Authentication rejected', $response, new \Exception($this->currentStatusResponse()));
+    	    	throw new \Exception('Authentication rejected', $response, new \Exception($this->currentStatusResponse()));
 //    	    case 501:
-//    	    	return $this->throwError('Authentication failed', $response, $this->_currentStatusResponse());
 //    	    	break;
     	    default:
     	    	return $this->_handleUnexpectedResponse($response);
+//    	    	throw new \Exception('Authentication failed', $response, new \Exception($this->currentStatusResponse()));
     	}
     }
 
@@ -1991,7 +1995,7 @@ class Net_NNTP_Protocol_Client
      */
     function cmdAuthinfoSimple($user, $pass)
     {
-        return $this->throwError("The auth mode: 'simple' is has not been implemented yet", null);
+        throw new \Exception("The auth mode: 'simple' is has not been implemented yet", null);
     }
 
     /**
@@ -2005,7 +2009,7 @@ class Net_NNTP_Protocol_Client
      */
     function cmdAuthinfoGeneric($user, $pass)
     {
-        return $this->throwError("The auth mode: 'generic' is has not been implemented yet", null);
+        throw new \Exception("The auth mode: 'generic' is has not been implemented yet", null);
     }
 
     /**
