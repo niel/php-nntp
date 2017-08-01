@@ -549,9 +549,6 @@ class Net_NNTP_Protocol_Client
 		stream_set_timeout($this->socket, $timeout);
 
     	// Retrive the server's initial response.
-    	if (PEAR::isError($response)) {
-    	    return $response;
-        }
     	$response = $this->getStatusResponse();
 
         switch ($response) {
@@ -604,15 +601,9 @@ class Net_NNTP_Protocol_Client
     function cmdCapabilities()
     {
         // tell the newsserver we want an article
-        if (PEAR::isError($response)) {
-            return $response;
-        }
         $response = $this->sendCommand('CAPABILITIES');
 
     	switch ($response) {
-    	    	if (PEAR::isError($data)) {
-    	    	    return $data;
-    	    	}
             case Net_NNTP_Protocol_Responsecode::CAPABILITIES_FOLLOW: // 101, Draft: 'Capability list follows'
     	    	$data = $this->getTextResponse();
     	    	return $data;
@@ -632,9 +623,6 @@ class Net_NNTP_Protocol_Client
     function cmdModeReader()
     {
         // tell the newsserver we want an article
-        if (PEAR::isError($response)) {
-            return $response;
-        }
         $response = $this->sendCommand('MODE READER');
 
     	switch ($response) {
@@ -672,9 +660,6 @@ class Net_NNTP_Protocol_Client
     {
     	// Tell the server to close the connection
     	$response = $this->_sendCommand('QUIT');
-        if (PEAR::isError($response)) {
-            return $response;
-    	}
 
         switch ($response) {
     	    case 205: // RFC977: 'closing connection - goodbye!'
@@ -705,9 +690,6 @@ class Net_NNTP_Protocol_Client
      */
     function cmdStartTLS()
     {
-        if (PEAR::isError($response)) {
-            return $response;
-        }
         $response = $this->sendCommand('STARTTLS');
 
     	switch ($response) {
@@ -756,9 +738,6 @@ class Net_NNTP_Protocol_Client
      */
     function cmdGroup($newsgroup)
     {
-        if (PEAR::isError($response)) {
-            return $response;
-        }
         $response = $this->sendCommand('GROUP '.$newsgroup);
 
     	switch ($response) {
@@ -804,18 +783,12 @@ class Net_NNTP_Protocol_Client
     	    }
         }
 
-        if (PEAR::isError($response)){
-            return $response;
-        }
         $response = $this->sendCommand($command);
 
     	switch ($response) {
     	    case Net_NNTP_Protocol_Responsecode::GROUP_SELECTED: // 211, RFC2980: 'list of article numbers follow'
 
     	    	$articles = $this->_getTextResponse();
-    	        if (PEAR::isError($articles)) {
-    	            return $articles;
-    	        }
 
     	        $response_arr = explode(' ', trim($this->currentStatusResponse()), 4);
 
@@ -855,9 +828,6 @@ class Net_NNTP_Protocol_Client
     function cmdLast()
     {
         //
-        if (PEAR::isError($response)) {
-            return $response;
-        }
         $response = $this->sendCommand('LAST');
 
     	switch ($response) {
@@ -894,9 +864,6 @@ class Net_NNTP_Protocol_Client
     function cmdNext()
     {
         //
-        if (PEAR::isError($response)) {
-            return $response;
-        }
         $response = $this->sendCommand('NEXT');
 
     	switch ($response) {
@@ -943,15 +910,9 @@ class Net_NNTP_Protocol_Client
         }
 
         // tell the newsserver we want an article
-        if (PEAR::isError($response)) {
-            return $response;
-        }
         $response = $this->sendCommand($command);
 
     	switch ($response) {
-    	    	if (PEAR::isError($data)) {
-    	    	    return $data;
-    	    	}
     	    case Net_NNTP_Protocol_Responsecode::ARTICLE_FOLLOWS:  // 220, RFC977: 'n <a> article retrieved - head and body follow (n = article number, <a> = message-id)'
     	    	$data = $this->getTextResponse();
 
@@ -995,15 +956,9 @@ class Net_NNTP_Protocol_Client
         }
 
         // tell the newsserver we want the header of an article
-        if (PEAR::isError($response)) {
-            return $response;
-        }
         $response = $this->sendCommand($command);
 
     	switch ($response) {
-    	    	if (PEAR::isError($data)) {
-    	    	    return $data;
-    	    	}
     	    case Net_NNTP_Protocol_Responsecode::HEAD_FOLLOWS:     // 221, RFC977: 'n <a> article retrieved - head follows'
     	    	$data = $this->getTextResponse();
 
@@ -1048,9 +1003,6 @@ class Net_NNTP_Protocol_Client
         }
 
         // tell the newsserver we want the body of an article
-        if (PEAR::isError($response)) {
-            return $response;
-        }
         $response = $this->sendCommand($command);
 
     	switch ($response) {
@@ -1101,9 +1053,6 @@ class Net_NNTP_Protocol_Client
         }
 
         // tell the newsserver we want an article
-        if (PEAR::isError($response)) {
-            return $response;
-        }
         $response = $this->sendCommand($command);
 
     	switch ($response) {
@@ -1142,9 +1091,6 @@ class Net_NNTP_Protocol_Client
     function cmdPost()
     {
         // tell the newsserver we want to post an article
-    	if (PEAR::isError($response)) {
-    	    return $response;
-        }
     	$response = $this->sendCommand('POST');
 
     	switch ($response) {
@@ -1177,9 +1123,6 @@ class Net_NNTP_Protocol_Client
     	$this->sendArticle($article);
 
     	// Retrive server's response.
-    	if (PEAR::isError($response)) {
-    	    return $response;
-    	}
     	$response = $this->getStatusResponse();
 
     	switch ($response) {
@@ -1206,9 +1149,6 @@ class Net_NNTP_Protocol_Client
     function cmdIhave($id)
     {
         // tell the newsserver we want to post an article
-    	if (PEAR::isError($response)) {
-    	    return $response;
-        }
     	$response = $this->sendCommand('IHAVE ' . $id);
 
     	switch ($response) {
@@ -1243,9 +1183,6 @@ class Net_NNTP_Protocol_Client
     	$this->sendArticle($article);
 
     	// Retrive server's response.
-    	if (PEAR::isError($response)) {
-    	    return $response;
-    	}
     	$response = $this->getStatusResponse();
 
     	switch ($response) {
@@ -1274,9 +1211,6 @@ class Net_NNTP_Protocol_Client
      */
     function cmdDate()
     {
-        if (PEAR::isError($response)){
-            return $response;
-        }
         $response = $this->sendCommand('DATE');
 
     	switch ($response) {
@@ -1298,15 +1232,9 @@ class Net_NNTP_Protocol_Client
     function cmdHelp()
     {
         // tell the newsserver we want an article
-        if (PEAR::isError($response)) {
-            return $response;
-        }
         $response = $this->sendCommand('HELP');
 
     	switch ($response) {
-    	    	if (PEAR::isError($data)) {
-    	    	    return $data;
-    	    	}
             case Net_NNTP_Protocol_Responsecode::HELP_FOLLOWS: // 100
     	    	$data = $this->getTextResponse();
     	    	return $data;
@@ -1336,15 +1264,9 @@ class Net_NNTP_Protocol_Client
     	    $command = 'NEWGROUPS ' . $date . ' GMT <' . $distributions . '>';
         }
 
-        if (PEAR::isError($response)){
-            return $response;
-        }
         $response = $this->sendCommand($command);
 
     	switch ($response) {
-    	    	if (PEAR::isError($data)) {
-    	    	    return $data;
-    	    	}
     	    case Net_NNTP_Protocol_Responsecode::NEW_GROUPS_FOLLOW: // 231, REF977: 'list of new newsgroups follows'
     	    	$data = $this->getTextResponse();
 
@@ -1399,9 +1321,6 @@ class Net_NNTP_Protocol_Client
 
 	// TODO: the lenght of the request string may not exceed 510 chars
 
-        if (PEAR::isError($response)){
-            return $response;
-        }
         $response = $this->sendCommand($command);
 
     	switch ($response) {
@@ -1428,15 +1347,9 @@ class Net_NNTP_Protocol_Client
      */
     function cmdList()
     {
-        if (PEAR::isError($response)){
-            return $response;
-        }
         $response = $this->sendCommand('LIST');
 
     	switch ($response) {
-    	    	if (PEAR::isError($data)) {
-    	    	    return $data;
-    	    	}
     	    case Net_NNTP_Protocol_Responsecode::GROUPS_FOLLOW: // 215, RFC977: 'list of newsgroups follows'
     	    	$data = $this->getTextResponse();
 
@@ -1475,15 +1388,9 @@ class Net_NNTP_Protocol_Client
             $command = 'LIST ACTIVE ' . $wildmat;
         }
 
-        if (PEAR::isError($response)){
-            return $response;
-        }
         $response = $this->sendCommand($command);
 
     	switch ($response) {
-    	    	if (PEAR::isError($data)) {
-    	    	    return $data;
-    	    	}
     	    case Net_NNTP_Protocol_Responsecode::GROUPS_FOLLOW: // 215, RFC977: 'list of newsgroups follows'
     	    	$data = $this->getTextResponse();
 
@@ -1527,15 +1434,9 @@ class Net_NNTP_Protocol_Client
             $command = 'LIST NEWSGROUPS ' . $wildmat;
         }
 
-        if (PEAR::isError($response)){
-            return $response;
-        }
         $response = $this->sendCommand($command);
 
     	switch ($response) {
-    	        if (PEAR::isError($data)) {
-    	            return $data;
-    	        }
     	    case Net_NNTP_Protocol_Responsecode::GROUPS_FOLLOW: // 215, RFC2980: 'information follows'
     	    	$data = $this->getTextResponse();
 
@@ -1587,15 +1488,9 @@ class Net_NNTP_Protocol_Client
     	    $command = 'OVER ' . $range;
         }
 
-        if (PEAR::isError($response)){
-            return $response;
-        }
         $response = $this->sendCommand($command);
 
     	switch ($response) {
-    	        if (PEAR::isError($data)) {
-    	            return $data;
-    	        }
     	    case Net_NNTP_Protocol_Responsecode::OVERVIEW_FOLLOWS: // 224, RFC2980: 'Overview information follows'
     	    	$data = $this->getTextResponse();
 
@@ -1651,15 +1546,9 @@ class Net_NNTP_Protocol_Client
     	    $command = 'XOVER ' . $range;
         }
 
-        if (PEAR::isError($response)){
-            return $response;
-        }
         $response = $this->sendCommand($command);
 
     	switch ($response) {
-    	        if (PEAR::isError($data)) {
-    	            return $data;
-    	        }
     	    case Net_NNTP_Protocol_Responsecode::OVERVIEW_FOLLOWS: // 224, RFC2980: 'Overview information follows'
     	    	$data = $this->getTextResponse();
 
@@ -1696,15 +1585,9 @@ class Net_NNTP_Protocol_Client
      */
     function cmdListOverviewFmt()
     {
-        if (PEAR::isError($response)){
-            return $response;
-        }
     	$response = $this->sendCommand('LIST OVERVIEW.FMT');
 
     	switch ($response) {
-    	        if (PEAR::isError($data)) {
-    	            return $data;
-    	        }
     	    case Net_NNTP_Protocol_Responsecode::GROUPS_FOLLOW: // 215, RFC2980: 'information follows'
     	    	$data = $this->getTextResponse();
 
@@ -1756,16 +1639,10 @@ class Net_NNTP_Protocol_Client
     	    $command = 'XHDR ' . $field . ' ' . $range;
         }
 
-        if (PEAR::isError($response)){
-            return $response;
-        }
         $response = $this->sendCommand($command);
 
     	switch ($response) {
     	    case 221: // 221, RFC2980: 'Header follows'
-    	        if (PEAR::isError($data)) {
-    	            return $data;
-    	        }
     	    	$data = $this->getTextResponse();
 
     	    	$return = array();
@@ -1823,16 +1700,10 @@ class Net_NNTP_Protocol_Client
      */
     function cmdXGTitle($wildmat = '*')
     {
-        if (PEAR::isError($response)){
-            return $response;
-        }
         $response = $this->sendCommand('XGTITLE '.$wildmat);
 
     	switch ($response) {
     	    case 282: // RFC2980: 'list of groups and descriptions follows'
-    	        if (PEAR::isError($data)) {
-    	            return $data;
-    	        }
     	    	$data = $this->getTextResponse();
 
     	    	$groups = array();
@@ -1875,15 +1746,9 @@ class Net_NNTP_Protocol_Client
     	    $command = 'XROVER ' . $range;
         }
 
-        if (PEAR::isError($response)){
-            return $response;
-        }
         $response = $this->sendCommand($command);
 
     	switch ($response) {
-    	        if (PEAR::isError($data)) {
-    	            return $data;
-    	        }
     	    case Net_NNTP_Protocol_Responsecode::OVERVIEW_FOLLOWS: // 224, RFC2980: 'Overview information follows'
     	    	$data = $this->getTextResponse();
 
@@ -1929,16 +1794,10 @@ class Net_NNTP_Protocol_Client
 	    $wildmat = implode(' ', $wildmat);
     	}
 
-        if (PEAR::isError($response)){
-            return $response;
-        }
         $response = $this->sendCommand('XPAT ' . $field . ' ' . $range . ' ' . $wildmat);
 
     	switch ($response) {
     	    case 221: // 221, RFC2980: 'Header follows'
-    	        if (PEAR::isError($data)) {
-    	            return $data;
-    	        }
     	    	$data = $this->getTextResponse();
 
     	    	$return = array();
@@ -1973,17 +1832,11 @@ class Net_NNTP_Protocol_Client
     function cmdAuthinfo($user, $pass)
     {
     	// Send the username
-        if (PEAR::isError($response)) {
-            return $response;
-    	}
         $response = $this->sendCommand('AUTHINFO user '.$user);
 
     	// Send the password, if the server asks
     	if (($response == 381) && ($pass !== null)) {
     	    // Send the password
-    	    if (PEAR::isError($response)) {
-    	    	return $response;
-    	    }
             $response = $this->sendCommand('AUTHINFO pass '.$pass);
     	}
 

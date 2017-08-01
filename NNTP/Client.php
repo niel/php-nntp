@@ -218,9 +218,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     {
 	// Select group (even if $articles is set, since many servers does not select groups when the listgroup command is run)
     	$summary = $this->cmdGroup($group);
-    	if (PEAR::isError($summary)) {
-    	    return $summary;
-    	}
 
     	// Store group info in the object
     	$this->selectedGroupSummary = $summary;
@@ -228,9 +225,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
 	// 
     	if ($articles !== false) {
     	    $summary2 = $this->cmdListgroup($group, ($articles === true ? null : $articles));
-    	    if (PEAR::isError($summary2)) {
-    	        return $summary2;
-    	    }
 
 	    // Make sure the summary array is correct...
     	    if ($summary2['group'] == $group) {
@@ -310,10 +304,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     {
         $response = $this->cmdNext();
 
-    	if (PEAR::isError($response)) {
-    	    return $response;
-	}
-
     	switch ($_ret) {
     	    case -1:
     	    	return array('Number' => (int) $response[0], 'Message-ID' =>  (string) $response[1]);
@@ -351,10 +341,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     function selectArticle($article = null, $_ret = 0)
     {
         $response = $this->cmdStat($article);
-
-    	if (PEAR::isError($response)) {
-    	    return $response;
-	}
 
     	switch ($_ret) {
     	    case -1:
@@ -397,9 +383,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     function getArticle($article = null, $implode = false)
     {
         $data = $this->cmdArticle($article);
-        if (PEAR::isError($data)) {
-    	    return $data;
-    	}
 
     	if ($implode == true) {
     	    $data = implode("\r\n", $data);
@@ -435,9 +418,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     function getHeader($article = null, $implode = false)
     {
         $data = $this->cmdHead($article);
-        if (PEAR::isError($data)) {
-    	    return $data;
-    	}
 
     	if ($implode == true) {
     	    $data = implode("\r\n", $data);
@@ -473,9 +453,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     function getBody($article = null, $implode = false)
     {
         $data = $this->cmdBody($article);
-        if (PEAR::isError($data)) {
-    	    return $data;
-    	}
 
     	if ($implode == true) {
     	    $data = implode("\r\n", $data);
@@ -510,9 +487,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
 
     	// Check if server will receive an article
     	$post = $this->cmdPost();
-    	if (PEAR::isError($post)) {
-    	    return $post;
-    	}
 
     	// Get article data from callback function
     	if (is_callable($article)) {
@@ -549,9 +523,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     {
     	// Check if server will receive an article
     	$post = $this->cmdPost();
-        if (PEAR::isError($post)) {
-    	    return $post;
-    	}
 
         // Construct header
         $header  = "Newsgroups: $groups\r\n";
@@ -588,9 +559,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     function getDate($format = 1)
     {
         $date = $this->cmdDate();
-        if (PEAR::isError($date)) {
-    	    return $date;
-    	}
 
     	switch ($format) {
     	    case 0:
@@ -731,9 +699,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     	    }
 	}
 
-    	if (PEAR::isError($groups)) {
-    	    return $groups;
-    	}
 
     	return $groups;
     }
@@ -765,9 +730,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
 
     	// Get group descriptions
     	$descriptions = $this->cmdListNewsgroups($wildmat);
-    	if (PEAR::isError($descriptions)) {
-    	    return $descriptions;
-    	}
 
     	// TODO: add xgtitle as backup
 	
@@ -817,9 +779,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     {
     	// Fetch overview from server
     	$overview = $this->cmdXOver($range);
-    	if (PEAR::isError($overview)) {
-    	    return $overview;
-    	}
 
     	// Use field names from overview format as keys?
     	if ($_names) {
@@ -828,9 +787,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     	    if (is_null($this->overviewFormatCache)) {
     	    	// Fetch overview format
     	        $format = $this->getOverviewFormat($_forceNames, true);
-    	        if (PEAR::isError($format)){
-    	            return $format;
-    	        }
 
     	    	// Prepend 'Number' field
     	    	$format = array_merge(array('Number' => false), $format);
@@ -909,9 +865,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     function getOverviewFormat($_forceNames = true, $_full = false)
     {
         $format = $this->cmdListOverviewFmt();
-    	if (PEAR::isError($format)) {
-    	    return $format;
-    	}
 
     	// Force name of first seven fields
     	if ($_forceNames) {
@@ -959,9 +912,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     function getHeaderField($field, $range = null)
     {
     	$fields = $this->cmdXHdr($field, $range);
-    	if (PEAR::isError($fields)) {
-    	    return $fields;
-    	}
 
     	//
     	switch (true) {
@@ -1011,9 +961,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     function getGroupArticles($range = null)
     {
         $summary = $this->cmdListgroup();
-    	if (PEAR::isError($summary)) {
-    	    return $summary;
-    	}
 
     	// Update summary cache if group was also 'selected'
     	if ($summary['group'] !== null) {
@@ -1077,10 +1024,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     	    	$references = $references2;
     	    }
 	}
-
-    	if (PEAR::isError($references)) {
-    	    return $references;
-    	}
 
     	if (is_array($references)) {
     	    foreach ($references as $key => $val) {
