@@ -66,7 +66,6 @@
 /**
  *
  */
-require_once 'PEAR.php';
 require_once 'Net/NNTP/Protocol/Responsecode.php';
 
 
@@ -96,7 +95,7 @@ require_once 'Net/NNTP/Protocol/Responsecode.php';
  * @internal
  * @see        Net_NNTP_Client
  */
-class Net_NNTP_Protocol_Client extends PEAR
+class Net_NNTP_Protocol_Client
 {
     /**
      * The socket resource being used to connect to the NNTP server.
