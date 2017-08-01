@@ -701,8 +701,8 @@ class Net_NNTP_Protocol_Client
     	    	    	    $this->logger->info('TLS encryption started.');
     	    	    	}
     	    	    	return true;
-    	    	    	break;
-    	    	    case $encrypted === false:
+
+					case $encrypted === false:
     	    	    	if ($this->logger) {
     	    	    	    $this->logger->info('TLS encryption failed.');
     	    	    	}
@@ -715,10 +715,11 @@ class Net_NNTP_Protocol_Client
     	    	    	throw new \Exception('Internal error - unknown response from stream_socket_enable_crypto()', $response, new \Exception($this->currentStatusResponse()));
     	    	}
     	    	break;
+
     	    case 580: // RFC4642: 'can not initiate TLS negotiation'
-    	    	break;
-    	    default:
     	    	throw new \Exception('', $response, new \Exception($this->currentStatusResponse()));
+
+			default:
     	    	return $this->handleUnexpectedResponse($response);
     	}
     }
@@ -875,9 +876,6 @@ class Net_NNTP_Protocol_Client
     	    	}
 
     	    	return array($response_arr[0], (string) $response_arr[1]);
-    	    	break;
-    	    	break;
-    	    default:
     	    
 			case Net_NNTP_Protocol_Responsecode::NO_GROUP_SELECTED: // 412, RFC977: 'no newsgroup selected'
     	    	throw new \Exception('No newsgroup has been selected', $response, new \Exception($this->currentStatusResponse()));
