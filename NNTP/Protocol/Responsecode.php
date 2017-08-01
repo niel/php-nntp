@@ -1,5 +1,4 @@
 <?php
-/* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4 foldmethod=marker: */
 
 /**
  * 
@@ -497,13 +496,5 @@ define('NET_NNTP_PROTOCOL_RESPONSECODE_INTERNAL_FAULT', 403);
 define('NET_NNTP_PROTOCOL_RESPONSECODE_BASE64_ENCODING_ERROR', 504);
 
 // }}}
-
-/*
- * Local variables:
- * tab-width: 4
- * c-basic-offset: 4
- * c-hanging-comment-ender-p: nil
- * End:
- */
 
 ?>
