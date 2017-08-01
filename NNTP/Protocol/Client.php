@@ -703,12 +703,12 @@ class Net_NNTP_Protocol_Client
     	    	    	if ($this->logger) {
     	    	    	    $this->logger->info('TLS encryption failed.');
     	    	    	}
-    	    	    	break;
-    	    	    case is_int($encrypted):
-    	    	    	break;
-    	    	    default:
     	    	    	throw new \Exception('Could not initiate TLS negotiation', $response, new \Exception($this->currentStatusResponse()));
+    	    	    
+					case is_int($encrypted):
     	    	    	throw new \Exception('', $response, new \Exception($this->currentStatusResponse()));
+    	    	    
+					default:
     	    	    	throw new \Exception('Internal error - unknown response from stream_socket_enable_crypto()', $response, new \Exception($this->currentStatusResponse()));
     	    	}
     	    	break;
