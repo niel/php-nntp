@@ -58,7 +58,7 @@
  * @author     Heino H. Gehlsen <heino@gehlsen.dk>
  * @copyright  2002-2011 Heino H. Gehlsen <heino@gehlsen.dk>. All Rights Reserved.
  * @license    http://www.w3.org/Consortium/Legal/2002/copyright-software-20021231 W3C® SOFTWARE NOTICE AND LICENSE
- * @version    SVN: $Id$
+ * @version    GIT: $Id$
  * @link       http://pear.php.net/package/Net_NNTP
  * @see        
  *
