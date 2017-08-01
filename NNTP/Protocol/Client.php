@@ -106,7 +106,7 @@ class Net_NNTP_Protocol_Client
     private $socket = null;
 
     /**
-     * Contains the last recieved status response code and text
+     * Contains the last received status response code and text
      *
      * @var array
      * @access private
@@ -290,7 +290,7 @@ class Net_NNTP_Protocol_Client
             // Retrieve and append up to 1024 characters from the server.
             $received = @fgets($this->socket, 1024);
 
-            if ($recieved === false) {
+            if ($received === false) {
 				
 				//
 				$meta = stream_get_meta_data($this->socket);
@@ -303,7 +303,7 @@ class Net_NNTP_Protocol_Client
     	    }
 
 			//
-            $line .= $recieved;
+            $line .= $received;
 
             // Continue if the line is not terminated by CRLF
             if (substr($line, -2) != "\r\n" || strlen($line) < 2) {
