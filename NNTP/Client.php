@@ -137,13 +137,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      */
     function connect($host = null, $encryption = null, $port = null, $timeout = null)
     {
-    	// v1.0.x API
-    	if (is_int($encryption)) {
-	    trigger_error('You are using deprecated API v1.0 in Net_NNTP_Client: connect() !', E_USER_NOTICE);
-    	    $port = $encryption;
-	    $encryption = null;
-    	}
-
     	return parent::connect($host, $encryption, $port, $timeout);
     }
 
@@ -411,18 +404,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      */
     function getArticle($article = null, $implode = false)
     {
-    	// v1.1.x API
-    	if (is_string($implode)) {
-    	    trigger_error('You are using deprecated API v1.1 in Net_NNTP_Client: getHeader() !', E_USER_NOTICE);
-		     
-    	    $class = $implode;
-    	    $implode = false;
-
-    	    if (!class_exists($class)) {
-    	        return $this->throwError("Class '$class' does not exist!");
-	    }
-    	}
-
         $data = $this->cmdArticle($article);
         if (PEAR::isError($data)) {
     	    return $data;
@@ -430,11 +411,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
 
     	if ($implode == true) {
     	    $data = implode("\r\n", $data);
-    	}
-
-    	// v1.1.x API
-    	if (isset($class)) {
-    	    return $obj = new $class($data);
     	}
 
     	//
@@ -466,18 +442,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      */
     function getHeader($article = null, $implode = false)
     {
-    	// v1.1.x API
-    	if (is_string($implode)) {
-    	    trigger_error('You are using deprecated API v1.1 in Net_NNTP_Client: getHeader() !', E_USER_NOTICE);
-		     
-    	    $class = $implode;
-    	    $implode = false;
-
-    	    if (!class_exists($class)) {
-    	        return $this->throwError("Class '$class' does not exist!");
-	    }
-    	}
-
         $data = $this->cmdHead($article);
         if (PEAR::isError($data)) {
     	    return $data;
@@ -485,11 +449,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
 
     	if ($implode == true) {
     	    $data = implode("\r\n", $data);
-    	}
-
-    	// v1.1.x API
-    	if (isset($class)) {
-    	    return $obj = new $class($data);
     	}
 
     	//
@@ -521,18 +480,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      */
     function getBody($article = null, $implode = false)
     {
-    	// v1.1.x API
-    	if (is_string($implode)) {
-    	    trigger_error('You are using deprecated API v1.1 in Net_NNTP_Client: getHeader() !', E_USER_NOTICE);
-		     
-    	    $class = $implode;
-    	    $implode = false;
-
-    	    if (!class_exists($class)) {
-    	        return $this->throwError("Class '$class' does not exist!");
-	    }
-    	}
-
         $data = $this->cmdBody($article);
         if (PEAR::isError($data)) {
     	    return $data;
@@ -540,11 +487,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
 
     	if ($implode == true) {
     	    $data = implode("\r\n", $data);
-    	}
-
-    	// v1.1.x API
-    	if (isset($class)) {
-    	    return $obj = new $class($data);
     	}
 
     	//
@@ -569,22 +511,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      */
     function post($article)
     {
-    	// API v1.0
-    	if (func_num_args() >= 4) {
-
-    	    // 
-    	    trigger_error('You are using deprecated API v1.0 in Net_NNTP_Client: post() !', E_USER_NOTICE);
-
-    	    //
-    	    $groups = func_get_arg(0);
-    	    $subject = func_get_arg(1);
-    	    $body = func_get_arg(2);
-    	    $from = func_get_arg(3);
-    	    $additional = func_get_arg(4);
-
-    	    return $this->mail($groups, $subject, $body, "From: $from\r\n" . $additional);
-    	}
-
     	// Only accept $article if array or string
     	if (!is_array($article) && !is_string($article)) {
     	    return $this->throwError('Ups', null, 0);
@@ -902,38 +828,6 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      */
     function getOverview($range = null, $_names = true, $_forceNames = true)
     {
-    	// API v1.0
-    	switch (true) {
-	    // API v1.3
-	    case func_num_args() != 2:
-	    case is_bool(func_get_arg(1)):
-	    case !is_int(func_get_arg(1)) || (is_string(func_get_arg(1)) && ctype_digit(func_get_arg(1))):
-	    case !is_int(func_get_arg(0)) || (is_string(func_get_arg(0)) && ctype_digit(func_get_arg(0))):
-		break;
-
-	    default:
-    	    	// 
-    	        trigger_error('You are using deprecated API v1.0 in Net_NNTP_Client: getOverview() !', E_USER_NOTICE);
-
-    	        // Fetch overview via API v1.3
-    	        $overview = $this->getOverview(func_get_arg(0) . '-' . func_get_arg(1), true, false);
-    	        if (PEAR::isError($overview)) {
-    	            return $overview;
-    	        }
-
-    	        // Create and return API v1.0 compliant array
-    	        $articles = array();
-    	        foreach ($overview as $article) {
-
-    	    	    // Rename 'Number' field into 'number'
-    	    	    $article = array_merge(array('number' => array_shift($article)), $article);
-		
-    	    	    // Use 'Message-ID' field as key
-    	            $articles[$article['Message-ID']] = $article;
-    	        }
-    	        return $articles;
-    	}
-
     	// Fetch overview from server
     	$overview = $this->cmdXOver($range);
     	if (PEAR::isError($overview)) {
