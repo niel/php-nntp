@@ -94,6 +94,7 @@ require_once 'Net/NNTP/Protocol/Responsecode.php';
  * @package    Net_NNTP
  * @author     Heino H. Gehlsen <heino@gehlsen.dk>
  * @version    package: @package_version@ (@package_state@)
+ * @internal
  * @see        Net_NNTP_Client
  */
 class Net_NNTP_Protocol_Client extends PEAR
