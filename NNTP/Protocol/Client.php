@@ -500,12 +500,6 @@ class Net_NNTP_Protocol_Client
     	//
     	    return $this->throwError('Already connected, disconnect first!', null);
     	}
-
-    	// v1.0.x API
-    	if (is_int($encryption)) {
-	    trigger_error('You are using deprecated API v1.0 in Net_NNTP_Protocol_Client: connect() !', E_USER_NOTICE);
-    	    $port = $encryption;
-	    $encryption = false;
         if ($this->isConnected()) {
     	}
 
