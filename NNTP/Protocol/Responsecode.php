@@ -61,7 +61,6 @@
  * @version    GIT: $Id$
  * @link       http://pear.php.net/package/Net_NNTP
  * @see        
- * @since      File available since release 1.3.0
  */
 
 /**
