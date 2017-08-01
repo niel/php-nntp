@@ -1151,19 +1151,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      * @ignore
 	 * @throws
      */
-    function isConnected()
-    {
-	trigger_error('You are using deprecated API v1.0 in Net_NNTP_Client: isConnected() !', E_USER_NOTICE);
-        return parent::_isConnected();
-    }
-
-    /**
-     * Deprecated alias for getArticle()
-     *
-     * @deprecated
-     * @ignore
-     */
-    function getArticleRaw($article, $implode = false)
+    public function isConnected()
     {
 //	throw new \Exception('You are using deprecated API v1.0 in Net_NNTP_Client: isConnected() !', null);
         return parent::isConnected();
