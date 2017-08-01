@@ -128,15 +128,9 @@ class Net_NNTP_Protocol_Client extends PEAR
      *
      * @access public
      */
-    function __construct()
+    public function __construct()
 	{
-    	// Call PEAR constructor
-    	parent::__construct();
     }
-    function Net_NNTP_Protocol_Client()
-	{
-		$this->__construct();
-	}
 
     /**
      *
