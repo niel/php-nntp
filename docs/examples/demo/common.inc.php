@@ -54,7 +54,6 @@
  * +-----------------------------------------------------------------------+
  * </pre>
  *
- * @category   Net
  * @package    Net_NNTP
  * @author     Heino H. Gehlsen <heino@gehlsen.dk>
  * @copyright  2002-2011 Heino H. Gehlsen <heino@gehlsen.dk>. All Rights Reserved.

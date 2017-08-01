@@ -54,7 +54,6 @@
  * +-----------------------------------------------------------------------+
  * </pre>
  *
- * @category   Net
  * @package    Net_NNTP
  * @author     Heino H. Gehlsen <heino@gehlsen.dk>
  * @copyright  2002-2011 Heino H. Gehlsen <heino@gehlsen.dk>. All Rights Reserved.
@@ -118,7 +117,6 @@ define('NET_NNTP_PROTOCOL_CLIENT_DEFAULT_PORT', '119');
  * TODO:	cmdListActiveTimes()
  *      	cmdDistribPats()
  *
- * @category   Net
  * @package    Net_NNTP
  * @author     Heino H. Gehlsen <heino@gehlsen.dk>
  * @version    package: @package_version@ (@package_state@)

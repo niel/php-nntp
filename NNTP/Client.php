@@ -54,7 +54,6 @@
  * +-----------------------------------------------------------------------+
  * </pre>
  *
- * @category   Net
  * @package    Net_NNTP
  * @author     Heino H. Gehlsen <heino@gehlsen.dk>
  * @copyright  2002-2011 Heino H. Gehlsen <heino@gehlsen.dk>. All Rights Reserved.
@@ -79,7 +78,6 @@ require_once 'Net/NNTP/Protocol/Client.php';
  *
  * The Net_NNTP_Client class is a frontend class to the Net_NNTP_Protocol_Client class.
  *
- * @category   Net
  * @package    Net_NNTP
  * @version    package: @package_version@ (@package_state@) 
  * @version    api: @api_version@ (@api_state@)
