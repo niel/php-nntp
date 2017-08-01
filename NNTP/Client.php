@@ -260,11 +260,11 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      */
     public function selectPreviousArticle($_ret = 0)
     {
-        $response = $this->cmdLast();
-
-    	if (PEAR::isError($response)) {
+		try {
+			$response = $this->cmdLast();
+		} catch (\Exception $e) {
     	    return false;
-    	}
+		}
 
     	switch ($_ret) {
     	    case -1:
@@ -669,16 +669,20 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     {
     	$backup = false;
 
-    	// Get groups
-    	$groups = $this->cmdListActive($wildmat);
-    	if (PEAR::isError($groups)) {
-    	    switch ($groups->getCode()) {
-    	    	case 500:
+		try {
+			// Get groups
+    		$groups = $this->cmdListActive($wildmat);
+
+		} catch (\Exception $e) {
+    	    switch ($e->getCode()) {
+    	    	
+				case 500:
     	    	case 501:
     	    	    $backup = true;
-		    break;
-    		default:
-    	    	    return $groups;
+		    		break;
+    		
+				default:
+    	    	    throw $e;
     	    }
     	}
 
@@ -690,13 +694,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     	    	throw new \Exception("The server does not support the 'LIST ACTIVE' command, and the 'LIST' command does not support the wildmat parameter!", null, null);
     	    }
 	    
-    	    // 
-    	    $groups2 = $this->cmdList();
-    	    if (PEAR::isError($groups2)) {
-    		// Ignore...
-    	    } else {
-    	    	$groups = $groups2;
-    	    }
+   	    	$groups = $this->cmdList();
 	}
 
 
@@ -1000,15 +998,16 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     {
     	$backup = false;
 
-    	$references = $this->cmdXHdr('References', $range);
-    	if (PEAR::isError($references)) {
-    	    switch ($references->getCode()) {
+		try {
+			$references = $this->cmdXHdr('References', $range);
+		} catch (\Exception $e) {
+    	    switch ($e->getCode()) {
     	    	case 500:
     	    	case 501:
     	    	    $backup = true;
-		    break;
-    		default:
-    	    	    return $references;
+		    		break;
+    			default:
+    	    	    throw $e;
     	    }
     	}
 
