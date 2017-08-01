@@ -154,13 +154,7 @@ class Net_NNTP_Protocol_Client
      * @param object $logger
      *
      * @access protected
-    {
-    }
-
-    /**
-     * @deprecated
-     */
-    function setDebug($debug = true)
+	 * @throws
 	 */
     public function setLogger($logger)
     {
