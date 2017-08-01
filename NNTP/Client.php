@@ -602,7 +602,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     	    	break;
     	    case is_string($time):
     	    	$time = strtotime($time);
-    	    	if ($time === false || ($time === -1 && version_compare(phpversion(), '5.1.0', '<'))) {
+    	    	if ($time === false) {
     	    	    throw new \InvalidArgumentException('$time could not be converted into a timestamp!', null);
     	    	}
     	    	break;
@@ -639,7 +639,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
     	    	break;
     	    case is_string($time):
     	    	$time = strtotime($time);
-				if ($time === false || ($time === -1 && version_compare(phpversion(), '5.1.0', '<'))) {
+				if ($time === false) {
 
 		}
     	    	    throw new \InvalidArgumentException('$time could not be converted into a timestamp!', null);
