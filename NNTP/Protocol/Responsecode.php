@@ -65,8 +65,7 @@
  */
 
 
-
-// {{{ Constants: Connection
+/* Constants: Connection */
 
 /**
  * 'Server ready - posting allowed' (RFC977)
