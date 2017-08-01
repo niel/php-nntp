@@ -78,8 +78,6 @@ require_once 'Net/NNTP/Protocol/Client.php';
  *
  * @package    Net_NNTP
  * @version    package: @package_version@ (@package_state@) 
- * @version    api: @api_version@ (@api_state@)
- * @access     public
  * @see        Net_NNTP_Protocol_Client
  */
 class Net_NNTP_Client extends Net_NNTP_Protocol_Client
