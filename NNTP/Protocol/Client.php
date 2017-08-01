@@ -135,7 +135,7 @@ class Net_NNTP_Protocol_Client
      *
      * @access public
      */
-    function getPackageVersion() {
+    public function getPackageVersion() {
 	return '@package_version@';
     }
 
@@ -144,7 +144,7 @@ class Net_NNTP_Protocol_Client
      *
      * @access public
      */
-    function getApiVersion() {
+    public function getApiVersion() {
 	return '@api_version@';
     }
 
@@ -495,7 +495,7 @@ class Net_NNTP_Protocol_Client
      * @access protected
 	 * @throws
      */
-    function connect($host = null, $encryption = null, $port = null, $timeout = null)
+    protected function connect($host = null, $encryption = null, $port = null, $timeout = null)
     {
     	//
     	    return $this->throwError('Already connected, disconnect first!', null);
@@ -586,7 +586,7 @@ class Net_NNTP_Protocol_Client
      * @access protected
 	 * @throws
      */
-    function disconnect()
+    protected function disconnect()
     {
     	return $this->cmdQuit();
     }
@@ -598,7 +598,7 @@ class Net_NNTP_Protocol_Client
      * @access protected
 	 * @throws
      */
-    function cmdCapabilities()
+    protected function cmdCapabilities()
     {
         // tell the newsserver we want an article
         $response = $this->sendCommand('CAPABILITIES');
@@ -620,7 +620,7 @@ class Net_NNTP_Protocol_Client
      * @access protected
 	 * @throws
      */
-    function cmdModeReader()
+    protected function cmdModeReader()
     {
         // tell the newsserver we want an article
         $response = $this->sendCommand('MODE READER');
@@ -656,7 +656,7 @@ class Net_NNTP_Protocol_Client
      * @access protected
 	 * @throws
      */
-    function cmdQuit()
+    protected function cmdQuit()
     {
     	// Tell the server to close the connection
     	$response = $this->_sendCommand('QUIT');
@@ -688,7 +688,7 @@ class Net_NNTP_Protocol_Client
      * @access protected
 	 * @throws
      */
-    function cmdStartTLS()
+    protected function cmdStartTLS()
     {
         $response = $this->sendCommand('STARTTLS');
 
@@ -736,7 +736,7 @@ class Net_NNTP_Protocol_Client
      * @access protected
 	 * @throws
      */
-    function cmdGroup($newsgroup)
+    protected function cmdGroup($newsgroup)
     {
         $response = $this->sendCommand('GROUP '.$newsgroup);
 
@@ -771,7 +771,7 @@ class Net_NNTP_Protocol_Client
      * @access protected
 	 * @throws
      */
-    function cmdListgroup($newsgroup = null, $range = null)
+    protected function cmdListgroup($newsgroup = null, $range = null)
     {
         if (is_null($newsgroup)) {
     	    $command = 'LISTGROUP';
@@ -825,7 +825,7 @@ class Net_NNTP_Protocol_Client
      * @access protected
 	 * @throws
      */
-    function cmdLast()
+    protected function cmdLast()
     {
         //
         $response = $this->sendCommand('LAST');
@@ -861,7 +861,7 @@ class Net_NNTP_Protocol_Client
      * @access protected
 	 * @throws
      */
-    function cmdNext()
+    protected function cmdNext()
     {
         //
         $response = $this->sendCommand('NEXT');
@@ -901,7 +901,7 @@ class Net_NNTP_Protocol_Client
      * @access protected
 	 * @throws
      */
-    function cmdArticle($article = null)
+    protected function cmdArticle($article = null)
     {
         if (is_null($article)) {
     	    $command = 'ARTICLE';
@@ -947,7 +947,7 @@ class Net_NNTP_Protocol_Client
      * @access protected
 	 * @throws
      */
-    function cmdHead($article = null)
+    protected function cmdHead($article = null)
     {
         if (is_null($article)) {
     	    $command = 'HEAD';
@@ -994,7 +994,7 @@ class Net_NNTP_Protocol_Client
      * @access protected
 	 * @throws
      */
-    function cmdBody($article = null)
+    protected function cmdBody($article = null)
     {
         if (is_null($article)) {
     	    $command = 'BODY';
@@ -1044,7 +1044,7 @@ class Net_NNTP_Protocol_Client
      * @access protected
 	 * @throws
      */
-    function cmdStat($article = null)
+    protected function cmdStat($article = null)
     {
         if (is_null($article)) {
     	    $command = 'STAT';
@@ -1088,7 +1088,7 @@ class Net_NNTP_Protocol_Client
      * @access protected
 	 * @throws
      */
-    function cmdPost()
+    protected function cmdPost()
     {
         // tell the newsserver we want to post an article
     	$response = $this->sendCommand('POST');
@@ -1115,7 +1115,7 @@ class Net_NNTP_Protocol_Client
      * @access protected
 	 * @throws
      */
-    function cmdPost2($article)
+    protected function cmdPost2($article)
     {
     	/* should be presented in the format specified by RFC850 */
 
@@ -1146,7 +1146,7 @@ class Net_NNTP_Protocol_Client
      * @access protected
 	 * @throws
      */
-    function cmdIhave($id)
+    protected function cmdIhave($id)
     {
         // tell the newsserver we want to post an article
     	$response = $this->sendCommand('IHAVE ' . $id);
@@ -1175,7 +1175,7 @@ class Net_NNTP_Protocol_Client
      * @access protected
 	 * @throws
      */
-    function cmdIhave2($article)
+    protected function cmdIhave2($article)
     {
     	/* should be presented in the format specified by RFC850 */
 
@@ -1209,7 +1209,7 @@ class Net_NNTP_Protocol_Client
      * @access protected
 	 * @throws
      */
-    function cmdDate()
+    protected function cmdDate()
     {
         $response = $this->sendCommand('DATE');
 
@@ -1229,7 +1229,7 @@ class Net_NNTP_Protocol_Client
      * @access protected
 	 * @throws
      */
-    function cmdHelp()
+    protected function cmdHelp()
     {
         // tell the newsserver we want an article
         $response = $this->sendCommand('HELP');
@@ -1254,7 +1254,7 @@ class Net_NNTP_Protocol_Client
      * @access protected
 	 * @throws
      */
-    function cmdNewgroups($time, $distributions = null)
+    protected function cmdNewgroups($time, $distributions = null)
     {
 	$date = gmdate('ymd His', $time);
 
@@ -1345,7 +1345,7 @@ class Net_NNTP_Protocol_Client
      * @access protected
 	 * @throws
      */
-    function cmdList()
+    protected function cmdList()
     {
         $response = $this->sendCommand('LIST');
 
@@ -1380,7 +1380,7 @@ class Net_NNTP_Protocol_Client
      * @access protected
 	 * @throws
      */
-    function cmdListActive($wildmat = null)
+    protected function cmdListActive($wildmat = null)
     {
         if (is_null($wildmat)) {
     	    $command = 'LIST ACTIVE';
@@ -1426,7 +1426,7 @@ class Net_NNTP_Protocol_Client
      * @access protected
 	 * @throws
      */
-    function cmdListNewsgroups($wildmat = null)
+    protected function cmdListNewsgroups($wildmat = null)
     {
         if (is_null($wildmat)) {
     	    $command = 'LIST NEWSGROUPS';
@@ -1480,7 +1480,7 @@ class Net_NNTP_Protocol_Client
      * @access protected
 	 * @throws
      */
-    function cmdOver($range = null)
+    protected function cmdOver($range = null)
     {
         if (is_null($range)) {
 	    $command = 'OVER';
@@ -1533,7 +1533,7 @@ class Net_NNTP_Protocol_Client
      * @access protected
 	 * @throws
      */
-    function cmdXOver($range = null)
+    protected function cmdXOver($range = null)
     {
 	// deprecated API (the code _is_ still in alpha state)
     	if (func_num_args() > 1 ) {
@@ -1583,7 +1583,7 @@ class Net_NNTP_Protocol_Client
      * @access protected
 	 * @throws
      */
-    function cmdListOverviewFmt()
+    protected function cmdListOverviewFmt()
     {
     	$response = $this->sendCommand('LIST OVERVIEW.FMT');
 
@@ -1631,7 +1631,7 @@ class Net_NNTP_Protocol_Client
      * @access protected
 	 * @throws
      */
-    function cmdXHdr($field, $range = null)
+    protected function cmdXHdr($field, $range = null)
     {
         if (is_null($range)) {
 	    $command = 'XHDR ' . $field;
@@ -1698,7 +1698,7 @@ class Net_NNTP_Protocol_Client
      * @access protected
 	 * @throws
      */
-    function cmdXGTitle($wildmat = '*')
+    protected function cmdXGTitle($wildmat = '*')
     {
         $response = $this->sendCommand('XGTITLE '.$wildmat);
 
@@ -1733,7 +1733,7 @@ class Net_NNTP_Protocol_Client
      * @access protected
 	 * @throws
      */
-    function cmdXROver($range = null)
+    protected function cmdXROver($range = null)
     {
 	// Warn about deprecated API (the code _is_ still in alpha state)
     	if (func_num_args() > 1 ) {
@@ -1788,7 +1788,7 @@ class Net_NNTP_Protocol_Client
      * @access protected
 	 * @throws
      */
-    function cmdXPat($field, $range, $wildmat)
+    protected function cmdXPat($field, $range, $wildmat)
     {
         if (is_array($wildmat)) {
 	    $wildmat = implode(' ', $wildmat);
@@ -1829,7 +1829,7 @@ class Net_NNTP_Protocol_Client
      * @access protected
 	 * @throws
      */
-    function cmdAuthinfo($user, $pass)
+    protected function cmdAuthinfo($user, $pass)
     {
     	// Send the username
         $response = $this->sendCommand('AUTHINFO user '.$user);
@@ -1877,7 +1877,7 @@ class Net_NNTP_Protocol_Client
      * @access protected
 	 * @throws
      */
-    function cmdAuthinfoSimple($user, $pass)
+    protected function cmdAuthinfoSimple($user, $pass)
     {
         throw new \Exception("The auth mode: 'simple' is has not been implemented yet", null);
     }
@@ -1903,7 +1903,7 @@ class Net_NNTP_Protocol_Client
      * @return bool true or false
      * @access protected
      */
-    function _isConnected()
+    protected function isConnected()
     {
         return (is_resource($this->socket) && (!feof($this->socket)));
     }

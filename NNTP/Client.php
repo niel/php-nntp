@@ -129,7 +129,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      * @see Net_NNTP_Client::authenticate()
 	 * @throws
      */
-    function connect($host = null, $encryption = null, $port = null, $timeout = null)
+    public function connect($host = null, $encryption = null, $port = null, $timeout = null)
     {
     	return parent::connect($host, $encryption, $port, $timeout);
     }
@@ -142,7 +142,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      * @see Net_NNTP_Client::connect()
 	 * @throws
      */
-    function disconnect()
+    public function disconnect()
     {
         return parent::disconnect();
     }
@@ -155,7 +155,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      * @ignore
 	 * @throws
      */
-    function quit()
+    public function quit()
     {
         return $this->disconnect();
     }
@@ -179,7 +179,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      * @see Net_NNTP_Client::connect()
 	 * @throws
      */
-    function authenticate($user, $pass)
+    public function authenticate($user, $pass)
     {
         // Username is a must...
         if ($user == null) {
@@ -214,7 +214,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      * @see Net_NNTP_Client::count()
 	 * @throws
      */
-    function selectGroup($group, $articles = false)
+    public function selectGroup($group, $articles = false)
     {
 	// Select group (even if $articles is set, since many servers does not select groups when the listgroup command is run)
     	$summary = $this->cmdGroup($group);
@@ -300,7 +300,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      * @see Net_NNTP_Client::selectPreviousArticle()
 	 * @throws
      */
-    function selectNextArticle($_ret = 0)
+    public function selectNextArticle($_ret = 0)
     {
         $response = $this->cmdNext();
 
@@ -338,7 +338,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      * @see Net_NNTP_Client::selectPreviousArticle()
 	 * @throws
      */
-    function selectArticle($article = null, $_ret = 0)
+    public function selectArticle($article = null, $_ret = 0)
     {
         $response = $this->cmdStat($article);
 
@@ -380,7 +380,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      * @see Net_NNTP_Client::getBody()
 	 * @throws
      */
-    function getArticle($article = null, $implode = false)
+    public function getArticle($article = null, $implode = false)
     {
         $data = $this->cmdArticle($article);
 
@@ -415,7 +415,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      * @see Net_NNTP_Client::getBody()
 	 * @throws
      */
-    function getHeader($article = null, $implode = false)
+    public function getHeader($article = null, $implode = false)
     {
         $data = $this->cmdHead($article);
 
@@ -450,7 +450,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      * @see Net_NNTP_Client::getArticle()
 	 * @throws
      */
-    function getBody($article = null, $implode = false)
+    public function getBody($article = null, $implode = false)
     {
         $data = $this->cmdBody($article);
 
@@ -478,7 +478,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      * @ignore
 	 * @throws
      */
-    function post($article)
+    public function post($article)
     {
     	// Only accept $article if array or string
     	if (!is_array($article) && !is_string($article)) {
@@ -519,7 +519,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      * @access public
 	 * @throws
      */
-    function mail($groups, $subject, $body, $additional = null)
+    public function mail($groups, $subject, $body, $additional = null)
     {
     	// Check if server will receive an article
     	$post = $this->cmdPost();
@@ -556,7 +556,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      * @access public
 	 * @throws
      */
-    function getDate($format = 1)
+    public function getDate($format = 1)
     {
         $date = $this->cmdDate();
 
@@ -595,7 +595,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      * @access public
 	 * @throws
      */
-    function getNewGroups($time, $distributions = null)
+    public function getNewGroups($time, $distributions = null)
     {
     	switch (true) {
     	    case is_integer($time):
@@ -632,7 +632,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      * @since 1.3.0
 	 * @throws
      */
-    function getNewArticles($time, $groups = '*', $distribution = null)
+    public function getNewArticles($time, $groups = '*', $distribution = null)
     {
     	switch (true) {
     	    case is_integer($time):
@@ -665,7 +665,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      * @see Net_NNTP_Client::selectGroup()
 	 * @throws
      */
-    function getGroups($wildmat = null)
+    public function getGroups($wildmat = null)
     {
     	$backup = false;
 
@@ -722,7 +722,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      * @see Net_NNTP_Client::getGroups()
 	 * @throws
      */
-    function getDescriptions($wildmat = null)
+    public function getDescriptions($wildmat = null)
     {
     	if (is_array($wildmat)) {
 	    $wildmat = implode(',', $wildmat);
@@ -775,7 +775,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      * @see Net_NNTP_Client::getOverviewFormat()
 	 * @throws
      */
-    function getOverview($range = null, $_names = true, $_forceNames = true)
+    public function getOverview($range = null, $_names = true, $_forceNames = true)
     {
     	// Fetch overview from server
     	$overview = $this->cmdXOver($range);
@@ -862,7 +862,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      * @see Net_NNTP_Client::getOverview()
 	 * @throws
      */
-    function getOverviewFormat($_forceNames = true, $_full = false)
+    public function getOverviewFormat($_forceNames = true, $_full = false)
     {
         $format = $this->cmdListOverviewFmt();
 
@@ -909,7 +909,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      * @see Net_NNTP_Client::getReferences()
 	 * @throws
      */
-    function getHeaderField($field, $range = null)
+    public function getHeaderField($field, $range = null)
     {
     	$fields = $this->cmdXHdr($field, $range);
 
@@ -958,7 +958,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
 	 * @throws
      * @since 1.3.0
      */
-    function getGroupArticles($range = null)
+    public function getGroupArticles($range = null)
     {
         $summary = $this->cmdListgroup();
 
@@ -996,7 +996,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      * @see Net_NNTP_Client::getHeaderField()
 	 * @throws
      */
-    function getReferences($range = null)
+    public function getReferences($range = null)
     {
     	$backup = false;
 
@@ -1071,7 +1071,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      * @ignore
 	 * @throws
      */
-    function count()
+    public function count()
     {
         return $this->selectedGroupSummary['count'];
     }
@@ -1090,7 +1090,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      * @ignore
 	 * @throws
      */
-    function last()
+    public function last()
     {
     	return $this->selectedGroupSummary['last'];
     }
@@ -1109,7 +1109,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      * @ignore
 	 * @throws
      */
-    function first()
+    public function first()
     {
     	return $this->selectedGroupSummary['first'];
     }
@@ -1128,7 +1128,7 @@ class Net_NNTP_Client extends Net_NNTP_Protocol_Client
      * @ignore
 	 * @throws
      */
-    function group()
+    public function group()
     {
     	return $this->selectedGroupSummary['group'];
     }
