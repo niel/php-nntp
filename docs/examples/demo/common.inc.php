@@ -136,66 +136,66 @@ class Logger extends Log
         echo '</div>', "\r\n";
     }
 
-    function grabPearErrors()
-    {
-    	require_once "PEAR.php";
+//    function grabPearErrors()
+//    {
+//    	require_once "PEAR.php";
+//
+//	PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array(&$this, 'errorHandler'));
+//    }
 
-	PEAR::setErrorHandling(PEAR_ERROR_CALLBACK, array(&$this, 'errorHandler'));
-    }
-
-    function errorHandler($error)
-    {
-        global $logger;
-	
-    	if (!isset($logger)) {
-    	    return;
-    	}
-
-		$message = '';
-		
-        foreach ($error->backtrace as $X) {
-            if (substr($X['class'], 0, 4) == 'PEAR') {
-    	        continue;
-            }
-
-            $message .= get_class($error) . ': "' . $error->getMessage() . '"';
-
-            if ($code = $error->getCode()) {
-                $message .= ' (' . $error->getCode(). ')';
-            }
-
-            $message .= ' thrown by ';
-
-            if (isset($X['class'])) {
-                $message .= $X['class'] . '::';
-            }
-
-            $message .= $X['function'] . '(';
-	
-            for ($args = $X['args'], $i = 0; isset($args[$i]); ) {
-                $arg = $args[$i];
-
-                switch (true) {
-            	    case is_null($arg):   $message .= 'null'; break;
-            	    case is_string($arg): $message .= "'" . $arg . "'"; break;
-            	    case is_int($arg):    $message .= (int) $arg; break;
-            	    case is_bool($arg):   $message .= $arg ? 'true' : 'false'; break;
-            	    default:              $message .= $arg;
-            	}
-
-            	if (!isset($args[++$i])) {
-            	    break;
-            	}
-    
-            	$message .= ', ';
-            }
-    	
-            $message .= ')';
-            break;	
-        }
-
-        $logger->log($message, PEAR_LOG_NOTICE);
-    }
+//    function errorHandler($error)
+//    {
+//        global $logger;
+//	
+//    	if (!isset($logger)) {
+//    	    return;
+//    	}
+//
+//		$message = '';
+//		
+//        foreach ($error->backtrace as $X) {
+//            if (substr($X['class'], 0, 4) == 'PEAR') {
+//    	        continue;
+//            }
+//
+//            $message .= get_class($error) . ': "' . $error->getMessage() . '"';
+//
+//            if ($code = $error->getCode()) {
+//                $message .= ' (' . $error->getCode(). ')';
+//            }
+//
+//            $message .= ' thrown by ';
+//
+//            if (isset($X['class'])) {
+//                $message .= $X['class'] . '::';
+//            }
+//
+//            $message .= $X['function'] . '(';
+//	
+//            for ($args = $X['args'], $i = 0; isset($args[$i]); ) {
+//                $arg = $args[$i];
+//
+//                switch (true) {
+//            	    case is_null($arg):   $message .= 'null'; break;
+//            	    case is_string($arg): $message .= "'" . $arg . "'"; break;
+//            	    case is_int($arg):    $message .= (int) $arg; break;
+//            	    case is_bool($arg):   $message .= $arg ? 'true' : 'false'; break;
+//            	    default:              $message .= $arg;
+//            	}
+//
+//            	if (!isset($args[++$i])) {
+//            	    break;
+//            	}
+//    
+//            	$message .= ', ';
+//            }
+//    	
+//            $message .= ')';
+//            break;	
+//        }
+//
+//        $logger->log($message, PEAR_LOG_NOTICE);
+//    }
 
 }
 					       
@@ -206,7 +206,7 @@ if ($allowOverwrite) {
 
 //
 $logger = new Logger(null, null, null, $loglevel);
-$logger->grabPearErrors();
+//$logger->grabPearErrors();
 
 
 
@@ -370,4 +370,3 @@ function query($query = null)
 
     return $full;
 }
-

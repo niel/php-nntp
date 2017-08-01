@@ -109,4 +109,3 @@ include 'header.inc.php';
  * Output footer
  */
 include 'footer.inc.php';
-

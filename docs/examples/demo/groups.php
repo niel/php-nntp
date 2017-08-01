@@ -82,37 +82,42 @@ $breadcrumbs['Frontpage'] = './index.php?' . query();
 $breadcrumbs['Groups @ ' . ($host == null ? 'localhost' : $host)] = null;
 
 // Connect
-$posting = $nntp->connect($host, $encryption, $port);
-if (PEAR::isError($posting)) {
-    error('Unable to connect to NNTP server: ' . $posting->getMessage());
+try {
+	$posting = $nntp->connect($host, $encryption, $port);
+} catch (\Exception $e) {
+    error('Unable to connect to NNTP server: ' . $e->getMessage());
 }
 
 // Start TLS encryption
 if ($starttls) {
-    $R = $nntp->cmdStartTLS();
-    if (PEAR::isError($R)) {
-        error('Unable to connect to NNTP server: ' . $R->getMessage());
+	try {
+    	$R = $nntp->cmdStartTLS();
+	} catch (\Exception $e) {
+        error('Unable to connect to NNTP server: ' . $e->getMessage());
     }
 }
 
 // Authenticate
 if (!is_null($user) && !is_null($pass)) {
-    $authenticated = $nntp->authenticate($user, $pass);
-    if (PEAR::isError($authenticated)) {
-        error('Unable to authenticate: ' . $authenticated->getMessage());
+	try {
+		$authenticated = $nntp->authenticate($user, $pass);
+	} catch (\Exception $e) {
+        error('Unable to authenticate: ' . $e->getMessage());
     }
 }
 
 // Fetch list of groups
-$groups = $nntp->getGroups($wildmat);
-if (PEAR::isError($groups)) {
-    error('Fetching list of groups failed: ' . $groups->getMessage());
+try {
+	$groups = $nntp->getGroups($wildmat);
+} catch (\Exception $e) {
+    error('Fetching list of groups failed: ' . $e->getMessage());
 }
 
 // Fetch known (to the server) group descriptions
-$descriptions = $nntp->getDescriptions($wildmat);
-if (PEAR::isError($descriptions)) {
-    $logger->notice('Fetching group descriptions failes: ' . $descriptions->getMessage());
+try {
+	$descriptions = $nntp->getDescriptions($wildmat);
+} catch (\Exception $e) {
+    $logger->notice('Fetching group descriptions failes: ' . $e->getMessage());
 
     //
     $descriptions = array();
@@ -184,4 +189,3 @@ groups();
  * Output footer
  */
 include 'footer.inc.php';
-

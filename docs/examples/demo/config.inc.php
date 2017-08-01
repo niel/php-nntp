@@ -87,4 +87,3 @@ $validateInput = true;
 $hostValidationRegExp    = '/^([^<>]+)$/';
 $articleValidationRegExp = '/^([0-9]+|<[^<]+>)$/';
 $groupValidationRegExp   = '/^([^<>]+)$/';
-

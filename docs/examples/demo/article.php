@@ -113,25 +113,27 @@ if ($messageID !== null) {
 
 
 // Connect
-$posting = $nntp->connect($host, $encryption, $port);
-if (PEAR::isError($posting)) {
-    error('Unable to connect to NNTP server: ' . $posting->getMessage());
+try {
+	$posting = $nntp->connect($host, $encryption, $port);
+} catch (\Exception $e) {
+    error('Unable to connect to NNTP server: ' . $e->getMessage());
 }
-
 
 // Start TLS encryption
 if ($starttls) {
-    $R = $nntp->cmdStartTLS();
-    if (PEAR::isError($R)) {
-        error('Unable to connect to NNTP server: ' . $R->getMessage());
+	try {
+    	$R = $nntp->cmdStartTLS();
+	} catch (\Exception $e) {
+        error('Unable to connect to NNTP server: ' . $e->getMessage());
     }
 }
 
 // Authenticate
 if (!is_null($user) && !is_null($pass)) {
-    $authenticated = $nntp->authenticate($user, $pass);
-    if (PEAR::isError($authenticated)) {
-        error('Unable to authenticate: ' . $authenticated->getMessage());
+	try {
+		$authenticated = $nntp->authenticate($user, $pass);
+	} catch (\Exception $e) {
+        error('Unable to authenticate: ' . $e->getMessage());
     }
 }
 
@@ -139,14 +141,16 @@ if (!is_null($user) && !is_null($pass)) {
 if ($messageID === null) {
 
     // Select group
-    $summary = $nntp->selectGroup($group);
-    if (PEAR::isError($summary)) {
-        error($summary->getMessage());
+    try {
+		$summary = $nntp->selectGroup($group);
+	} catch (\Exception $e) {
+        error($e->getMessage());
     }
 
     // Select article
-    $article = $nntp->selectArticle($article);
-    if (PEAR::isError($article)) {
+	try {
+    	$article = $nntp->selectArticle($article);
+	} catch (\Exception $e) {
         error($article->getMessage());
     }
 
@@ -155,29 +159,32 @@ if ($messageID === null) {
     }
 
     // Fetch overview
-    $overview = $nntp->getOverview();
-    if (PEAR::isError($overview)) {
-        $logger->warning('Error fetching overview (Server response: ' . $overview->getMessage() . ')');
+	try {
+		$overview = $nntp->getOverview();
+	} catch (\Exception $e) {
+        $logger->warning('Error fetching overview (Server response: ' . $e->getMessage() . ')');
 
     	// 
         $overview = false;
     }
 
     // Fetch 'Newsgroups' header field
-    $groups = $nntp->getHeaderField('Newsgroups');
-    if (PEAR::isError($groups)) {
-        $logger->warning('Error fetching \'Newsgroups\' header field (Server response: ' . $groups->getMessage() . ')');
+	try {
+		$groups = $nntp->getHeaderField('Newsgroups');
+	} catch (\Exception $e) {
+        $logger->warning('Error fetching \'Newsgroups\' header field (Server response: ' . $e->getMessage() . ')');
 
-   	// 
+		// 
         $groups = false;
     }
 }
 
 
 // Fetch header
-$header = $nntp->getHeader($messageID);
-if (PEAR::isError($header)) {
-    error('Error fetching header (Server response: ', $header->getMessage(), ')');
+try {
+	$header = $nntp->getHeader($messageID);
+} catch (\Exception $e) {
+    error('Error fetching header (Server response: ', $e->getMessage(), ')');
 }
 if ($header === false) {
     error('The article is not avalible on the server!');
@@ -186,9 +193,10 @@ if ($header === false) {
 
 
 // Fetch body
-$body = $nntp->getBody($messageID);
-if (PEAR::isError($body)) {
-    error('Error fetching body (Server response: ', $body->getMessage(), ')');
+try {
+	$body = $nntp->getBody($messageID);
+} catch (\Exception $e) {
+    error('Error fetching body (Server response: ', $e->getMessage(), ')');
 }
 
 
@@ -397,4 +405,3 @@ outputBody();
  * Output footer
  */
 include 'footer.inc.php';
-

@@ -92,33 +92,35 @@ $breadcrumbs['group: ' . $group] = null;
 
 
 // Connect
-$posting = $nntp->connect($host, $encryption, $port);
-if (PEAR::isError($posting)) {
-    error('Unable to connect to NNTP server: ' . $posting->getMessage());
+try {
+	$posting = $nntp->connect($host, $encryption, $port);
+} catch (\Exception $e) {
+    error('Unable to connect to NNTP server: ' . $e->getMessage());
 }
-
 
 // Start TLS encryption
 if ($starttls) {
-    $R = $nntp->cmdStartTLS();
-    if (PEAR::isError($R)) {
-        error('Unable to connect to NNTP server: ' . $R->getMessage());
+	try {
+    	$R = $nntp->cmdStartTLS();
+	} catch (\Exception $e) {
+        error('Unable to connect to NNTP server: ' . $e->getMessage());
     }
 }
 
 // Authenticate
 if (!is_null($user) && !is_null($pass)) {
-    $authenticated = $nntp->authenticate($user, $pass);
-    if (PEAR::isError($authenticated)) {
-        error('Unable to authenticate: ' . $authenticated->getMessage());
+	try {
+		$authenticated = $nntp->authenticate($user, $pass);
+	} catch (\Exception $e) {
+        error('Unable to authenticate: ' . $e->getMessage());
     }
 }
 
-
 // Select group
-$summary = $nntp->selectGroup($group);
-if (PEAR::isError($summary)) {
-    error($summary->getMessage());
+try {
+	$summary = $nntp->selectGroup($group);
+} catch (\Exception $e) {
+    error($e->getMessage());
 }
 
 //
@@ -134,23 +136,25 @@ if (!$useRange) {
          $article = $nntp->first();
          break;
     }
-    $dummy = $nntp->selectArticle($article);
-    if (PEAR::isError($dummy)) {
-        error($dummy->getMessage());
+    try {
+		$dummy = $nntp->selectArticle($article);
+	} catch (\Exception $e) {
+        error($e->getMessage());
     }
 
 
     // Select next/previous article
-    switch ($action) {
-    case 'next':
-        $dummy = $nntp->selectNextArticle();
-         break;
-    case 'previous':
-        $dummy = $nntp->selectPreviousArticle();
-         break;
-    }
-    if (PEAR::isError($dummy)) {
-        error($dummy->getMessage());
+	try {
+		switch ($action) {
+		case 'next':
+			$dummy = $nntp->selectNextArticle();
+			 break;
+		case 'previous':
+			$dummy = $nntp->selectPreviousArticle();
+			 break;
+		}
+	} catch (\Exception $e) {
+        error($e->getMessage());
     }
 
 
@@ -167,9 +171,10 @@ if (!$useRange) {
         }
 
         // Fetch overview for currently selected article
-        $overview = $nntp->getOverview();
-        if (PEAR::isError($overview)) {
-            error($overview->getMessage());
+        try {
+			$overview = $nntp->getOverview();
+		} catch (\Exception $e) {
+            error($e->getMessage());
         }
 
         //
@@ -181,13 +186,14 @@ if (!$useRange) {
         }
 
         // Select next/previous article
-        if ($action == 'next') {
-            $article = $nntp->selectNextArticle();
-        } else {
-            $article = $nntp->selectPreviousArticle();
-        }
-        if (PEAR::isError($article)) {
-            error($article->getMessage());
+		try {
+			if ($action == 'next') {
+				$article = $nntp->selectNextArticle();
+			} else {
+				$article = $nntp->selectPreviousArticle();
+			}
+		} catch (\Exception $e) {
+            error($e->getMessage());
         }
 
     }
@@ -212,9 +218,10 @@ if (!$useRange) {
     default:
         error('bad input!');
     }
-    $articles = $nntp->getOverview($range);
-    if (PEAR::isError($articles)) {
-        error($articles->getMessage());
+	try {
+    	$articles = $nntp->getOverview($range);
+	} catch (\Exception $e) {
+        error($e->getMessage());
     }
 }
 
@@ -436,4 +443,3 @@ if ($format == 'html') {
      */
     include 'footer.inc.php';
 }
-
