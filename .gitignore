@@ -1,4 +1,8 @@
 # composer related
 composer.lock
 composer.phar
-vendor
+/vendor
+
+/build
+
+.DS_Store
