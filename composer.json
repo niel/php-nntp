@@ -28,7 +28,7 @@
         "pear/pear": "*"
     },
     "require-dev": {
-        "phpunit/phpunit": "*"
+        "phpunit/phpunit": "4.*"
     },
     "suggest": {
         "pear/log": "Install optionally via your project's composer.json"
