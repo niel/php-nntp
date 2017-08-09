@@ -73,424 +73,423 @@
  * @see        Net_NNTP_Protocol_Client
  */
 class Net_NNTP_Protocol_Responsecode
-{
+	{
 
-/* Constants: Connection */
+	/* Constants: Connection */
 
-/**
- * 'Server ready - posting allowed' (RFC977)
- *
- * @access     public
- */
-const READY_POSTING_ALLOWED = 200;
+	/**
+	 * 'Server ready - posting allowed' (RFC977)
+	 *
+	 * @access     public
+	 */
+	const READY_POSTING_ALLOWED = 200;
 
-/**
- * 'Server ready - no posting allowed' (RFC977)
- *
- * @access     public
- */
-const READY_POSTING_PROHIBITED = 201;
+	/**
+	 * 'Server ready - no posting allowed' (RFC977)
+	 *
+	 * @access     public
+	 */
+	const READY_POSTING_PROHIBITED = 201;
 
 
-/**
- * 'Closing connection - goodbye!' (RFC977)
- *
- * @access     public
- * @since      ?
- */
-//const DISCONNECTING_REQUESTED = 205;   ///// goodbye
+	/**
+	 * 'Closing connection - goodbye!' (RFC977)
+	 *
+	 * @access     public
+	 * @since      ?
+	 */
+	//const DISCONNECTING_REQUESTED = 205;   ///// goodbye
 
-/**
- * 'Service discontinued' (RFC977)
- *
- * @access     public
- * @since      ?
- */
-//const DISCONNECTING_FORCED = 400;   ///// unavailable / discontinued
+	/**
+	 * 'Service discontinued' (RFC977)
+	 *
+	 * @access     public
+	 * @since      ?
+	 */
+	//const DISCONNECTING_FORCED = 400;   ///// unavailable / discontinued
 
 
-/**
- * 'Slave status noted' (RFC977)
- *
- * @access     public
- */
-const SLAVE_RECOGNIZED = 202;
+	/**
+	 * 'Slave status noted' (RFC977)
+	 *
+	 * @access     public
+	 */
+	const SLAVE_RECOGNIZED = 202;
 
 
 
 
-/* Constants: Common errors */
+	/* Constants: Common errors */
 
 
 
-/**
- * 'Command not recognized' (RFC977)
- *
- * @access     public
- */
-const UNKNOWN_COMMAND = 500;
+	/**
+	 * 'Command not recognized' (RFC977)
+	 *
+	 * @access     public
+	 */
+	const UNKNOWN_COMMAND = 500;
 
-/**
- * 'Command syntax error' (RFC977)
- *
- * @access     public
- */
-const SYNTAX_ERROR = 501;
+	/**
+	 * 'Command syntax error' (RFC977)
+	 *
+	 * @access     public
+	 */
+	const SYNTAX_ERROR = 501;
 
-/**
- * 'Access restriction or permission denied' (RFC977)
- *
- * @access     public
- */
-const NOT_PERMITTED = 502;
+	/**
+	 * 'Access restriction or permission denied' (RFC977)
+	 *
+	 * @access     public
+	 */
+	const NOT_PERMITTED = 502;
 
-/**
- * 'Program fault - command not performed' (RFC977)
- *
- * @access     public
- */
-const NOT_SUPPORTED = 503;
+	/**
+	 * 'Program fault - command not performed' (RFC977)
+	 *
+	 * @access     public
+	 */
+	const NOT_SUPPORTED = 503;
 
 
 
-/* Constants: Group selection */
+	/* Constants: Group selection */
 
 
 
-/**
- * 'Group selected' (RFC977)
- *
- * @access     public
- */
-const GROUP_SELECTED = 211;
+	/**
+	 * 'Group selected' (RFC977)
+	 *
+	 * @access     public
+	 */
+	const GROUP_SELECTED = 211;
 
-/**
- * 'No such news group' (RFC977)
- *
- * @access     public
- */
-const NO_SUCH_GROUP = 411;
+	/**
+	 * 'No such news group' (RFC977)
+	 *
+	 * @access     public
+	 */
+	const NO_SUCH_GROUP = 411;
 
 
 
-/* Constants: Article retrieval */
+	/* Constants: Article retrieval */
 
 
 
-/**
- * 'Article retrieved - head and body follow' (RFC977)
- *
- * @access     public
- */
-const ARTICLE_FOLLOWS = 220;
+	/**
+	 * 'Article retrieved - head and body follow' (RFC977)
+	 *
+	 * @access     public
+	 */
+	const ARTICLE_FOLLOWS = 220;
 
-/**
- * 'Article retrieved - head follows' (RFC977)
- *
- * @access     public
- */
-const HEAD_FOLLOWS = 221;
-
-/**
- * 'Article retrieved - body follows' (RFC977)
- *
- * @access     public
- */
-const BODY_FOLLOWS = 222;
+	/**
+	 * 'Article retrieved - head follows' (RFC977)
+	 *
+	 * @access     public
+	 */
+	const HEAD_FOLLOWS = 221;
+
+	/**
+	 * 'Article retrieved - body follows' (RFC977)
+	 *
+	 * @access     public
+	 */
+	const BODY_FOLLOWS = 222;
 
-/**
- * 'Article retrieved - request text separately' (RFC977)
- *
- * @access     public
- */
-const ARTICLE_SELECTED = 223;
+	/**
+	 * 'Article retrieved - request text separately' (RFC977)
+	 *
+	 * @access     public
+	 */
+	const ARTICLE_SELECTED = 223;
 
 
 
 
 
-/**
- * 'No newsgroup has been selected' (RFC977)
- *
- * @access     public
- */
-const NO_GROUP_SELECTED = 412;
+	/**
+	 * 'No newsgroup has been selected' (RFC977)
+	 *
+	 * @access     public
+	 */
+	const NO_GROUP_SELECTED = 412;
 
 
-/**
- * 'No current article has been selected' (RFC977)
- *
- * @access     public
- */
-const NO_ARTICLE_SELECTED = 420;
+	/**
+	 * 'No current article has been selected' (RFC977)
+	 *
+	 * @access     public
+	 */
+	const NO_ARTICLE_SELECTED = 420;
 
-/**
- * 'No next article in this group' (RFC977)
- *
- * @access     public
- */
-const NO_NEXT_ARTICLE = 421;
+	/**
+	 * 'No next article in this group' (RFC977)
+	 *
+	 * @access     public
+	 */
+	const NO_NEXT_ARTICLE = 421;
 
-/**
- * 'No previous article in this group' (RFC977)
- *
- * @access     public
- */
-const NO_PREVIOUS_ARTICLE = 422;
+	/**
+	 * 'No previous article in this group' (RFC977)
+	 *
+	 * @access     public
+	 */
+	const NO_PREVIOUS_ARTICLE = 422;
 
 
-/**
- * 'No such article number in this group' (RFC977)
- *
- * @access     public
- */
-const NO_SUCH_ARTICLE_NUMBER = 423;
+	/**
+	 * 'No such article number in this group' (RFC977)
+	 *
+	 * @access     public
+	 */
+	const NO_SUCH_ARTICLE_NUMBER = 423;
 
-/**
- * 'No such article found' (RFC977)
- *
- * @access     public
- */
-const NO_SUCH_ARTICLE_ID = 430;
+	/**
+	 * 'No such article found' (RFC977)
+	 *
+	 * @access     public
+	 */
+	const NO_SUCH_ARTICLE_ID = 430;
 
 
 
 
-/* Constants: Transferring */
+	/* Constants: Transferring */
 
 
 
-/**
- * 'Send article to be transferred' (RFC977)
- *
- * @access     public
- */
-const TRANSFER_SEND = 335;
+	/**
+	 * 'Send article to be transferred' (RFC977)
+	 *
+	 * @access     public
+	 */
+	const TRANSFER_SEND = 335;
 
-/**
- * 'Article transferred ok' (RFC977)
- *
- * @access     public
- */
-const TRANSFER_SUCCESS = 235;
+	/**
+	 * 'Article transferred ok' (RFC977)
+	 *
+	 * @access     public
+	 */
+	const TRANSFER_SUCCESS = 235;
 
-/**
- * 'Article not wanted - do not send it' (RFC977)
- *
- * @access     public
- */
-const TRANSFER_UNWANTED = 435;
+	/**
+	 * 'Article not wanted - do not send it' (RFC977)
+	 *
+	 * @access     public
+	 */
+	const TRANSFER_UNWANTED = 435;
 
-/**
- * 'Transfer failed - try again later' (RFC977)
- *
- * @access     public
- */
-const TRANSFER_FAILURE = 436;
+	/**
+	 * 'Transfer failed - try again later' (RFC977)
+	 *
+	 * @access     public
+	 */
+	const TRANSFER_FAILURE = 436;
 
-/**
- * 'Article rejected - do not try again' (RFC977)
- *
- * @access     public
- */
-const TRANSFER_REJECTED = 437;
+	/**
+	 * 'Article rejected - do not try again' (RFC977)
+	 *
+	 * @access     public
+	 */
+	const TRANSFER_REJECTED = 437;
 
 
 
-/* Constants: Posting */
+	/* Constants: Posting */
 
 
 
-/**
- * 'Send article to be posted' (RFC977)
- *
- * @access     public
- */
-const POSTING_SEND = 340;
+	/**
+	 * 'Send article to be posted' (RFC977)
+	 *
+	 * @access     public
+	 */
+	const POSTING_SEND = 340;
 
-/**
- * 'Article posted ok' (RFC977)
- *
- * @access     public
- */
-const POSTING_SUCCESS = 240;
+	/**
+	 * 'Article posted ok' (RFC977)
+	 *
+	 * @access     public
+	 */
+	const POSTING_SUCCESS = 240;
 
-/**
- * 'Posting not allowed' (RFC977)
- *
- * @access     public
- */
-const POSTING_PROHIBITED = 440;
+	/**
+	 * 'Posting not allowed' (RFC977)
+	 *
+	 * @access     public
+	 */
+	const POSTING_PROHIBITED = 440;
 
-/**
- * 'Posting failed' (RFC977)
- *
- * @access     public
- */
-const POSTING_FAILURE = 441;
+	/**
+	 * 'Posting failed' (RFC977)
+	 *
+	 * @access     public
+	 */
+	const POSTING_FAILURE = 441;
 
 
 
 
-/* Constants: Authorization */
+	/* Constants: Authorization */
 
 
 
-/**
- * 'Authorization required for this command' (RFC2980)
- *
- * @access     public
- */
-const AUTHORIZATION_REQUIRED = 450;
+	/**
+	 * 'Authorization required for this command' (RFC2980)
+	 *
+	 * @access     public
+	 */
+	const AUTHORIZATION_REQUIRED = 450;
 
-/**
- * 'Continue with authorization sequence' (RFC2980)
- *
- * @access     public
- */
-const AUTHORIZATION_CONTINUE = 350;
+	/**
+	 * 'Continue with authorization sequence' (RFC2980)
+	 *
+	 * @access     public
+	 */
+	const AUTHORIZATION_CONTINUE = 350;
 
-/**
- * 'Authorization accepted' (RFC2980)
- *
- * @access     public
- */
-const AUTHORIZATION_ACCEPTED = 250;
-
-/**
- * 'Authorization rejected' (RFC2980)
- *
- * @access     public
- */
-const AUTHORIZATION_REJECTED = 452;
-
-
-
-
-/* Constants: Authentication */
-
-
-
-/**
- * 'Authentication required' (RFC2980)
- *
- * @access     public
- */
-const AUTHENTICATION_REQUIRED = 480;
-
-/**
- * 'More authentication information required' (RFC2980)
- *
- * @access     public
- */
-const AUTHENTICATION_CONTINUE = 381;
-
-/**
- * 'Authentication accepted' (RFC2980)
- *
- * @access     public
- */
-const AUTHENTICATION_ACCEPTED = 281;
-
-/**
- * 'Authentication rejected' (RFC2980)
- *
- * @access     public
- */
-const AUTHENTICATION_REJECTED = 482;
-    
-
-
-/* Constants: Misc */
-
-
-
-/**
- * 'Help text follows' (Draft)
- *
- * @access     public
- */
-const HELP_FOLLOWS = 100;
-
-/**
- * 'Capabilities list follows' (Draft)
- *
- * @access     public
- */
-const CAPABILITIES_FOLLOW = 101;
-
-/**
- * 'Server date and time' (Draft)
- *
- * @access     public
- */
-const SERVER_DATE = 111;
-
-/**
- * 'Information follows' (Draft)
- *
- * @access     public
- */
-const GROUPS_FOLLOW = 215;
-
-/**
- * 'Overview information follows' (Draft)
- *
- * @access     public
- */
-const OVERVIEW_FOLLOWS = 224;
-
-/**
- * 'Headers follow' (Draft)
- *
- * @access     public
- */
-const HEADERS_FOLLOW = 225;
-
-/**
- * 'List of new articles follows' (Draft)
- *
- * @access     public
- */
-const NEW_ARTICLES_FOLLOW = 230;
-
-/**
- * 'List of new newsgroups follows' (Draft)
- *
- * @access     public
- */
-const NEW_GROUPS_FOLLOW = 231;
-
-/**
- * 'The server is in the wrong mode; the indicated capability should be used to change the mode' (Draft)
- *
- * @access     public
- */
-const WRONG_MODE = 401;
-
-/**
- * 'Internal fault or problem preventing action being taken' (Draft)
- *
- * @access     public
- */
-const INTERNAL_FAULT = 403;
-
-/**
- * 'Command unavailable until suitable privacy has been arranged' (Draft)
- *
- * (the client must negotiate appropriate privacy protection on the connection.
- * This will involve the use of a privacy extension such as [NNTP-TLS].)
- *
- * @access     public
- * @since      ?
- */
-//const ENCRYPTION_REQUIRED = 483;
-
-/**
- * 'Error in base64-encoding [RFC3548] of an argument' (Draft)
- *
- * @access     public
- */
-const BASE64_ENCODING_ERROR = 504;
+	/**
+	 * 'Authorization accepted' (RFC2980)
+	 *
+	 * @access     public
+	 */
+	const AUTHORIZATION_ACCEPTED = 250;
 
+	/**
+	 * 'Authorization rejected' (RFC2980)
+	 *
+	 * @access     public
+	 */
+	const AUTHORIZATION_REJECTED = 452;
+
+
+
+
+	/* Constants: Authentication */
+
+
+
+	/**
+	 * 'Authentication required' (RFC2980)
+	 *
+	 * @access     public
+	 */
+	const AUTHENTICATION_REQUIRED = 480;
+
+	/**
+	 * 'More authentication information required' (RFC2980)
+	 *
+	 * @access     public
+	 */
+	const AUTHENTICATION_CONTINUE = 381;
+
+	/**
+	 * 'Authentication accepted' (RFC2980)
+	 *
+	 * @access     public
+	 */
+	const AUTHENTICATION_ACCEPTED = 281;
+
+	/**
+	 * 'Authentication rejected' (RFC2980)
+	 *
+	 * @access     public
+	 */
+	const AUTHENTICATION_REJECTED = 482;
+
+
+
+	/* Constants: Misc */
+
+
+
+	/**
+	 * 'Help text follows' (Draft)
+	 *
+	 * @access     public
+	 */
+	const HELP_FOLLOWS = 100;
+
+	/**
+	 * 'Capabilities list follows' (Draft)
+	 *
+	 * @access     public
+	 */
+	const CAPABILITIES_FOLLOW = 101;
+
+	/**
+	 * 'Server date and time' (Draft)
+	 *
+	 * @access     public
+	 */
+	const SERVER_DATE = 111;
+
+	/**
+	 * 'Information follows' (Draft)
+	 *
+	 * @access     public
+	 */
+	const GROUPS_FOLLOW = 215;
+
+	/**
+	 * 'Overview information follows' (Draft)
+	 *
+	 * @access     public
+	 */
+	const OVERVIEW_FOLLOWS = 224;
+
+	/**
+	 * 'Headers follow' (Draft)
+	 *
+	 * @access     public
+	 */
+	const HEADERS_FOLLOW = 225;
+
+	/**
+	 * 'List of new articles follows' (Draft)
+	 *
+	 * @access     public
+	 */
+	const NEW_ARTICLES_FOLLOW = 230;
+
+	/**
+	 * 'List of new newsgroups follows' (Draft)
+	 *
+	 * @access     public
+	 */
+	const NEW_GROUPS_FOLLOW = 231;
+
+	/**
+	 * 'The server is in the wrong mode; the indicated capability should be used to change the mode' (Draft)
+	 *
+	 * @access     public
+	 */
+	const WRONG_MODE = 401;
+
+	/**
+	 * 'Internal fault or problem preventing action being taken' (Draft)
+	 *
+	 * @access     public
+	 */
+	const INTERNAL_FAULT = 403;
+
+	/**
+	 * 'Command unavailable until suitable privacy has been arranged' (Draft)
+	 *
+	 * (the client must negotiate appropriate privacy protection on the connection.
+	 * This will involve the use of a privacy extension such as [NNTP-TLS].)
+	 *
+	 * @access     public
+	 * @since      ?
+	 */
+	//const ENCRYPTION_REQUIRED = 483;
+
+	/**
+	 * 'Error in base64-encoding [RFC3548] of an argument' (Draft)
+	 *
+	 * @access     public
+	 */
+	const BASE64_ENCODING_ERROR = 504;
 }
