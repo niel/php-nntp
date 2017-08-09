@@ -66,12 +66,6 @@
  */
 
 /**
- *
- */
-require_once 'Net/NNTP/Protocol/Client.php';
-
-
-/**
  * Implementation of the client side of NNTP (Network News Transfer Protocol)
  *
  * The Net_NNTP_Client class is a frontend class to the Net_NNTP_Protocol_Client class.

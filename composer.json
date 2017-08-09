@@ -18,7 +18,10 @@
     "autoload": {
         "classmap": [
             "./"
-        ]
+        ],
+        "psr-0": {
+			"Net_NNTP_": "NNTP/"
+		}
     },
     "require": {
 		"php": ">=5.3",

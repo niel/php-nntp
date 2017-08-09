@@ -64,12 +64,6 @@
  */
 
 /**
- *
- */
-require_once 'Net/NNTP/Protocol/Responsecode.php';
-
-
-/**
  * Low level NNTP Client
  *
  * Implements the client part of the NNTP standard acording to:
