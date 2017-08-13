@@ -254,14 +254,14 @@ class Net_NNTP_Protocol_Client
 				if ($this->logger) {
 					$this->logger->info('TLS encryption failed.');
 				}
-				throw new SocketException('Could not initiate TLS negotiation', $response, $this->getCurrentResponseText());
+				throw new SocketException($this->getCurrentResponseText(), $response, 'Could not initiate TLS negotiation');
 
 			// Test if there isn't enough data and you should try again (only for non-blocking sockets)
 			case is_int($encrypted) && $encrypted == 0:
-				throw new SocketException('', $response, $this->getCurrentResponseText());
+				throw new SocketException($this->getCurrentResponseText(), $response, '');
 
 			default:
-				throw new SocketException('Internal error - unknown response from stream_socket_enable_crypto()', $response, $this->getCurrentResponseText());
+				throw new SocketException($this->getCurrentResponseText(), $response, 'Internal error - unknown response from stream_socket_enable_crypto()');
 		}
 	}
 
@@ -590,10 +590,10 @@ class Net_NNTP_Protocol_Client
 
     	switch ($code) {
     	    case Net_NNTP_Protocol_Responsecode::NOT_PERMITTED: // 502, 'access restriction or permission denied' / service permanently unavailable
-				throw new CommandException('Command not permitted / Access restriction / Permission denied', $code, new CommandException($text));
+				throw new CommandException($text, $code, 'Command not permitted / Access restriction / Permission denied');
 
 			default:
-    	    	throw new \UnexpectedValueException("Unexpected response: '$text'", $code, new CommandException($text));
+    	    	throw new \UnexpectedValueException($text, $code, "Unexpected response: '$text'");
     	}
     }
 
@@ -665,12 +665,12 @@ class Net_NNTP_Protocol_Client
     	    	return false;
 
 			case 400:
-//    	    	throw new CommandException('Server refused connection', $response, $this->getCurrentResponseText());
-    	    	throw new CommandException("Server refused connection: '".$this->getCurrentResponseText()."'", $response);
+//    	    	throw new CommandException($this->getCurrentResponseText(), $response, 'Server refused connection');
+    	    	throw new CommandException($this->getCurrentResponseText(), $response, "Server refused connection: '".$this->getCurrentResponseText()."'");
     	    
 			case Net_NNTP_Protocol_Responsecode::NOT_PERMITTED: // 502, 'access restriction or permission denied' / service permanently unavailable
-//    	    	throw new CommandException('Server refused connection', $response, $this->getCurrentResponseText());
-    	    	throw new CommandException("Server refused connection: '".$this->getCurrentResponseText()."'", $response);
+//    	    	throw new CommandException($this->getCurrentResponseText(), $response, 'Server refused connection');
+    	    	throw new CommandException($this->getCurrentResponseText(), $response, "Server refused connection: '".$this->getCurrentResponseText()."'");
     	    
 			default:
     	    	return $this->handleUnexpectedResponse($response);
@@ -751,7 +751,7 @@ class Net_NNTP_Protocol_Client
     	    	return false;
 
 			case Net_NNTP_Protocol_Responsecode::NOT_PERMITTED: // 502, 'access restriction or permission denied' / service permanently unavailable
-    	    	throw new CommandException('Connection being closed, since service so permanently unavailable', $response, $this->getCurrentResponseText());
+    	    	throw new CommandException($this->getCurrentResponseText(), $response, 'Connection being closed, since service so permanently unavailable');
     	    
 			default:
     	    	return $this->handleUnexpectedResponse($response);
@@ -800,7 +800,7 @@ class Net_NNTP_Protocol_Client
 				return true;
 
     	    case 580: // RFC4642: 'can not initiate TLS negotiation'
-    	    	throw new CommandException('', $response, $this->getCurrentResponseText());
+    	    	throw new CommandException($this->getCurrentResponseText(), $response, '');
 
 			default:
     	    	return $this->handleUnexpectedResponse($response);
@@ -838,7 +838,7 @@ class Net_NNTP_Protocol_Client
     	                     'count' => $response_arr[0]);
 
 			case Net_NNTP_Protocol_Responsecode::NO_SUCH_GROUP: // 411, RFC977: 'no such news group'
-    	    	throw new CommandException('No such news group', $response, $this->getCurrentResponseText());
+    	    	throw new CommandException($this->getCurrentResponseText(), $response, 'No such news group');
     	    
 			default:
     	    	return $this->handleUnexpectedResponse($response);
@@ -892,10 +892,10 @@ class Net_NNTP_Protocol_Client
     	    	             'articles' => $articles);
 
 			case Net_NNTP_Protocol_Responsecode::NO_GROUP_SELECTED: // 412, RFC2980: 'Not currently in newsgroup'
-    	    	throw new CommandException('Not currently in newsgroup', $response, $this->getCurrentResponseText());
+    	    	throw new CommandException($this->getCurrentResponseText(), $response, 'Not currently in newsgroup');
     	    
 			case 502: // RFC2980: 'no permission'
-    	    	throw new CommandException('No permission', $response, $this->getCurrentResponseText());
+    	    	throw new CommandException($this->getCurrentResponseText(), $response, 'No permission');
     	    
 			default:
     	    	return $this->handleUnexpectedResponse($response);
@@ -925,13 +925,13 @@ class Net_NNTP_Protocol_Client
     	    	return array($response_arr[0], (string) $response_arr[1]);
 
 			case Net_NNTP_Protocol_Responsecode::NO_GROUP_SELECTED: // 412, RFC977: 'no newsgroup selected'
-    	    	throw new CommandException('No newsgroup has been selected', $response, $this->getCurrentResponseText());
+    	    	throw new CommandException($this->getCurrentResponseText(), $response, 'No newsgroup has been selected');
     	    
 			case Net_NNTP_Protocol_Responsecode::NO_ARTICLE_SELECTED: // 420, RFC977: 'no current article has been selected'
-    	    	throw new CommandException('No current article has been selected', $response, $this->getCurrentResponseText());
+    	    	throw new CommandException($this->getCurrentResponseText(), $response, 'No current article has been selected');
     	    
 			case Net_NNTP_Protocol_Responsecode::NO_PREVIOUS_ARTICLE: // 422, RFC977: 'no previous article in this group'
-    	    	throw new CommandException('No previous article in this group', $response, $this->getCurrentResponseText());
+    	    	throw new CommandException($this->getCurrentResponseText(), $response, 'No previous article in this group');
     	    
 			default:
     	    	return $this->handleUnexpectedResponse($response);
@@ -961,13 +961,13 @@ class Net_NNTP_Protocol_Client
     	    	return array($response_arr[0], (string) $response_arr[1]);
     	    
 			case Net_NNTP_Protocol_Responsecode::NO_GROUP_SELECTED: // 412, RFC977: 'no newsgroup selected'
-    	    	throw new CommandException('No newsgroup has been selected', $response, $this->getCurrentResponseText());
+    	    	throw new CommandException($this->getCurrentResponseText(), $response, 'No newsgroup has been selected');
     	    
 			case Net_NNTP_Protocol_Responsecode::NO_ARTICLE_SELECTED: // 420, RFC977: 'no current article has been selected'
-    	    	throw new CommandException('No current article has been selected', $response, $this->getCurrentResponseText());
+    	    	throw new CommandException($this->getCurrentResponseText(), $response, 'No current article has been selected');
     	    
 			case Net_NNTP_Protocol_Responsecode::NO_NEXT_ARTICLE: // 421, RFC977: 'no next article in this group'
-    	    	throw new CommandException('No next article in this group', $response, $this->getCurrentResponseText());
+    	    	throw new CommandException($this->getCurrentResponseText(), $response, 'No next article in this group');
     	    
 			default:
     	    	return $this->handleUnexpectedResponse($response);
@@ -1006,16 +1006,16 @@ class Net_NNTP_Protocol_Client
     	    	return $data;
 
 			case Net_NNTP_Protocol_Responsecode::NO_GROUP_SELECTED: // 412, RFC977: 'no newsgroup has been selected'
-    	    	throw new CommandException('No newsgroup has been selected', $response, $this->getCurrentResponseText());
+    	    	throw new CommandException($this->getCurrentResponseText(), $response, 'No newsgroup has been selected');
     	    
 			case Net_NNTP_Protocol_Responsecode::NO_ARTICLE_SELECTED: // 420, RFC977: 'no current article has been selected'
-    	    	throw new CommandException('No current article has been selected', $response, $this->getCurrentResponseText());
+    	    	throw new CommandException($this->getCurrentResponseText(), $response, 'No current article has been selected');
     	    
 			case Net_NNTP_Protocol_Responsecode::NO_SUCH_ARTICLE_NUMBER: // 423, RFC977: 'no such article number in this group'
-    	    	throw new CommandException('No such article number in this group', $response, $this->getCurrentResponseText());
+    	    	throw new CommandException($this->getCurrentResponseText(), $response, 'No such article number in this group');
     	    
 			case Net_NNTP_Protocol_Responsecode::NO_SUCH_ARTICLE_ID: // 430, RFC977: 'no such article found'
-    	    	throw new CommandException('No such article found', $response, $this->getCurrentResponseText());
+    	    	throw new CommandException($this->getCurrentResponseText(), $response, 'No such article found');
     	    
 			default:
     	    	return $this->handleUnexpectedResponse($response);
@@ -1053,16 +1053,16 @@ class Net_NNTP_Protocol_Client
     	        return $data;
     	    
 			case Net_NNTP_Protocol_Responsecode::NO_GROUP_SELECTED: // 412, RFC977: 'no newsgroup has been selected'
-    	    	throw new CommandException('No newsgroup has been selected', $response, $this->getCurrentResponseText());
+    	    	throw new CommandException($this->getCurrentResponseText(), $response, 'No newsgroup has been selected');
     	    
 			case Net_NNTP_Protocol_Responsecode::NO_ARTICLE_SELECTED: // 420, RFC977: 'no current article has been selected'
-    	    	throw new CommandException('No current article has been selected', $response, $this->getCurrentResponseText());
+    	    	throw new CommandException($this->getCurrentResponseText(), $response, 'No current article has been selected');
     	    
 			case Net_NNTP_Protocol_Responsecode::NO_SUCH_ARTICLE_NUMBER: // 423, RFC977: 'no such article number in this group'
-    	    	throw new CommandException('No such article number in this group', $response, $this->getCurrentResponseText());
+    	    	throw new CommandException($this->getCurrentResponseText(), $response, 'No such article number in this group');
     	    
 			case Net_NNTP_Protocol_Responsecode::NO_SUCH_ARTICLE_ID: // 430, RFC977: 'no such article found'
-    	    	throw new CommandException('No such article found', $response, $this->getCurrentResponseText());
+    	    	throw new CommandException($this->getCurrentResponseText(), $response, 'No such article found');
     	    
 			default:
     	    	return $this->handleUnexpectedResponse($response);
@@ -1100,16 +1100,16 @@ class Net_NNTP_Protocol_Client
     	        return $data;
     	    
 			case Net_NNTP_Protocol_Responsecode::NO_GROUP_SELECTED: // 412, RFC977: 'no newsgroup has been selected'
-    	    	throw new CommandException('No newsgroup has been selected', $response, $this->getCurrentResponseText());
+    	    	throw new CommandException($this->getCurrentResponseText(), $response, 'No newsgroup has been selected');
     	    
 			case Net_NNTP_Protocol_Responsecode::NO_ARTICLE_SELECTED: // 420, RFC977: 'no current article has been selected'
-    	    	throw new CommandException('No current article has been selected', $response, $this->getCurrentResponseText());
+    	    	throw new CommandException($this->getCurrentResponseText(), $response, 'No current article has been selected');
     	    
 			case Net_NNTP_Protocol_Responsecode::NO_SUCH_ARTICLE_NUMBER: // 423, RFC977: 'no such article number in this group'
-    	    	throw new CommandException('No such article number in this group', $response, $this->getCurrentResponseText());
+    	    	throw new CommandException($this->getCurrentResponseText(), $response, 'No such article number in this group');
 
     	    case Net_NNTP_Protocol_Responsecode::NO_SUCH_ARTICLE_ID: // 430, RFC977: 'no such article found'
-    	    	throw new CommandException('No such article found', $response, $this->getCurrentResponseText());
+    	    	throw new CommandException($this->getCurrentResponseText(), $response, 'No such article found');
 
 			default:
     	    	return $this->handleUnexpectedResponse($response);
@@ -1147,13 +1147,13 @@ class Net_NNTP_Protocol_Client
     	    	return array($response_arr[0], (string) $response_arr[1]);
 
 			case Net_NNTP_Protocol_Responsecode::NO_GROUP_SELECTED: // 412, RFC977: 'no newsgroup has been selected' (actually not documented, but copied from the ARTICLE command)
-    	    	throw new CommandException('No newsgroup has been selected', $response, $this->getCurrentResponseText());
+    	    	throw new CommandException($this->getCurrentResponseText(), $response, 'No newsgroup has been selected');
 
 			case Net_NNTP_Protocol_Responsecode::NO_SUCH_ARTICLE_NUMBER: // 423, RFC977: 'no such article number in this group' (actually not documented, but copied from the ARTICLE command)
-    	    	throw new CommandException('No such article number in this group', $response, $this->getCurrentResponseText());
+    	    	throw new CommandException($this->getCurrentResponseText(), $response, 'No such article number in this group');
     	    
 			case Net_NNTP_Protocol_Responsecode::NO_SUCH_ARTICLE_ID: // 430, RFC977: 'no such article found' (actually not documented, but copied from the ARTICLE command)
-    	    	throw new CommandException('No such article found', $response, $this->getCurrentResponseText());
+    	    	throw new CommandException($this->getCurrentResponseText(), $response, 'No such article found');
     	    
 			default:
     	    	return $this->handleUnexpectedResponse($response);
@@ -1179,7 +1179,7 @@ class Net_NNTP_Protocol_Client
     	    	return true;
 
 			case Net_NNTP_Protocol_Responsecode::POSTING_PROHIBITED: // 440, RFC977: 'posting not allowed'
-    	    	throw new CommandException('Posting not allowed', $response, $this->getCurrentResponseText());
+    	    	throw new CommandException($this->getCurrentResponseText(), $response, 'Posting not allowed');
     	    
 			default:
     	    	return $this->handleUnexpectedResponse($response);
@@ -1211,7 +1211,7 @@ class Net_NNTP_Protocol_Client
     	    	return true;
 
 			case Net_NNTP_Protocol_Responsecode::POSTING_FAILURE: // 441, RFC977: 'posting failed'
-    	    	throw new CommandException('Posting failed', $response, $this->getCurrentResponseText());
+    	    	throw new CommandException($this->getCurrentResponseText(), $response, 'Posting failed');
     	    
 			default:
     	    	return $this->handleUnexpectedResponse($response);
@@ -1237,10 +1237,10 @@ class Net_NNTP_Protocol_Client
     	    	return true;
 
 			case Net_NNTP_Protocol_Responsecode::TRANSFER_UNWANTED: // 435
-    	    	throw new CommandException('Article not wanted', $response, $this->getCurrentResponseText());
+    	    	throw new CommandException($this->getCurrentResponseText(), $response, 'Article not wanted');
     	    
 			case Net_NNTP_Protocol_Responsecode::TRANSFER_FAILURE: // 436
-    	    	throw new CommandException('Transfer not possible; try again later', $response, $this->getCurrentResponseText());
+    	    	throw new CommandException($this->getCurrentResponseText(), $response, 'Transfer not possible; try again later');
     	    
 			default:
     	    	return $this->handleUnexpectedResponse($response);
@@ -1271,10 +1271,10 @@ class Net_NNTP_Protocol_Client
     	    	return true;
     	    
 			case Net_NNTP_Protocol_Responsecode::TRANSFER_FAILURE: // 436
-    	    	throw new CommandException('Transfer not possible; try again later', $response, $this->getCurrentResponseText());
+    	    	throw new CommandException($this->getCurrentResponseText(), $response, 'Transfer not possible; try again later');
     	    
 			case Net_NNTP_Protocol_Responsecode::TRANSFER_REJECTED: // 437
-    	    	throw new CommandException('Transfer rejected; do not retry', $response, $this->getCurrentResponseText());
+    	    	throw new CommandException($this->getCurrentResponseText(), $response, 'Transfer rejected; do not retry');
     	    
 			default:
     	    	return $this->handleUnexpectedResponse($response);
@@ -1540,7 +1540,7 @@ class Net_NNTP_Protocol_Client
     	        return $groups;
     		
 			case 503: // RFC2980: 'program error, function not performed'
-    	    	throw new CommandException('Internal server error, function not performed', $response, $this->getCurrentResponseText());
+    	    	throw new CommandException($this->getCurrentResponseText(), $response, 'Internal server error, function not performed');
     	    
 			default:
     	    	return $this->handleUnexpectedResponse($response);
@@ -1586,16 +1586,16 @@ class Net_NNTP_Protocol_Client
     	    	return $data;
     	    
 			case Net_NNTP_Protocol_Responsecode::NO_GROUP_SELECTED: // 412, RFC2980: 'No news group current selected'
-    	    	throw new CommandException('No news group current selected', $response, $this->getCurrentResponseText());
+    	    	throw new CommandException($this->getCurrentResponseText(), $response, 'No news group current selected');
     	    
 			case Net_NNTP_Protocol_Responsecode::NO_ARTICLE_SELECTED: // 420, RFC2980: 'No article(s) selected'
-    	    	throw new CommandException('No article(s) selected', $response, $this->getCurrentResponseText());
+    	    	throw new CommandException($this->getCurrentResponseText(), $response, 'No article(s) selected');
     	    
 			case Net_NNTP_Protocol_Responsecode::NO_SUCH_ARTICLE_NUMBER: // 423:, Draft27: 'No articles in that range'
-    	    	throw new CommandException('No articles in that range', $response, $this->getCurrentResponseText());
+    	    	throw new CommandException($this->getCurrentResponseText(), $response, 'No articles in that range');
     	    
 			case 502: // RFC2980: 'no permission'
-    	    	throw new CommandException('No permission', $response, $this->getCurrentResponseText());
+    	    	throw new CommandException($this->getCurrentResponseText(), $response, 'No permission');
     	    
 			default:
     	    	return $this->handleUnexpectedResponse($response);
@@ -1644,13 +1644,13 @@ class Net_NNTP_Protocol_Client
     	    	return $data;
     	    
 			case Net_NNTP_Protocol_Responsecode::NO_GROUP_SELECTED: // 412, RFC2980: 'No news group current selected'
-    	    	throw new CommandException('No news group current selected', $response, $this->getCurrentResponseText());
+    	    	throw new CommandException($this->getCurrentResponseText(), $response, 'No news group current selected');
     	    
 			case Net_NNTP_Protocol_Responsecode::NO_ARTICLE_SELECTED: // 420, RFC2980: 'No article(s) selected'
-    	    	throw new CommandException('No article(s) selected', $response, $this->getCurrentResponseText());
+    	    	throw new CommandException($this->getCurrentResponseText(), $response, 'No article(s) selected');
     	    
 			case 502: // RFC2980: 'no permission'
-    	    	throw new CommandException('No permission', $response, $this->getCurrentResponseText());
+    	    	throw new CommandException($this->getCurrentResponseText(), $response, 'No permission');
     	    
 			default:
     	    	return $this->handleUnexpectedResponse($response);
@@ -1692,7 +1692,7 @@ class Net_NNTP_Protocol_Client
     	        return $format;
     	    
 			case 503: // RFC2980: 'program error, function not performed'
-    	    	throw new CommandException('Internal server error, function not performed', $response, $this->getCurrentResponseText());
+    	    	throw new CommandException($this->getCurrentResponseText(), $response, 'Internal server error, function not performed');
     	    
 			default:
     	    	return $this->handleUnexpectedResponse($response);
@@ -1735,16 +1735,16 @@ class Net_NNTP_Protocol_Client
     	    	return $return;
     	    
 			case Net_NNTP_Protocol_Responsecode::NO_GROUP_SELECTED: // 412, RFC2980: 'No news group current selected'
-    	    	throw new CommandException('No news group current selected', $response, $this->getCurrentResponseText());
+    	    	throw new CommandException($this->getCurrentResponseText(), $response, 'No news group current selected');
     	    
 			case Net_NNTP_Protocol_Responsecode::NO_ARTICLE_SELECTED: // 420, RFC2980: 'No current article selected'
-    	    	throw new CommandException('No current article selected', $response, $this->getCurrentResponseText());
+    	    	throw new CommandException($this->getCurrentResponseText(), $response, 'No current article selected');
     	    
 			case 430: // 430, RFC2980: 'No such article'
-    	    	throw new CommandException('No such article', $response, $this->getCurrentResponseText());
+    	    	throw new CommandException($this->getCurrentResponseText(), $response, 'No such article');
     	    
 			case 502: // RFC2980: 'no permission'
-    	    	throw new CommandException('No permission', $response, $this->getCurrentResponseText());
+    	    	throw new CommandException($this->getCurrentResponseText(), $response, 'No permission');
     	    
 			default:
     	    	return $this->handleUnexpectedResponse($response);
@@ -1797,7 +1797,7 @@ class Net_NNTP_Protocol_Client
     	        return $groups;
 
     	    case 481: // RFC2980: 'Groups and descriptions unavailable'
-    	    	throw new CommandException('Groups and descriptions unavailable', $response, $this->getCurrentResponseText());
+    	    	throw new CommandException($this->getCurrentResponseText(), $response, 'Groups and descriptions unavailable');
 
 			default:
     	    	return $this->handleUnexpectedResponse($response);
@@ -1840,13 +1840,13 @@ class Net_NNTP_Protocol_Client
     	    	return $return;
     	    
 			case Net_NNTP_Protocol_Responsecode::NO_GROUP_SELECTED: // 412, RFC2980: 'No news group current selected'
-    	    	throw new CommandException('No news group current selected', $response, $this->getCurrentResponseText());
+    	    	throw new CommandException($this->getCurrentResponseText(), $response, 'No news group current selected');
     	    
 			case Net_NNTP_Protocol_Responsecode::NO_ARTICLE_SELECTED: // 420, RFC2980: 'No article(s) selected'
-    	    	throw new CommandException('No article(s) selected', $response, $this->getCurrentResponseText());
+    	    	throw new CommandException($this->getCurrentResponseText(), $response, 'No article(s) selected');
     	    
 			case 502: // RFC2980: 'no permission'
-    	    	throw new CommandException('No permission', $response, $this->getCurrentResponseText());
+    	    	throw new CommandException($this->getCurrentResponseText(), $response, 'No permission');
     	    
 			default:
     	    	return $this->handleUnexpectedResponse($response);
@@ -1889,10 +1889,10 @@ class Net_NNTP_Protocol_Client
     	    	return $return;
     	    
 			case 430: // 430, RFC2980: 'No such article'
-    	    	throw new CommandException('No current article selected', $response, $this->getCurrentResponseText());
+    	    	throw new CommandException($this->getCurrentResponseText(), $response, 'No current article selected');
     	    
 			case 502: // RFC2980: 'no permission'
-    	    	throw new CommandException('No permission', $response, $this->getCurrentResponseText());
+    	    	throw new CommandException($this->getCurrentResponseText(), $response, 'No permission');
     	    
 			default:
     	    	return $this->handleUnexpectedResponse($response);
@@ -1931,17 +1931,17 @@ class Net_NNTP_Protocol_Client
     	        return true;
     	    
 			case 381: // RFC2980: 'More authentication information required'
-    	        throw new CommandException('Authentication uncompleted', $response, $this->getCurrentResponseText());
+    	        throw new CommandException($this->getCurrentResponseText(), $response, 'Authentication uncompleted');
     	    
 			case 482: // RFC2980: 'Authentication rejected'
-    	    	throw new CommandException('Authentication rejected', $response, $this->getCurrentResponseText());
+    	    	throw new CommandException($this->getCurrentResponseText(), $response, 'Authentication rejected');
     	    
 			case 502: // RFC2980: 'No permission'
-    	    	throw new CommandException('Authentication rejected', $response, $this->getCurrentResponseText());
+    	    	throw new CommandException($this->getCurrentResponseText(), $response, 'Authentication rejected');
     	    
 			case 500:
 //    	    case 501:
-//    	    	throw new CommandException('Authentication failed', $response, $this->getCurrentResponseText());
+//    	    	throw new CommandException($this->getCurrentResponseText(), $response, 'Authentication failed');
 
 			default:
     	    	return $this->handleUnexpectedResponse($response);
