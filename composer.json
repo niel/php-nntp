@@ -21,10 +21,10 @@
 			"Net_NNTP_": "src.psr-0/"
 		},
         "psr-4": {
-			"Net\\NNTP\\": "NNTP"
+			"Net\\NNTP\\": "src"
 		},
 		"files": [
-			"NNTP/Protocol/Exceptions.php"
+			"src/Protocol/Exceptions.php"
 		]
     },
     "require": {
