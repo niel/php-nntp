@@ -152,7 +152,7 @@ class Net_NNTP_Protocol_Client
 	 */
     public function enableDebug()
     {
-        $this->debug = $this->debug;
+        $this->debug = true;
     }
 
     /**
@@ -162,7 +162,7 @@ class Net_NNTP_Protocol_Client
 	 */
     public function disableDebug()
     {
-        $this->debug = $this->debug;
+        $this->debug = false;
     }
 
     /**
@@ -339,7 +339,7 @@ class Net_NNTP_Protocol_Client
             // Check if the line terminates the textresponse
             if ($line == '.') {
 
-    	    	if ($this->logger) {
+    	    	if ($debug) {
     	    	    $this->logger->debug('T: ' . $line);
     	    	}
 
