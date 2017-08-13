@@ -665,11 +665,9 @@ class Net_NNTP_Protocol_Client
     	    	return false;
 
 			case 400:
-//    	    	throw new ServiceNotAvailableException($this->getCurrentResponseText(), $response, 'Server refused connection');
     	    	throw new ServiceNotAvailableException($this->getCurrentResponseText(), $response, "Server refused connection: '".$this->getCurrentResponseText()."'");
     	    
 			case Net_NNTP_Protocol_Responsecode::NOT_PERMITTED: // 502, 'access restriction or permission denied' / service permanently unavailable
-//    	    	throw new CommandException($this->getCurrentResponseText(), $response, 'Server refused connection');
     	    	throw new CommandException($this->getCurrentResponseText(), $response, "Server refused connection: '".$this->getCurrentResponseText()."'");
     	    
 			default:
