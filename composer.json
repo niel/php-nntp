@@ -22,7 +22,10 @@
 		},
         "psr-4": {
 			"Net\\NNTP\\": "NNTP"
-		}
+		},
+		"files": [
+			"NNTP/Protocol/Exceptions.php"
+		]
     },
     "require": {
 		"php": ">=5.3",
