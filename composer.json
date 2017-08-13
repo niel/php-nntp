@@ -1,6 +1,7 @@
 {
     "name": "pear/net_nntp",
-    "description": "More info available on: http://pear.php.net/package/Net_NNTP",
+    "description": "Modernized version of PEAR's Net_NNTP for communication with NNTP/Usenet servers.",
+	"homepage": "http://pear.php.net/package/Net_NNTP",
     "type": "library",
     "license": "W3C",
     "version": "2.0.0-dev",
