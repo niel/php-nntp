@@ -65,12 +65,13 @@
  */
 
 
+
+require_once(__DIR__.'/../../../vendor/autoload.php');
+
+
 /*****************/
 /* Setup logging */
 /*****************/
-
-//
-require_once "Log.php";
 
 /**
  *
@@ -214,9 +215,6 @@ $logger = new Logger(null, null, null, $loglevel);
 /********************/
 /* Init NNTP client */
 /********************/
-
-//
-require_once 'Net/NNTP/Client.php';
 
 //
 $nntp = new Net_NNTP_Client();
