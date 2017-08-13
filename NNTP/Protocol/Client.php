@@ -161,12 +161,80 @@ class Net_NNTP_Protocol_Client
 
     /**
      * 
+     * @param string $address
+     * @return int $timeout
+	 * @throws
+     */
+    protected function socketConnect($address, $timeout = null)
+    {
+    	//
+        if ($this->isConnected()) {
+    	    throw new SocketException('Already connected, disconnect first!', null);
+    	}
+
+    	// Open Connection
+    	$socket = @stream_socket_client($address, $errno, $errstr, $timeout);
+    	if ($socket === false) {
+    	    if ($this->logger) {
+    	        $this->logger->notice("Connection to $transport://$host:$port failed.");
+    	    }
+    	    throw new SocketException('Connection failed: '. error_get_last()['message'], null);
+    	}
+
+    	$this->socket = $socket;
+
+    	//
+    	if ($this->logger) {
+    	    $this->logger->info("Connection to $address has been established.");
+    	}
+
+		// Set a stream timeout for each operation
+		stream_set_timeout($this->socket, $timeout);
+	}
+
+    /**
+     * 
+     * @param string $address
+     * @return int $timeout
+	 * @throws
+     */
+    protected function socketDisconnect()
+    {
+		// If socket is still open, close it.
+		if ($this->isConnected()) {
+			fclose($this->socket);
+		}
+
+		if ($this->logger) {
+			$this->logger->info('Connection closed.');
+		}
+	}
+
+    /**
+     * Test whether we are connected or not.
+     *
+     * @return bool True or false
+     * @access protected
+	 * @throws
+     */
+    protected function isSocketOpen()
+    {
+		return (is_resource($this->socket) && (!feof($this->socket)));
+    }
+
+	/**
+     * 
      * @param string $string
      * @return int Bytes sent
 	 * @throws
      */
-    protected function writeToSocket($string)
+    protected function socketWrite($string)
     {
+    	// Check if connected
+    	if (!$this->isConnected()) {
+            throw new SocketException('Failed to write to socket! (connection lost!)', null);
+        }
+
     	// Write string to socket
     	$bytes = @fwrite($this->socket, $string);
         if ($bytes === false) {
@@ -182,13 +250,14 @@ class Net_NNTP_Protocol_Client
 		
 		return $bytes;
 	}
+
     /**
      * 
      * @param int $size
      * @return string 
 	 * @throws
      */
-    protected function readFromSocket($size)
+    protected function socketRead($size)
     {
     	$response = @fgets($this->socket, $size);
         if ($response === false) {
@@ -242,13 +311,8 @@ class Net_NNTP_Protocol_Client
             throw new \Exception("Illegal character(s) in NNTP command!", null);
         }
 
-    	// Check if connected
-    	if (!$this->isConnected()) {
-            throw new SocketException('Failed to write to socket! (connection lost!)', null);
-        }
-
     	// Send the command
-		$this->writeToSocket($cmd . "\r\n");
+		$this->socketWrite($cmd . "\r\n");
 
     	//
     	if ($this->logger && $this->debug) {
@@ -270,7 +334,7 @@ class Net_NNTP_Protocol_Client
     {
     	// Retrieve a line (terminated by "\r\n") from the server.
         // RFC says max is 510, but IETF says "be liberal in what you accept"...
-		$response = $this->readFromSocket(4096);
+		$response = $this->socketRead(4096);
 		
     	//
     	if ($this->logger && $this->debug) {
@@ -310,7 +374,7 @@ class Net_NNTP_Protocol_Client
         while (!feof($this->socket)) {
 
             // Retrieve and append up to 1024 characters from the server.
-			$received = $this->readFromSocket(1024);
+			$received = $this->socketRead(1024);
 
 			//
             $line .= $received;
@@ -388,8 +452,8 @@ class Net_NNTP_Protocol_Client
     	switch (true) {
     	case is_string($article):
     	    //
-			$this->writeToSocket($article);
-			$this->writeToSocket("\r\n.\r\n");
+			$this->socketWrite($article);
+			$this->socketWrite("\r\n.\r\n");
 
     	    //
     	    if ($this->logger && $this->debug) {
@@ -413,8 +477,8 @@ class Net_NNTP_Protocol_Client
 */
 
     	    // Send header (including separation line)
-			$this->writeToSocket($header);
-			$this->writeToSocket("\r\n");
+			$this->socketWrite($header);
+			$this->socketWrite("\r\n");
 
     	    //
     	    if ($this->logger && $this->debug) {
@@ -432,8 +496,8 @@ class Net_NNTP_Protocol_Client
 */
 
     	    // Send body
-			$this->writeToSocket($body);
-			$this->writeToSocket("\r\n.\r\n");
+			$this->socketWrite($body);
+			$this->socketWrite("\r\n.\r\n");
 
     	    //
     	    if ($this->logger && $this->debug) {
@@ -508,11 +572,6 @@ class Net_NNTP_Protocol_Client
     protected function connect($host = null, $encryption = null, $port = null, $timeout = null)
     {
     	//
-        if ($this->isConnected()) {
-    	    throw new SocketException('Already connected, disconnect first!', null);
-    	}
-
-    	//
     	if (is_null($host)) {
     	    $host = 'localhost';
     	}
@@ -542,23 +601,7 @@ class Net_NNTP_Protocol_Client
     	}
 
     	// Open Connection
-    	$socket = @stream_socket_client($transport . '://' . $host . ':' . $port, $errno, $errstr, $timeout);
-    	if ($socket === false) {
-    	    if ($this->logger) {
-    	        $this->logger->notice("Connection to $transport://$host:$port failed.");
-    	    }
-    	    throw new SocketException('Connection failed: '. error_get_last()['message'], null);
-    	}
-
-    	$this->socket = $socket;
-
-    	//
-    	if ($this->logger) {
-    	    $this->logger->info("Connection to $transport://$host:$port has been established.");
-    	}
-
-		// Set a stream timeout for each operation
-		stream_set_timeout($this->socket, $timeout);
+		$this->socketConnect($transport . '://' . $host . ':' . $port, $timeout);
 
     	// Retrive the server's initial response.
     	$response = $this->getStatusResponse();
@@ -604,6 +647,18 @@ class Net_NNTP_Protocol_Client
     }
 
     /**
+     * Test whether we are connected or not.
+     *
+     * @return bool True or false
+     * @access protected
+	 * @throws
+     */
+    protected function isConnected()
+    {
+        return $this->isSocketOpen();
+    }
+
+	/**
      * Returns servers capabilities
      *
      * @return array List of capabilities
@@ -675,15 +730,8 @@ class Net_NNTP_Protocol_Client
 
         switch ($response) {
     	    case 205: // RFC977: 'closing connection - goodbye!'
-    	    	// If socket is still open, close it.
-    	    	if ($this->isConnected()) {
-    	    	    fclose($this->socket);
-    	    	}
-
-    	    	if ($this->logger) {
-    	    	    $this->logger->info('Connection closed.');
-    	    	}
-
+				$this->socketDisconnect();
+				
     	    	return true;
 
 			default:
@@ -1903,17 +1951,5 @@ class Net_NNTP_Protocol_Client
     protected function cmdAuthinfoGeneric($user, $pass)
     {
         throw new \Exception("The auth mode: 'generic' is has not been implemented yet", null);
-    }
-
-    /**
-     * Test whether we are connected or not.
-     *
-     * @return bool True or false
-     * @access protected
-	 * @throws
-     */
-    protected function isConnected()
-    {
-        return (is_resource($this->socket) && (!feof($this->socket)));
     }
 }
