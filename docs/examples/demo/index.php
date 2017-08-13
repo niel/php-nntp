@@ -98,7 +98,7 @@ include 'header.inc.php';
 <tr><td style="border-top: 0px"><input type="radio" name="encryption" value="starttls">startTLS</td><td valign="top" style="border-top: 0px">(Starts encryption on an initially unencrypted connection)</td></tr>
 <tr><td style="border-top: 0px"><input type="radio" name="encryption" value="tls">TLS</td><td valign="top" style="border-top: 0px">(Requires a NNTPS server)</td></tr>
 <tr><td style="border-top: 0px"><input type="radio" name="encryption" value="ssl">SSL</td><td valign="top" style="border-top: 0px">(Requires a NNTPS server)</td></tr>
-<tr><td valign="top"><b>Loglevel:</b></td><td><input type="radio" name="loglevel" value="4" checked="checked">warning<br><input type="radio" name="loglevel" value="5" checked="checked">notice<br><input type="radio" name="loglevel" value="6">info<br><input type="radio" name="loglevel" value="7">debug</td><td valign="top">(Application logging level)</td></tr>
+<tr><td valign="top"><b>Loglevel:</b></td><td><input type="radio" name="loglevel" value="warning" checked="checked">warning<br><input type="radio" name="loglevel" value="notice" checked="checked">notice<br><input type="radio" name="loglevel" value="info">info<br><input type="radio" name="loglevel" value="debug">debug</td><td valign="top">(Application logging level)</td></tr>
 <tr><td></td><td colspan="2"><input type="submit" value="View newsgroups"></td></tr>
 </table>
 </form>

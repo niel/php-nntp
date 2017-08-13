@@ -76,61 +76,62 @@ require_once(__DIR__.'/../../../vendor/autoload.php');
 /**
  *
  */
-class Logger extends Log
+class Logger
+	implements Psr\Log\LoggerInterface
 {
-    var $_events = array();
+	use \Psr\Log\LoggerTrait;
+	
+    protected $events = array();
+	
+    protected $mask = null;
+	
+	const PRIORITY_LEVELS = array(
+		'emergency' => 0,
+		'alarm'     => 1,
+		'critical'  => 2,
+		'error'     => 3,
+		'warning'   => 4,
+		'notice'    => 5,
+		'info'      => 6,
+		'debug'     => 7,
+	);
 
-    function __construct($name = '', $ident = '', $conf = null,
-                 $level = PEAR_LOG_NOTICE)
+    function __construct($mask = 'notice')
     {
-        $this->_id = md5(microtime());
-        $this->_ident = $ident;
-        $this->_mask = Log::UPTO($level);
+		// Validate input
+		if (!isset(static::PRIORITY_LEVELS[$mask])) {
+			throw new \Exception("Invalid loglevel: '$mask'");
+		}
+		
+		// Lookup priority level
+		$level = static::PRIORITY_LEVELS[$mask];
+
+		// Calculate mask
+		$this->mask = ((1 << ($level + 1)) - 1);
     }
 
-    function Logger($name = '', $ident = '', $conf = null,
-                 $level = PEAR_LOG_NOTICE)
-    {
-        $this->__construct($name, $ident, $conf, $level);
-    }
-
-    function log($message, $priority = null)
-    {
-        /* If a priority hasn't been specified, use the default value. */
-        if ($priority === null) {
-            $priority = $this->_priority;
-        }
-
-        /* Abort early if the priority is above the maximum logging level. */
-        if (!$this->_isMasked($priority)) {
+    function log($priority, $message, array $context = array())
+    {		
+        // Abort early if the priority is above the maximum logging level.
+        if (! ((1 << static::PRIORITY_LEVELS[$priority]) & $this->mask)) {
             return false;
         }
 
-        /* Extract the string representation of the message. */
-        $message = $this->_extractMessage($message);
-
-	/*  */
-        $this->_events[] = array('priority' => $priority, 'message' => $message);
-
-        /* Notify observers about this log message. */
-        $this->_announce(array('priority' => $priority, 'message' => $message));
-
-        return true;
+		//
+        $this->events[] = array('priority' => $priority, 'message' => $message, 'context' => $context);
     }
 
     function dump()
     {
-    	if (count($this->_events) == 0) {
+    	if (count($this->events) == 0) {
     	    return;
     	}
     	
         echo '<div class="debug">', "\r\n";
     	echo '<p><b><u>Log:</u></b></p>';
-        foreach ($this->_events as $event) {
-	    $priority = Log::priorityToString($event['priority']);
-	    
-    	    echo '<p class="', $priority , '">';
-    	    echo '<b>' . ucfirst($priority) . '</b>: ';
+        foreach ($this->events as $event) {
+    	    echo '<p class="', $event['priority'] , '">';
+    	    echo '<b>' . ucfirst($event['priority']) . '</b>: ';
     	    echo nl2br(htmlspecialchars($event['message']));
     	    echo '</p>', "\r\n";
     	}
@@ -144,8 +145,7 @@ if ($allowOverwrite) {
 }
 
 //
-$logger = new Logger(null, null, null, $loglevel);
-//$logger->grabPearErrors();
+$logger = new Logger($loglevel);
 
 
 
