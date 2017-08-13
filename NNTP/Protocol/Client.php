@@ -90,7 +90,10 @@
  * @see        Net_NNTP_Client
  */
 class Net_NNTP_Protocol_Client
+	implements \Psr\Log\LoggerAwareInterface
 {
+	use \Psr\Log\LoggerAwareTrait;
+
     /**
      * The socket resource being used to connect to the NNTP server.
      *
@@ -110,10 +113,10 @@ class Net_NNTP_Protocol_Client
     /**
      *
      *
-     * @var     object
+     * @var     bool
      * @access  private
      */
-    private $logger = null;
+    private $debug = false;
 
     /**
      * Constructor
@@ -145,18 +148,33 @@ class Net_NNTP_Protocol_Client
     /**
      *
      *
-     * @param object $logger
-     *
-     * @access protected
-	 * @throws
+     * @access public
 	 */
-    public function setLogger($logger)
+    public function enableDebug()
     {
-		if (! $logger instanceof \Log) {
-			throw new \InvalidArgumentException("Logger must be extend PEAR's Log class.");
-		}
-		
-        $this->logger = $logger;
+        $this->debug = $this->debug;
+    }
+
+    /**
+     *
+     *
+     * @access public
+	 */
+    public function disableDebug()
+    {
+        $this->debug = $this->debug;
+    }
+
+    /**
+     *
+     *
+     * @return $bool
+     *
+     * @access public
+	 */
+    public function isDebug()
+    {
+        return $this->debug;
     }
 
     /**
@@ -207,7 +225,7 @@ class Net_NNTP_Protocol_Client
         }
 
     	//
-    	if ($this->logger && $this->logger->_isMasked(PEAR_LOG_DEBUG)) {
+    	if ($this->logger && $this->debug) {
     	    $this->logger->debug('C: ' . $cmd);
         }
 
@@ -240,7 +258,7 @@ class Net_NNTP_Protocol_Client
         }
 
     	//
-    	if ($this->logger && $this->logger->_isMasked(PEAR_LOG_DEBUG)) {
+    	if ($this->logger && $this->debug) {
     	    $this->logger->debug('S: ' . rtrim($response, "\r\n"));
         }
 
@@ -271,7 +289,7 @@ class Net_NNTP_Protocol_Client
         $line = '';
 
     	//
-    	$debug = $this->logger && $this->logger->_isMasked(PEAR_LOG_DEBUG);
+    	$debug = $this->logger && $this->debug;
 
         // Continue until connection is lost
         while (!feof($this->socket)) {
@@ -371,7 +389,7 @@ class Net_NNTP_Protocol_Client
     	    @fwrite($this->socket, "\r\n.\r\n");
 
     	    //
-    	    if ($this->logger && $this->logger->_isMasked(PEAR_LOG_DEBUG)) {
+    	    if ($this->logger && $this->debug) {
     	        foreach (explode("\r\n", $article) as $line) {
     		    $this->logger->debug('D: ' . $line);
     	        }
@@ -396,7 +414,7 @@ class Net_NNTP_Protocol_Client
     	    @fwrite($this->socket, "\r\n");
 
     	    //
-    	    if ($this->logger && $this->logger->_isMasked(PEAR_LOG_DEBUG)) {
+    	    if ($this->logger && $this->debug) {
     	        foreach (explode("\r\n", $header) as $line) {
     	    	    $this->logger->debug('D: ' . $line);
     	    	}
@@ -415,7 +433,7 @@ class Net_NNTP_Protocol_Client
     	    @fwrite($this->socket, "\r\n.\r\n");
 
     	    //
-    	    if ($this->logger && $this->logger->_isMasked(PEAR_LOG_DEBUG)) {
+    	    if ($this->logger && $this->debug) {
     	        foreach (explode("\r\n", $body) as $line) {
     	    	    $this->logger->debug('D: ' . $line);
     	    	}

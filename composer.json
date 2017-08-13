@@ -24,12 +24,13 @@
 		}
     },
     "require": {
-		"php": ">=5.3"
+		"php": ">=5.3",
+        "psr/log": "^1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "4.*"
     },
     "suggest": {
-        "pear/log": "Install optionally via your project's composer.json"
+        "monolog/monolog": "Log to files, sockets, inboxes, databases and various web services"
     }
 }
