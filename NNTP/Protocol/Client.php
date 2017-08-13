@@ -230,6 +230,41 @@ class Net_NNTP_Protocol_Client
 		return (is_resource($this->socket) && (!feof($this->socket)));
     }
 
+    /**
+     * 
+     * 
+     * @return bool True or false
+     * @access protected
+	 * @throws
+     */
+    protected function socketEnableEncryption()
+    {
+		//
+		$encrypted = stream_socket_enable_crypto($this->socket, true, STREAM_CRYPTO_METHOD_TLS_CLIENT);
+
+		switch (true) {
+			case $encrypted === true:
+				if ($this->logger) {
+					$this->logger->info('TLS encryption started.');
+				}
+				return true;
+
+				// Test if negotiation has failed
+			case $encrypted === false:
+				if ($this->logger) {
+					$this->logger->info('TLS encryption failed.');
+				}
+				throw new SocketException('Could not initiate TLS negotiation', $response, $this->getCurrentResponseText());
+
+			// Test if there isn't enough data and you should try again (only for non-blocking sockets)
+			case is_int($encrypted) && $encrypted == 0:
+				throw new SocketException('', $response, $this->getCurrentResponseText());
+
+			default:
+				throw new SocketException('Internal error - unknown response from stream_socket_enable_crypto()', $response, $this->getCurrentResponseText());
+		}
+	}
+
 	/**
      * 
      * @param string $string
@@ -761,27 +796,8 @@ class Net_NNTP_Protocol_Client
 
     	switch ($response) {
     	    case 382: // RFC4642: 'continue with TLS negotiation'
-    	    	$encrypted = stream_socket_enable_crypto($this->socket, true, STREAM_CRYPTO_METHOD_TLS_CLIENT);
-    	    	switch (true) {
-    	    	    case $encrypted === true:
-    	    	    	if ($this->logger) {
-    	    	    	    $this->logger->info('TLS encryption started.');
-    	    	    	}
-    	    	    	return true;
-
-					case $encrypted === false:
-    	    	    	if ($this->logger) {
-    	    	    	    $this->logger->info('TLS encryption failed.');
-    	    	    	}
-    	    	    	throw new CommandException('Could not initiate TLS negotiation', $response, $this->getCurrentResponseText());
-    	    	    
-					case is_int($encrypted):
-    	    	    	throw new CommandException('', $response, $this->getCurrentResponseText());
-    	    	    
-					default:
-    	    	    	throw new CommandException('Internal error - unknown response from stream_socket_enable_crypto()', $response, $this->getCurrentResponseText());
-    	    	}
-    	    	break;
+    	    	$this->socketEnableEncryption();
+				return true;
 
     	    case 580: // RFC4642: 'can not initiate TLS negotiation'
     	    	throw new CommandException('', $response, $this->getCurrentResponseText());
