@@ -17,11 +17,11 @@
         "source": "https://github.com/pear/Net_NNTP"
     },
     "autoload": {
-        "classmap": [
-            "./"
-        ],
         "psr-0": {
-			"Net_NNTP_": "NNTP/"
+			"Net_NNTP_": "src.psr-0/"
+		},
+        "psr-4": {
+			"Net\\NNTP\\": "NNTP"
 		}
     },
     "require": {
