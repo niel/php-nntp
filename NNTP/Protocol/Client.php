@@ -178,6 +178,53 @@ class Net_NNTP_Protocol_Client
     }
 
     /**
+     * 
+     * @param string $string
+     * @return int Bytes sent
+	 * @throws
+     */
+    protected function writeToSocket($string)
+    {
+    	// Write string to socket
+    	$bytes = @fwrite($this->socket, $string);
+        if ($bytes === false) {
+
+//			//
+//			$meta = stream_get_meta_data($this->socket);
+//			if ($meta['timed_out']) {
+//				throw new SocketTimeoutException('Connection timed out', null);
+//			}
+
+			throw new SocketException('Failed to write to socket!', null);
+        }
+		
+		return $bytes;
+	}
+    /**
+     * 
+     * @param int $size
+     * @return string 
+	 * @throws
+     */
+    protected function readFromSocket($size)
+    {
+    	$response = @fgets($this->socket, $size);
+        if ($response === false) {
+			
+			//
+			$meta = stream_get_meta_data($this->socket);
+			if ($meta['timed_out']) {
+				throw new SocketTimeoutException('Connection timed out', null);
+			}
+
+			//
+            throw new SocketException('Failed to read from socket...!', null);
+        }
+		
+		return $response;
+	}
+
+    /**
      * Send command
      *
      * Send a command to the server. A carriage return / linefeed (CRLF) sequence
@@ -219,10 +266,7 @@ class Net_NNTP_Protocol_Client
         }
 
     	// Send the command
-    	$R = @fwrite($this->socket, $cmd . "\r\n");
-        if ($R === false) {
-            throw new SocketException('Failed to write to socket!', null);
-        }
+		$this->writeToSocket($cmd . "\r\n");
 
     	//
     	if ($this->logger && $this->debug) {
@@ -244,19 +288,8 @@ class Net_NNTP_Protocol_Client
     {
     	// Retrieve a line (terminated by "\r\n") from the server.
         // RFC says max is 510, but IETF says "be liberal in what you accept"...
-    	$response = @fgets($this->socket, 4096);
-        if ($response === false) {
-			
-			//
-			$meta = stream_get_meta_data($this->socket);
-			if ($meta['timed_out']) {
-				throw new SocketException('Connection timed out', null);
-			}
-
-			//
-            throw new SocketException('Failed to read from socket...!', null);
-        }
-
+		$response = $this->readFromSocket(4096);
+		
     	//
     	if ($this->logger && $this->debug) {
     	    $this->logger->debug('S: ' . rtrim($response, "\r\n"));
@@ -295,19 +328,7 @@ class Net_NNTP_Protocol_Client
         while (!feof($this->socket)) {
 
             // Retrieve and append up to 1024 characters from the server.
-            $received = @fgets($this->socket, 1024);
-
-            if ($received === false) {
-				
-				//
-				$meta = stream_get_meta_data($this->socket);
-				if ($meta['timed_out']) {
-					throw new SocketException('Connection timed out', null);
-				}
-
-				//
-                throw new SocketException('Failed to read line from socket.', null);
-    	    }
+			$received = $this->readFromSocket(1024);
 
 			//
             $line .= $received;
@@ -385,8 +406,8 @@ class Net_NNTP_Protocol_Client
     	switch (true) {
     	case is_string($article):
     	    //
-    	    @fwrite($this->socket, $article);
-    	    @fwrite($this->socket, "\r\n.\r\n");
+			$this->writeToSocket($article);
+			$this->writeToSocket("\r\n.\r\n");
 
     	    //
     	    if ($this->logger && $this->debug) {
@@ -410,8 +431,8 @@ class Net_NNTP_Protocol_Client
 */
 
     	    // Send header (including separation line)
-    	    @fwrite($this->socket, $header);
-    	    @fwrite($this->socket, "\r\n");
+			$this->writeToSocket($header);
+			$this->writeToSocket("\r\n");
 
     	    //
     	    if ($this->logger && $this->debug) {
@@ -429,8 +450,8 @@ class Net_NNTP_Protocol_Client
 */
 
     	    // Send body
-    	    @fwrite($this->socket, $body);
-    	    @fwrite($this->socket, "\r\n.\r\n");
+			$this->writeToSocket($body);
+			$this->writeToSocket("\r\n.\r\n");
 
     	    //
     	    if ($this->logger && $this->debug) {
