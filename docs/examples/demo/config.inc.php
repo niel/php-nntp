@@ -66,7 +66,7 @@
 
 $frontpage = true;
 
-$loglevel = 5;  // PEAR_LOG_NOTICE = 5 ; PEAR_LOG_INFO = 6 ; PEAR_LOG_DEBUG = 7
+$loglevel = 'notice';
 $allowOverwrite = true;
 $allowPortOverwrite = false;
 

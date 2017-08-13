@@ -160,6 +160,11 @@ $nntp = new Net_NNTP_Client();
 // Use logger object as logger in NNTP client
 $nntp->setLogger($logger);
 
+// Enable debugging if loglevel is 'debug'
+if ($loglevel == 'debug') {
+	$nntp->enableDebug();
+}
+
 
 
 /***************************************************************************************/
