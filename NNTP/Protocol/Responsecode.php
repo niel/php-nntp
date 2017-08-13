@@ -63,6 +63,8 @@
  * @see        
  */
 
+namespace Net\NNTP\Protocol;
+
 /**
  * 
  *
@@ -72,7 +74,7 @@
  * @internal
  * @see        Net_NNTP_Protocol_Client
  */
-class Net_NNTP_Protocol_Responsecode
+class Responsecode
 	{
 
 	/* Constants: Connection */

@@ -63,7 +63,7 @@
  * @see
  */
 
-use \Net_NNTP_Protocol_Responsecode as ResponseCode;
+namespace Net\NNTP\Protocol;
 	
 /**
  * Low level NNTP Client
@@ -91,7 +91,7 @@ use \Net_NNTP_Protocol_Responsecode as ResponseCode;
  * @internal
  * @see        Net_NNTP_Client
  */
-class Net_NNTP_Protocol_Client
+class Client
 	implements \Psr\Log\LoggerAwareInterface
 {
 	use \Psr\Log\LoggerAwareTrait;

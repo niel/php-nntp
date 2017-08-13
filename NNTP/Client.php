@@ -65,6 +65,8 @@
  * @filesource
  */
 
+namespace Net\NNTP;
+
 /**
  * Implementation of the client side of NNTP (Network News Transfer Protocol)
  *
@@ -74,7 +76,8 @@
  * @version    package: @package_version@ (@package_state@) 
  * @see        Net_NNTP_Protocol_Client
  */
-class Net_NNTP_Client extends Net_NNTP_Protocol_Client
+class Client
+	extends Protocol\Client
 {
     /**
      * Information summary about the currently selected group.
