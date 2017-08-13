@@ -83,7 +83,7 @@ class Client
      * Information summary about the currently selected group.
      *
      * @var array
-     * @access private
+     * 
      */
     protected $selectedGroupSummary = null;
 
@@ -91,7 +91,7 @@ class Client
      * 
      *
      * @var array
-     * @access private
+     * 
      * @since 1.3.0
      */
     protected $overviewFormatCache = null;
@@ -101,7 +101,7 @@ class Client
      *
      * @example docs/examples/phpdoc/constructor.php
      *
-     * @access public
+     * 
      */
     public function __construct()
     {
@@ -121,7 +121,7 @@ class Client
      * @param int	$timeout	(optional) 
      *
      * @return bool True when posting allowed, otherwise false
-     * @access public
+     * 
      * @see Net_NNTP_Client::disconnect()
      * @see Net_NNTP_Client::authenticate()
 	 * @throws
@@ -135,7 +135,7 @@ class Client
      * Disconnect from server.
      *
      * @return bool
-     * @access public
+     * 
      * @see Net_NNTP_Client::connect()
 	 * @throws
      */
@@ -147,7 +147,7 @@ class Client
     /**
      * Deprecated alias for disconnect().
      *
-     * @access public
+     * 
      * @deprecated 
      * @ignore
 	 * @throws
@@ -172,7 +172,7 @@ class Client
      * @param string	$pass	The password
      *
      * @return bool True on successful authentification
-     * @access public
+     * 
      * @see Net_NNTP_Client::connect()
 	 * @throws
      */
@@ -203,7 +203,7 @@ class Client
      * @param mixed	$articles	(optional) experimental! When true the article numbers is returned in 'articles'
      *
      * @return array Summary about the selected group
-     * @access public
+     * 
      * @see Net_NNTP_Client::getGroups()
      * @see Net_NNTP_Client::group()
      * @see Net_NNTP_Client::first()
@@ -250,7 +250,7 @@ class Client
      *  - (string)	Message-id, if $ret=1
      *  - (array)	Both article number and message-id, if $ret=-1
      *  - (bool)	False if no prevoius article exists
-     * @access public
+     * 
      * @see Net_NNTP_Client::selectArticle()
      * @see Net_NNTP_Client::selectNextArticle()
 	 * @throws
@@ -292,7 +292,7 @@ class Client
      *  - (string)	Message-id, if $ret=1
      *  - (array)	Both article number and message-id, if $ret=-1
      *  - (bool)	False if no further articles exist
-     * @access public
+     * 
      * @see Net_NNTP_Client::selectArticle()
      * @see Net_NNTP_Client::selectPreviousArticle()
 	 * @throws
@@ -330,7 +330,7 @@ class Client
      * @return mixed <br>
      *  - (integer)	Article number
      *  - (bool)	False if article doesn't exists
-     * @access public
+     * 
      * @see Net_NNTP_Client::selectNextArticle()
      * @see Net_NNTP_Client::selectPreviousArticle()
 	 * @throws
@@ -372,7 +372,7 @@ class Client
      * @return mixed <br>
      *  - (array)	Complete article (when $implode is false)
      *  - (string)	Complete article (when $implode is true)
-     * @access public
+     * 
      * @see Net_NNTP_Client::getHeader()
      * @see Net_NNTP_Client::getBody()
 	 * @throws
@@ -407,7 +407,7 @@ class Client
      *  - (bool)	False if article does not exist
      *  - (array)	Header fields (when $implode is false)
      *  - (string)	Header fields (when $implode is true)
-     * @access public
+     * 
      * @see Net_NNTP_Client::getArticle()
      * @see Net_NNTP_Client::getBody()
 	 * @throws
@@ -442,7 +442,7 @@ class Client
      * @return mixed <br>
      *  - (array)	Message body (when $implode is false)
      *  - (string)	Message body (when $implode is true)
-     * @access public
+     * 
      * @see Net_NNTP_Client::getHeader()
      * @see Net_NNTP_Client::getArticle()
 	 * @throws
@@ -471,7 +471,7 @@ class Client
      *
      * @return string	Server response
 
-     * @access public
+     * 
      * @ignore
 	 * @throws
      */
@@ -513,7 +513,7 @@ class Client
      * @param string	$additional	(optional) Additional header fields to send.
      *
      * @return string Server response
-     * @access public
+     * 
 	 * @throws
      */
     public function mail($groups, $subject, $body, $additional = null)
@@ -550,7 +550,7 @@ class Client
      *
      * @return mixed <br>
      *  - (mixed)	
-     * @access public
+     * 
 	 * @throws
      */
     public function getDate($format = 1)
@@ -589,7 +589,7 @@ class Client
      *
      * @return array	
 
-     * @access public
+     * 
 	 * @throws
      */
     public function getNewGroups($time, $distributions = null)
@@ -628,7 +628,7 @@ class Client
      * @param string	$distributions	(optional) 
      *
      * @return array
-     * @access public
+     * 
      * @since 1.3.0
 	 * @throws
      */
@@ -663,7 +663,7 @@ class Client
      * @example docs/examples/phpdoc/getGroups.php
      *
      * @return array Nested array with information about every valid group
-     * @access public
+     * 
      * @see Net_NNTP_Client::getDescriptions()
      * @see Net_NNTP_Client::selectGroup()
 	 * @throws
@@ -719,7 +719,7 @@ class Client
      * @param mixed	$wildmat	(optional) 
      *
      * @return array Associated array with descriptions of known groups
-     * @access public
+     * 
      * @see Net_NNTP_Client::getGroups()
 	 * @throws
      */
@@ -771,7 +771,7 @@ class Client
      * @param boolean	$_forceNames	(optional) experimental parameter! 
      *
      * @return array Nested array of article overview data
-     * @access public
+     * 
      * @see Net_NNTP_Client::getHeaderField()
      * @see Net_NNTP_Client::getOverviewFormat()
 	 * @throws
@@ -859,7 +859,7 @@ class Client
      * @example docs/examples/phpdoc/getOveriewFormat.php
      *
      * @return array Overview field names
-     * @access public
+     * 
      * @see Net_NNTP_Client::getOverview()
 	 * @throws
      */
@@ -905,7 +905,7 @@ class Client
      *                            '<message-id>'
      *
      * @return array Nested array of 
-     * @access public
+     * 
      * @see Net_NNTP_Client::getOverview()
      * @see Net_NNTP_Client::getReferences()
 	 * @throws
@@ -955,7 +955,7 @@ class Client
      * @param mixed	$range	(optional) Experimental!
      *
      * @return array
-     * @access public
+     * 
 	 * @throws
      * @since 1.3.0
      */
@@ -993,7 +993,7 @@ class Client
      *                            '<message-id>'
      *
      * @return array Nested array of references
-     * @access public
+     * 
      * @see Net_NNTP_Client::getHeaderField()
 	 * @throws
      */
@@ -1060,7 +1060,7 @@ class Client
      * @example docs/examples/phpdoc/count.php
      *
      * @return string The number of article in group
-     * @access public
+     * 
      * @see Net_NNTP_Client::group()
      * @see Net_NNTP_Client::first()
      * @see Net_NNTP_Client::last()
@@ -1079,7 +1079,7 @@ class Client
      * @example docs/examples/phpdoc/last.php
      *
      * @return string The last article's number
-     * @access public
+     * 
      * @see Net_NNTP_Client::first()
      * @see Net_NNTP_Client::group()
      * @see Net_NNTP_Client::count()
@@ -1098,7 +1098,7 @@ class Client
      * @example docs/examples/phpdoc/first.php
      *
      * @return string The first article's number
-     * @access public
+     * 
      * @see Net_NNTP_Client::last()
      * @see Net_NNTP_Client::group()
      * @see Net_NNTP_Client::count()
@@ -1117,7 +1117,7 @@ class Client
      * @example docs/examples/phpdoc/group.php
      *
      * @return string Group name
-     * @access public
+     * 
      * @see Net_NNTP_Client::first()
      * @see Net_NNTP_Client::last()
      * @see Net_NNTP_Client::count()
@@ -1141,7 +1141,7 @@ class Client
      * Test whether a connection is currently open or closed.
      *
      * @return bool	True if connected, otherwise false
-     * @access public
+     * 
      * @see Net_NNTP_Client::connect()
      * @see Net_NNTP_Client::quit()
      * @deprecated	since v1.3.0 due to use of protected method: Net_NNTP_Protocol_Client::isConnected()

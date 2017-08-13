@@ -100,7 +100,7 @@ class Client
      * The socket resource being used to connect to the NNTP server.
      *
      * @var resource
-     * @access private
+     * 
      */
     private $socket = null;
 
@@ -108,7 +108,7 @@ class Client
      * Contains the last received status response code
      *
      * @var int
-     * @access private
+     * 
      */
     private $currentResponseCode = null;
 
@@ -116,7 +116,7 @@ class Client
      * Contains the last received status response text
      *
      * @var string
-     * @access private
+     * 
      */
     private $currentResponseText = null;
 
@@ -124,14 +124,14 @@ class Client
      *
      *
      * @var     bool
-     * @access  private
+     * 
      */
     private $debug = false;
 
     /**
      * Constructor
      *
-     * @access public
+     * 
      */
     public function __construct()
 	{
@@ -140,7 +140,7 @@ class Client
     /**
      *
      *
-     * @access public
+     * 
 	 */
     public function enableDebug()
     {
@@ -150,7 +150,7 @@ class Client
     /**
      *
      *
-     * @access public
+     * 
 	 */
     public function disableDebug()
     {
@@ -162,7 +162,7 @@ class Client
      *
      * @return $bool
      *
-     * @access public
+     * 
 	 */
     public function isDebug()
     {
@@ -224,7 +224,7 @@ class Client
      * Test whether we are connected or not.
      *
      * @return bool True or false
-     * @access protected
+     * 
 	 * @throws
      */
     protected function isSocketOpen()
@@ -236,7 +236,7 @@ class Client
      * 
      * 
      * @return bool True or false
-     * @access protected
+     * 
 	 * @throws
      */
     protected function socketEnableEncryption()
@@ -329,7 +329,7 @@ class Client
      * @param string $cmd The command to launch, ie: "ARTICLE 1004853"
      *
      * @return int response code
-     * @access private
+     * 
 	 * @throws
      */
     protected function sendCommand($cmd)
@@ -372,7 +372,6 @@ class Client
      * Get servers status response after a command.
      *
      * @return int Status code
-     * @access private
 	 * @throws
      */
     protected function getStatusResponse()
@@ -403,7 +402,7 @@ class Client
      * Get data until a line with only a '.' in it is read and return data.
      *
      * @return array Text response
-     * @access private
+     * 
 	 * @throws
      */
     protected function getTextResponse()
@@ -486,7 +485,7 @@ class Client
     /**
      *
      *
-     * @access private
+     * 
 	 * @throws
      */
     protected function sendArticle($article)
@@ -563,7 +562,7 @@ class Client
      *
      *
      * @return string Status text
-     * @access private
+     * 
      */
     protected function getCurrentResponseText()
     {
@@ -577,7 +576,7 @@ class Client
      * @param string $text Status text
      *
      * @return void
-     * @access private
+     * 
 	 * @throws
      */
     protected function handleUnexpectedResponse($code = null, $text = null)
@@ -610,7 +609,7 @@ class Client
      * @param int	$timeout	(optional)
      *
      * @return bool True when posting allowed, otherwise false
-     * @access protected
+     * 
 	 * @throws
      */
     protected function connect($host = null, $encryption = null, $port = null, $timeout = null)
@@ -680,7 +679,7 @@ class Client
     /**
      * alias for cmdQuit()
      *
-     * @access protected
+     * 
 	 * @throws
      */
     protected function disconnect()
@@ -692,7 +691,7 @@ class Client
      * Test whether we are connected or not.
      *
      * @return bool True or false
-     * @access protected
+     * 
 	 * @throws
      */
     protected function isConnected()
@@ -704,7 +703,7 @@ class Client
      * Returns servers capabilities
      *
      * @return array List of capabilities
-     * @access protected
+     * 
 	 * @throws
      */
     protected function cmdCapabilities()
@@ -726,7 +725,7 @@ class Client
      *
      *
      * @return bool True when posting allowed, false when posting disallowed
-     * @access protected
+     * 
 	 * @throws
      */
     protected function cmdModeReader()
@@ -762,7 +761,7 @@ class Client
      * Disconnect from the NNTP server
      *
      * @return bool true
-     * @access protected
+     * 
 	 * @throws
      */
     protected function cmdQuit()
@@ -787,7 +786,7 @@ class Client
      *
      *
      * @return bool
-     * @access protected
+     * 
 	 * @throws
      */
     protected function cmdStartTLS()
@@ -817,7 +816,7 @@ class Client
      * @param string $newsgroup The newsgroup name
      *
      * @return array Group info
-     * @access protected
+     * 
 	 * @throws
      */
     protected function cmdGroup($newsgroup)
@@ -852,7 +851,7 @@ class Client
      * @param optional mixed $range
      *
      * @return array
-     * @access protected
+     * 
 	 * @throws
      */
     protected function cmdListgroup($newsgroup = null, $range = null)
@@ -906,7 +905,7 @@ class Client
      *
      *
      * @return mixed (array) or (string) or (int)
-     * @access protected
+     * 
 	 * @throws
      */
     protected function cmdLast()
@@ -942,7 +941,7 @@ class Client
      *
      *
      * @return mixed (array) or (string) or (int)
-     * @access protected
+     * 
 	 * @throws
      */
     protected function cmdNext()
@@ -982,7 +981,7 @@ class Client
      * @param mixed $article Either a message-id or a message-number of the article to fetch. If null or '', then use current article.
      *
      * @return array Article
-     * @access protected
+     * 
 	 * @throws
      */
     protected function cmdArticle($article = null)
@@ -1028,7 +1027,7 @@ class Client
      * @param mixed $article Either a message-id or a message-number of the article to fetch the headers from. If null or '', then use current article.
      *
      * @return array Headers
-     * @access protected
+     * 
 	 * @throws
      */
     protected function cmdHead($article = null)
@@ -1075,7 +1074,7 @@ class Client
      * @param mixed $article Either a message-id or a message-number of the article to fetch the body from. If null or '', then use current article.
      *
      * @return array Body
-     * @access protected
+     * 
 	 * @throws
      */
     protected function cmdBody($article = null)
@@ -1122,7 +1121,7 @@ class Client
      * @param mixed $article
      *
      * @return mixed (array) or (string) or (int)
-     * @access protected
+     * 
 	 * @throws
      */
     protected function cmdStat($article = null)
@@ -1166,7 +1165,7 @@ class Client
      * Post an article to a newsgroup.
      *
      * @return bool True
-     * @access protected
+     * 
 	 * @throws
      */
     protected function cmdPost()
@@ -1193,7 +1192,7 @@ class Client
      * @param mixed $article (string/array)
      *
      * @return bool True
-     * @access protected
+     * 
 	 * @throws
      */
     protected function cmdPost2($article)
@@ -1224,7 +1223,7 @@ class Client
      * @param string $id
      *
      * @return bool True
-     * @access protected
+     * 
 	 * @throws
      */
     protected function cmdIhave($id)
@@ -1253,7 +1252,7 @@ class Client
      * @param mixed $article (string/array)
      *
      * @return bool True
-     * @access protected
+     * 
 	 * @throws
      */
     protected function cmdIhave2($article)
@@ -1287,7 +1286,7 @@ class Client
      * Get the date from the newsserver format of returned date
      *
      * @return mixed (string) 'YYYYMMDDhhmmss' / (int) timestamp
-     * @access protected
+     * 
 	 * @throws
      */
     protected function cmdDate()
@@ -1307,7 +1306,7 @@ class Client
      * Returns the server's help text
      *
      * @return array Help text
-     * @access protected
+     * 
 	 * @throws
      */
     protected function cmdHelp()
@@ -1332,7 +1331,7 @@ class Client
      * @param optional string $distributions (deprecaded in rfc draft)
      *
      * @return array Nested array with informations about existing newsgroups
-     * @access protected
+     * 
 	 * @throws
      */
     protected function cmdNewgroups($time, $distributions = null)
@@ -1379,7 +1378,7 @@ class Client
      * @param mixed $distribution (string or array of strings)
      *
      * @return mixed
-     * @access protected
+     * 
 	 * @throws
      */
     protected function cmdNewnews($time, $newsgroups, $distribution = null)
@@ -1423,7 +1422,7 @@ class Client
      * Fetches a list of all avaible newsgroups
      *
      * @return array Nested array with informations about existing newsgroups
-     * @access protected
+     * 
 	 * @throws
      */
     protected function cmdList()
@@ -1458,7 +1457,7 @@ class Client
      * @param string $wildmat
      *
      * @return array Nested array with informations about existing newsgroups
-     * @access protected
+     * 
 	 * @throws
      */
     protected function cmdListActive($wildmat = null)
@@ -1504,7 +1503,7 @@ class Client
      * @param string $wildmat Wildmat of the groups, that is to be listed, defaults to null;
      *
      * @return array Nested array with description of existing newsgroups
-     * @access protected
+     * 
 	 * @throws
      */
     protected function cmdListNewsgroups($wildmat = null)
@@ -1558,7 +1557,7 @@ class Client
      * @param optional string $range articles to fetch
      *
      * @return array Nested array of message and there headers
-     * @access protected
+     * 
 	 * @throws
      */
     protected function cmdOver($range = null)
@@ -1611,7 +1610,7 @@ class Client
      * @param optional string $range articles to fetch
      *
      * @return array Nested array of message and there headers
-     * @access protected
+     * 
 	 * @throws
      */
     protected function cmdXOver($range = null)
@@ -1661,7 +1660,7 @@ class Client
      * Returns a list of avaible headers which are send from newsserver to client for every news message
      *
      * @return array Header names
-     * @access protected
+     * 
 	 * @throws
      */
     protected function cmdListOverviewFmt()
@@ -1709,7 +1708,7 @@ class Client
      * @param optional string $range articles to fetch
      *
      * @return array Nested array of message and there headers on success
-     * @access protected
+     * 
 	 * @throws
      */
     protected function cmdXHdr($field, $range = null)
@@ -1776,7 +1775,7 @@ class Client
      * @param string $wildmat Wildmat of the groups, that is to be listed, defaults to '*';
      *
      * @return array Nested array with description of existing newsgroups
-     * @access protected
+     * 
 	 * @throws
      */
     protected function cmdXGTitle($wildmat = '*')
@@ -1810,7 +1809,7 @@ class Client
      * @param optional string $range articles to fetch
      *
      * @return array Assoc. array of message references
-     * @access protected
+     * 
 	 * @throws
      */
     protected function cmdXROver($range = null)
@@ -1865,7 +1864,7 @@ class Client
      * @param mixed $wildmat
      *
      * @return array Nested array of message and there headers
-     * @access protected
+     * 
 	 * @throws
      */
     protected function cmdXPat($field, $range, $wildmat)
@@ -1906,7 +1905,7 @@ class Client
      * @param string $pass The password to authenticate with.
      *
      * @return bool True
-     * @access protected
+     * 
 	 * @throws
      */
     protected function cmdAuthinfo($user, $pass)
@@ -1954,7 +1953,7 @@ class Client
      * @param string $user The username to authenticate as.
      * @param string $pass The password to authenticate with.
      *
-     * @access protected
+     * 
 	 * @throws
      */
     protected function cmdAuthinfoSimple($user, $pass)
@@ -1968,7 +1967,7 @@ class Client
      * @param string $user The username to authenticate as.
      * @param string $pass The password to authenticate with.
      *
-     * @access protected
+     * 
 	 * @throws
      */
     protected function cmdAuthinfoGeneric($user, $pass)
