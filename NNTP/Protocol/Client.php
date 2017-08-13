@@ -539,15 +539,15 @@ class Net_NNTP_Protocol_Client
     	}
 
     	// Open Connection
-    	$R = stream_socket_client($transport . '://' . $host . ':' . $port, $errno, $errstr, $timeout);
-    	if ($R === false) {
+    	$socket = @stream_socket_client($transport . '://' . $host . ':' . $port, $errno, $errstr, $timeout);
+    	if ($socket === false) {
     	    if ($this->logger) {
     	        $this->logger->notice("Connection to $transport://$host:$port failed.");
     	    }
-    	    return $R;
+    	    throw new \Exception('Connection failed: '. error_get_last()['message'], null);
     	}
 
-    	$this->socket = $R;
+    	$this->socket = $socket;
 
     	//
     	if ($this->logger) {
