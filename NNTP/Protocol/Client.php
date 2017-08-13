@@ -565,7 +565,7 @@ class Net_NNTP_Protocol_Client
      */
     protected function getCurrentResponseText()
     {
-    	return $this->currentStatusText;
+    	return $this->currentResponseText;
     }
 
     /**
