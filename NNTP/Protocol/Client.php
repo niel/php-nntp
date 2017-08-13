@@ -131,24 +131,6 @@ class Net_NNTP_Protocol_Client
      *
      *
      * @access public
-     */
-    public function getPackageVersion() {
-	return '@package_version@';
-    }
-
-    /**
-     *
-     *
-     * @access public
-     */
-    public function getApiVersion() {
-	return '@api_version@';
-    }
-
-    /**
-     *
-     *
-     * @access public
 	 */
     public function enableDebug()
     {
