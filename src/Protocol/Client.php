@@ -495,7 +495,7 @@ class Client
     	switch (true) {
     	case is_string($article):
     	    //
-			$this->socketWrite($article);
+			$this->socketWrite(preg_replace("|\n\.|", "\n.." , $article));
 			$this->socketWrite("\r\n.\r\n");
 
     	    //
@@ -520,7 +520,7 @@ class Client
 */
 
     	    // Send header (including separation line)
-			$this->socketWrite($header);
+			$this->socketWrite(preg_replace("|\n\.|", "\n.." , $header));
 			$this->socketWrite("\r\n");
 
     	    //
@@ -539,7 +539,7 @@ class Client
 */
 
     	    // Send body
-			$this->socketWrite($body);
+			$this->socketWrite(preg_replace("|\n\.|", "\n.." , $body));
 			$this->socketWrite("\r\n.\r\n");
 
     	    //
