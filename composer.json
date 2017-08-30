@@ -1,40 +1,45 @@
 {
-    "name": "pear/net_nntp",
-    "description": "Modernized version of PEAR's Net_NNTP for communication with NNTP/Usenet servers.",
-	"homepage": "http://pear.php.net/package/Net_NNTP",
-    "type": "library",
-    "license": "W3C",
-    "version": "2.0.0-dev",
-    "authors": [
-        {
-            "name": "Heino H. Gehlsen",
-            "email": "heino@gehlsen.dk",
-            "role": "Lead"
-        }
-    ],
-    "support": {
-        "issues": "http://pear.php.net/bugs/search.php?cmd=display&package_name[]=Net_NNTP",
-        "source": "https://github.com/pear/Net_NNTP"
+  "name": "niel/nntp",
+  "description": "Modernized version of PEAR's Net_NNTP for communication with NNTP/Usenet servers.",
+  "homepage": "",
+  "type": "library",
+  "license": "W3C",
+  "version": "2.0.0-dev",
+  "authors": [
+    {
+      "name": "Heino H. Gehlsen",
+      "email": "heino@gehlsen.dk",
+      "role": "Lead"
     },
-    "autoload": {
-        "psr-0": {
-			"Net_NNTP_": "src.psr-0/"
-		},
-        "psr-4": {
-			"Net\\NNTP\\": "src"
-		},
-		"files": [
-			"src/Protocol/Exceptions.php"
-		]
-    },
-    "require": {
-		"php": ">=5.4",
-        "psr/log": "^1.0"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "4.*"
-    },
-    "suggest": {
-        "monolog/monolog": "Log to files, sockets, inboxes, databases and various web services"
+    {
+      "name": "Niel Archer",
+      "email": "niel.archer@gmail.com",
+      "role": "Contributer"
     }
+  ],
+  "support": {
+    "issues": "https://github.com/niel/php-nntp/",
+    "source": "https://github.com/niel/php-nntp"
+  },
+  "autoload": {
+    "psr-0": {
+      "Net_NNTP_": "src.psr-0/"
+    },
+    "psr-4": {
+      "Net\\NNTP\\": "src"
+    },
+    "files": [
+      "src/Protocol/Exceptions.php"
+    ]
+  },
+  "require": {
+    "php": ">=5.4",
+    "psr/log": "^1.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "4.*"
+  },
+  "suggest": {
+    "monolog/monolog": "Log to files, sockets, inboxes, databases and various web services"
+  }
 }
